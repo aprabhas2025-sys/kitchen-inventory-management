@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../PROJECT_STRIPE/dist"
+		},
+		{
+			"path": "../../PROJECT_STRIPE/node_modules"
+		},
+		{
+			"path": "../../PROJECT_STRIPE/src"
+		}
+	]
+}
