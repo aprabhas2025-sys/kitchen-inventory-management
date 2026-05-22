@@ -8,824 +8,781 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ─── Reset & Base ─────────────────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ─── Reset & Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg:         #F5F2EC;
-    --glass:      rgba(255,255,255,0.72);
-    --glass-b:    rgba(0,0,0,0.07);
-    --amber:      #C07028;
-    --amber-dim:  rgba(192,112,40,0.12);
-    --amber-glow: rgba(192,112,40,0.22);
-    --amber-soft: rgba(192,112,40,0.08);
-    --green:      #2D8F68;
-    --green-glow: rgba(45,143,104,0.18);
-    --text:       #1C1814;
-    --muted:      #7B7260;
-    --serif:      'Playfair Display', Georgia, serif;
-    --sans:       'Inter', system-ui, sans-serif;
-  }
+:root {
+  --bg:         #F5F2EC;
+  --glass:      rgba(255,255,255,0.72);
+  --glass-b:    rgba(0,0,0,0.07);
+  --amber:      #C07028;
+  --amber-dim:  rgba(192,112,40,0.12);
+  --amber-glow: rgba(192,112,40,0.22);
+  --amber-soft: rgba(192,112,40,0.08);
+  --green:      #2D8F68;
+  --green-glow: rgba(45,143,104,0.18);
+  --text:       #1C1814;
+  --muted:      #7B7260;
+  --serif:      'Playfair Display', Georgia, serif;
+  --sans:       'Inter', system-ui, sans-serif;
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    overflow-x: hidden;
-    cursor: default;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow-x: hidden;
+  cursor: default;
+}
 
-  /* ─── Custom Scrollbar ──────────────────────────────────────────────── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #E8E3D8; }
-  ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #A05C1A; }
+/* ─── Custom Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #E8E3D8; }
+::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #A05C1A; }
 
-  /* ─── Noise texture ─────────────────────────────────────────────────── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-    pointer-events: none;
-    opacity: 0.25;
-  }
+/* ─── Noise texture ─────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
+  opacity: 0.25;
+}
 
-  /* ─── Background Orbs ──────────────────────────────────────────────── */
-  .orb-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    will-change: transform;
-    animation: orbFloat linear infinite;
-  }
-  .orb-1 {
-    width: 520px; height: 520px;
-    background: radial-gradient(circle, rgba(192,112,40,0.10) 0%, transparent 70%);
-    top: -120px; left: -80px;
-    animation-duration: 22s; animation-delay: 0s;
-  }
-  .orb-2 {
-    width: 420px; height: 420px;
-    background: radial-gradient(circle, rgba(45,143,104,0.08) 0%, transparent 70%);
-    bottom: 10%; right: -100px;
-    animation-duration: 28s; animation-delay: -8s;
-  }
-  .orb-3 {
-    width: 340px; height: 340px;
-    background: radial-gradient(circle, rgba(192,112,40,0.06) 0%, transparent 70%);
-    top: 55%; left: 40%;
-    animation-duration: 35s; animation-delay: -14s;
-  }
-  .orb-4 {
-    width: 280px; height: 280px;
-    background: radial-gradient(circle, rgba(45,143,104,0.06) 0%, transparent 70%);
-    top: 30%; right: 20%;
-    animation-duration: 30s; animation-delay: -5s;
-  }
-  @keyframes orbFloat {
-    0%   { transform: translate(0,0) scale(1); }
-    25%  { transform: translate(30px,-40px) scale(1.04); }
-    50%  { transform: translate(-20px,30px) scale(0.97); }
-    75%  { transform: translate(40px,20px) scale(1.02); }
-    100% { transform: translate(0,0) scale(1); }
-  }
+/* ─── Background Orbs ──────────────────────────────────────────────── */
+.orb-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+  animation: orbFloat linear infinite;
+}
+.orb-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(192,112,40,0.10) 0%, transparent 70%);
+  top: -120px; left: -80px;
+  animation-duration: 22s; animation-delay: 0s;
+}
+.orb-2 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(45,143,104,0.08) 0%, transparent 70%);
+  bottom: 10%; right: -100px;
+  animation-duration: 28s; animation-delay: -8s;
+}
+.orb-3 {
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, rgba(192,112,40,0.06) 0%, transparent 70%);
+  top: 55%; left: 40%;
+  animation-duration: 35s; animation-delay: -14s;
+}
+.orb-4 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(45,143,104,0.06) 0%, transparent 70%);
+  top: 30%; right: 20%;
+  animation-duration: 30s; animation-delay: -5s;
+}
+@keyframes orbFloat {
+  0%   { transform: translate(0,0) scale(1); }
+  25%  { transform: translate(30px,-40px) scale(1.04); }
+  50%  { transform: translate(-20px,30px) scale(0.97); }
+  75%  { transform: translate(40px,20px) scale(1.02); }
+  100% { transform: translate(0,0) scale(1); }
+}
 
-  /* ─── Layout Utilities ──────────────────────────────────────────────── */
-  .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
-  section { position: relative; z-index: 2; }
+/* ─── Layout Utilities ──────────────────────────────────────────────── */
+.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+section { position: relative; z-index: 2; }
 
-  /* ─── Glass Mixin ───────────────────────────────────────────────────── */
-  .glass {
-    background: var(--glass);
-    border: 1px solid var(--glass-b);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
+/* ─── Scroll Animation States ───────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left  { opacity: 0; transform: translateX(-50px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal-right { opacity: 0; transform: translateX(50px);  transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-  /* ─── Scroll Animation States ───────────────────────────────────────── */
-  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.75s ease, transform 0.75s ease; will-change: transform; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-left  { opacity: 0; transform: translateX(-50px); transition: opacity 0.75s ease, transform 0.75s ease; will-change: transform; }
-  .reveal-right { opacity: 0; transform: translateX(50px);  transition: opacity 0.75s ease, transform 0.75s ease; will-change: transform; }
-  .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translateX(0); }
+/* ─── NAV ────────────────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(245,242,236,0.88);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: background 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  background: rgba(245,242,236,0.96);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 24px rgba(0,0,0,0.06);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.25rem; font-weight: 700;
+  letter-spacing: 0.03em; color: var(--text);
+}
+.nav-logo span { color: var(--amber); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.25s; letter-spacing: 0.02em; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--amber); color: #fff;
+  border: none; padding: 10px 24px;
+  border-radius: 8px; font-size: 0.875rem; font-weight: 600;
+  cursor: pointer; font-family: var(--sans);
+  transition: opacity 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px var(--amber-glow);
+}
+.nav-cta:hover { opacity: 0.88; box-shadow: 0 0 32px rgba(255,140,50,0.5); }
 
-  /* ─── NAV ────────────────────────────────────────────────────────────── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 48px;
-    background: rgba(245,242,236,0.88);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    transition: background 0.4s;
-  }
-  .nav-logo {
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: var(--text);
-  }
-  .nav-logo span { color: var(--amber); }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.25s; letter-spacing: 0.02em; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-cta {
-    background: var(--amber);
-    color: #fff;
-    border: none; padding: 10px 24px;
-    border-radius: 8px; font-size: 0.875rem; font-weight: 600;
-    cursor: pointer; font-family: var(--sans);
-    transition: opacity 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 20px var(--amber-glow);
-  }
-  .nav-cta:hover { opacity: 0.88; box-shadow: 0 0 32px rgba(255,140,50,0.5); }
+/* ─── HERO — Scroll-Driven Video Scrubbing ──────────────────────────── */
+#hero { position: relative; height: 600vh; }
 
-  /* ─── HERO ───────────────────────────────────────────────────────────── */
-  #hero {
-    min-height: 100vh;
-    position: relative;
-    display: flex; align-items: stretch;
-    overflow: hidden;
-  }
+.hero-pin {
+  position: sticky; top: 0;
+  width: 100%; height: 100vh;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
 
-  /* Left text panel */
-  .hero-left {
-    position: relative; z-index: 3;
-    width: 50%;
-    display: flex; align-items: center;
-    padding: 140px 72px 100px 0;
-  }
-  /* Feathered edge blending left panel into video */
-  .hero-left::after {
-    content: '';
-    position: absolute; top: 0; right: -80px; bottom: 0;
-    width: 80px;
-    background: linear-gradient(to right, var(--bg), transparent);
-    pointer-events: none; z-index: 4;
-  }
+.hero-scrub-video { position: absolute; inset: 0; z-index: 0; }
+.hero-scrub-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  /* Right visual removed (video removed) — fallback decorative panel */
-  .hero-visual {
-    position: absolute; top: 0; right: 0; bottom: 0;
-    width: 58%; z-index: 1; pointer-events: none;
-    background: linear-gradient(90deg, rgba(8,12,18,0.06), transparent);
-  }
-  /* ensure hero content sits above visual */
-  .hero-content { position: relative; z-index: 2; width: 100%; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--amber-soft);
-    border: 1px solid rgba(255,140,50,0.25);
-    border-radius: 100px;
-    padding: 6px 16px;
-    font-size: 0.75rem; font-weight: 500; color: var(--amber);
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 28px;
-  }
-  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(to right,
+      rgba(14,10,6,0.82) 0%,
+      rgba(14,10,6,0.55) 35%,
+      rgba(14,10,6,0.18) 60%,
+      transparent 100%
+    ),
+    linear-gradient(to top, rgba(14,10,6,0.55) 0%, transparent 45%);
+}
 
-  .hero-headline {
-    font-family: var(--serif);
-    font-size: clamp(2.6rem, 5vw, 4.2rem);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
-  }
-  .hero-headline em { font-style: italic; color: var(--amber); }
-  .hero-headline .line-green { color: var(--green); }
+.hero-content {
+  position: relative; z-index: 3;
+  width: 100%; max-width: 1200px;
+  padding: 0 10vw;
+  will-change: transform;
+}
 
-  .hero-sub {
-    font-size: 1.05rem; color: var(--muted);
-    line-height: 1.7; max-width: 480px;
-    margin-bottom: 44px; font-weight: 300;
-  }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(192,112,40,0.18);
+  border: 1px solid rgba(255,160,60,0.35);
+  border-radius: 100px; padding: 6px 16px;
+  font-size: 0.75rem; font-weight: 500; color: #F5C07A;
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 28px;
+}
+.hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.hero-chapter {
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+  transition: opacity 0.4s ease;
+}
+.hero-chapter::before {
+  content: ''; display: inline-block;
+  width: 28px; height: 1px; background: var(--amber);
+}
 
-  .btn-amber {
-    background: var(--amber);
-    color: #fff;
-    border: none; padding: 15px 34px;
-    border-radius: 10px;
-    font-size: 0.925rem; font-weight: 600; cursor: pointer;
-    font-family: var(--sans);
-    box-shadow: 0 0 28px var(--amber-glow), 0 4px 16px rgba(0,0,0,0.3);
-    transition: all 0.25s;
-    letter-spacing: 0.01em;
-  }
-  .btn-amber:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(255,140,50,0.5), 0 8px 24px rgba(0,0,0,0.4); }
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 800; line-height: 1.06;
+  letter-spacing: -0.025em; margin-bottom: 28px; color: #fff;
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.hero-headline em { font-style: italic; color: #E8973A; }
+.hero-headline .line-green { color: #4FC99A; }
 
-  .btn-glass {
-    background: var(--glass);
-    color: var(--text);
-    border: 1px solid var(--glass-b);
-    padding: 14px 30px;
-    border-radius: 10px;
-    font-size: 0.925rem; font-weight: 500; cursor: pointer;
-    font-family: var(--sans);
-    backdrop-filter: blur(12px);
-    transition: all 0.25s;
-    display: flex; align-items: center; gap: 10px;
-    letter-spacing: 0.01em;
-  }
-  .btn-glass:hover { background: rgba(255,255,255,0.95); transform: translateY(-2px); border-color: rgba(0,0,0,0.15); }
-  .btn-glass .play { width: 18px; height: 18px; border-radius: 50%; background: var(--amber); display:flex; align-items:center; justify-content:center; font-size: 0.55rem; }
+.hero-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.65);
+  line-height: 1.75; max-width: 480px;
+  margin-bottom: 44px; font-weight: 300;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
 
-  /* Dashboard mockup removed; hero video used as primary visual */
+.hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
 
-  /* Scroll indicator */
-  .scroll-hint {
-    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: var(--muted); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
-    z-index: 5;
-  }
-  .scroll-arrow {
-    width: 28px; height: 28px;
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem;
-    animation: bounce 2s ease-in-out infinite;
-  }
-  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+.btn-amber {
+  background: var(--amber); color: #fff;
+  border: none; padding: 15px 34px;
+  border-radius: 10px; font-size: 0.925rem; font-weight: 600;
+  cursor: pointer; font-family: var(--sans);
+  box-shadow: 0 0 28px var(--amber-glow), 0 4px 16px rgba(0,0,0,0.3);
+  transition: all 0.25s; letter-spacing: 0.01em;
+}
+.btn-amber:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(255,140,50,0.5), 0 8px 24px rgba(0,0,0,0.4); }
 
-  /* ─── SECTION HEADINGS ───────────────────────────────────────────────── */
-  .section-label {
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--amber);
-    margin-bottom: 14px;
-  }
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
-  }
-  .section-title em { font-style: italic; color: var(--amber); }
-  .section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7; font-weight: 300; }
+.btn-glass {
+  background: rgba(255,255,255,0.15);
+  color: #fff; border: 1px solid rgba(255,255,255,0.25);
+  padding: 14px 30px; border-radius: 10px;
+  font-size: 0.925rem; font-weight: 500; cursor: pointer;
+  font-family: var(--sans); backdrop-filter: blur(12px);
+  transition: all 0.25s; display: flex; align-items: center; gap: 10px;
+  letter-spacing: 0.01em;
+}
+.btn-glass:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+.btn-glass .play {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--amber); display: flex; align-items: center;
+  justify-content: center; font-size: 0.55rem;
+}
 
-  .heading-line {
-    width: 0; height: 3px;
-    background: linear-gradient(90deg, var(--amber), var(--green));
-    border-radius: 2px;
-    margin-bottom: 48px;
-    transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
-  }
-  .heading-line.visible { width: 80px; }
+/* Scrub progress bar */
+.hero-scrub-bar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: rgba(255,255,255,0.10); z-index: 10;
+}
+.hero-scrub-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--amber), var(--green));
+  transition: width 0.04s linear;
+}
 
-  /* ─── FEATURES ───────────────────────────────────────────────────────── */
-  #features { padding: 120px 0; }
-  .features-header { text-align: center; margin-bottom: 70px; }
-  .features-header .heading-line { margin: 0 auto 60px; }
-  .features-header .section-sub { margin: 0 auto; }
+/* Chapter dots */
+.hero-chapters {
+  position: absolute; right: 40px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 12px; z-index: 10;
+}
+.hero-ch-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  transition: background 0.3s, height 0.3s, border-radius 0.3s;
+}
+.hero-ch-dot.active { background: #fff; height: 24px; border-radius: 3px; }
 
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
+/* Scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  z-index: 10; transition: opacity 0.5s;
+}
+.scroll-hint.hidden { opacity: 0; pointer-events: none; }
+.scroll-arrow {
+  width: 28px; height: 28px;
+  border: 1px solid rgba(255,255,255,0.22); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: rgba(255,255,255,0.45);
+  animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
-  .feat-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-b);
-    border-radius: 18px;
-    padding: 34px 30px;
-    backdrop-filter: blur(20px);
-    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease, border-color 0.35s ease;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
-  }
-  .feat-card::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 18px;
-    background: radial-gradient(circle at 50% 0%, rgba(192,112,40,0.07), transparent 60%);
-    opacity: 0; transition: opacity 0.4s;
-    pointer-events: none;
-  }
-  .feat-card:hover { transform: translateY(-8px) scale(1.01); border-color: rgba(192,112,40,0.22); box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(192,112,40,0.10), 0 0 30px var(--amber-dim); }
-  .feat-card:hover::after { opacity: 1; }
+/* Hero entrance animations */
+.hero-badge-anim {
+  opacity: 0; transform: translateY(20px);
+  animation: cascadeIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-delay: 0.15s;
+}
+.hero-headline-anim {
+  opacity: 0; transform: translateY(28px);
+  animation: cascadeIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-delay: 0.32s;
+}
+.hero-sub-anim {
+  opacity: 0; transform: translateY(22px);
+  animation: cascadeIn 0.75s cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-delay: 0.50s;
+}
+.hero-actions-anim {
+  opacity: 0; transform: translateY(18px);
+  animation: cascadeIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-delay: 0.65s;
+}
+@keyframes cascadeIn { to { opacity: 1; transform: none; } }
 
-  .feat-icon { font-size: 2.4rem; margin-bottom: 20px; display: block; }
-  .feat-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
-  .feat-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+/* ─── SECTION HEADINGS ───────────────────────────────────────────────── */
+.section-label {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 20px;
+}
+.section-title em { font-style: italic; color: var(--amber); }
+.section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7; font-weight: 300; }
 
-  /* ─── STATS BANNER ───────────────────────────────────────────────────── */
-  #stats {
-    padding: 80px 0;
-  }
-  .stats-banner {
-    background: rgba(255,255,255,0.80);
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 20px;
-    backdrop-filter: blur(24px);
-    display: grid; grid-template-columns: repeat(4,1fr);
-    overflow: hidden;
-    position: relative;
-  }
-  .stats-banner::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--amber), var(--green), transparent);
-    opacity: 0.4;
-  }
-  .stat-item {
-    padding: 48px 32px;
-    text-align: center;
-    position: relative;
-  }
-  .stat-item + .stat-item::before {
-    content: '';
-    position: absolute; left: 0; top: 20%; bottom: 20%;
-    width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(192,112,40,0.25), transparent);
-  }
-  .stat-num {
-    font-family: var(--serif);
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
-    font-weight: 800;
-    color: var(--amber);
-    line-height: 1;
-    margin-bottom: 10px;
-    letter-spacing: -0.02em;
-  }
-  .stat-num.green-num { color: var(--green); }
-  .stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 400; letter-spacing: 0.02em; }
+.heading-line {
+  width: 0; height: 3px;
+  background: linear-gradient(90deg, var(--amber), var(--green));
+  border-radius: 2px; margin-bottom: 48px;
+  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+.heading-line.visible { width: 80px; }
 
-  /* ─── HOW IT WORKS ───────────────────────────────────────────────────── */
-  #how { padding: 120px 0; }
-  .how-header { text-align: center; margin-bottom: 80px; }
-  .how-header .heading-line { margin: 0 auto 60px; }
+/* ─── FEATURES — Stacked Scroll Cards ──────────────────────────────── */
+#features { padding: 120px 0 60px; }
 
-  .steps-row { display: flex; align-items: flex-start; gap: 0; position: relative; }
-  .step {
-    flex: 1;
-    text-align: center;
-    padding: 0 24px;
-    position: relative;
-    z-index: 2;
-  }
-  .step-connector {
-    flex: 0 0 80px;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 40px;
-    position: relative;
-  }
-  .connector-line {
-    width: 0; height: 2px;
-    background: linear-gradient(90deg, var(--amber), var(--green));
-    transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
-    border-radius: 1px;
-    position: relative;
-  }
-  .connector-line::after {
-    content: '›';
-    position: absolute; right: -10px; top: -10px;
-    color: var(--green); font-size: 1.2rem;
-    opacity: 0; transition: opacity 0.4s 1.2s;
-  }
-  .connector-line.visible { width: 80px; }
-  .connector-line.visible::after { opacity: 1; }
+.features-header { text-align: center; margin-bottom: 80px; }
+.features-header .heading-line { margin: 0 auto 60px; }
+.features-header .section-sub  { margin: 0 auto; }
 
-  .step-num {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    background: rgba(255,140,50,0.08);
-    border: 1px solid rgba(255,140,50,0.3);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 24px;
-    font-family: var(--serif);
-    font-size: 1.8rem; font-weight: 800;
-    color: var(--amber);
-    position: relative;
-    box-shadow: 0 0 20px rgba(192,112,40,0.12);
-  }
-  .step-num::before {
-    content: '';
-    position: absolute; inset: -4px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,140,50,0.12);
-  }
+.features-stack {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
 
-  .step-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-b);
-    border-radius: 18px;
-    padding: 28px 24px;
-    backdrop-filter: blur(16px);
-  }
-  .step-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
-  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+/* Each card is sticky — later cards have higher z-index, slide on top */
+.feat-card {
+  position: sticky;
+  top: 100px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 24px;
+  padding: 52px 56px;
+  margin-bottom: 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  overflow: hidden;
+  transform-origin: top center;
+  will-change: transform, opacity;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.90) inset,
+    0 -1px 0 0 rgba(0,0,0,0.06) inset,
+    1px 0 0 0 rgba(255,255,255,0.60) inset,
+    -1px 0 0 0 rgba(0,0,0,0.04) inset,
+    0 8px 32px rgba(0,0,0,0.06);
+}
+.feat-card:nth-child(1) { z-index: 1; }
+.feat-card:nth-child(2) { z-index: 2; }
+.feat-card:nth-child(3) { z-index: 3; }
+.feat-card:nth-child(4) { z-index: 4; }
+.feat-card:nth-child(5) { z-index: 5; }
+.feat-card:nth-child(6) { z-index: 6; margin-bottom: 0; }
 
-  /* ─── VIDEO SECTION ──────────────────────────────────────────────────── */
-  #media { padding: 120px 0; }
-  .media-header { text-align: center; margin-bottom: 60px; }
-  .media-header .heading-line { margin: 0 auto 60px; }
+/* Amber gradient bar — animates in when card is active */
+.feat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--amber), var(--green));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  z-index: 2;
+}
+.feat-card.is-active::before { transform: scaleX(1); }
 
-  .video-wrap {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.09);
-    aspect-ratio: 16/9;
-    background: rgba(240,236,228,0.9);
-    margin-bottom: 28px;
-    box-shadow: 0 0 60px rgba(192,112,40,0.08), 0 40px 80px rgba(0,0,0,0.12);
-  }
-  .video-wrap video { width: 100%; height: 100%; object-fit: cover; display:block; }
-  .video-placeholder {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    background: radial-gradient(circle at 50% 50%, rgba(240,236,228,0.5), rgba(245,242,236,0.90));
-  }
-  .play-btn {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: var(--amber);
-    border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; color: #fff;
-    box-shadow: 0 0 40px var(--amber-glow), 0 0 80px rgba(255,140,50,0.2);
-    transition: transform 0.25s, box-shadow 0.25s;
-    margin-bottom: 20px;
-    padding-left: 6px;
-  }
-  .play-btn:hover { transform: scale(1.1); box-shadow: 0 0 60px rgba(255,140,50,0.6); }
-  .video-label { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--text); }
+/* Shimmer sweep on hover */
+.feat-card::after {
+  content: '';
+  position: absolute; top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+  transform: skewX(-12deg);
+  transition: left 0s;
+  pointer-events: none; z-index: 3;
+}
+.feat-card:hover::after {
+  left: 140%;
+  transition: left 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.feat-card:hover {
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.95) inset,
+    0 -1px 0 0 rgba(0,0,0,0.06) inset,
+    1px 0 0 0 rgba(255,255,255,0.75) inset,
+    -1px 0 0 0 rgba(0,0,0,0.04) inset,
+    0 20px 60px rgba(0,0,0,0.08),
+    0 0 0 1px rgba(192,112,40,0.10),
+    0 0 30px var(--amber-dim);
+}
 
-  .screenshots-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 28px; }
-  .screenshot-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-b);
-    border-radius: 14px;
-    overflow: hidden;
-    aspect-ratio: 16/10;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 0.8rem;
-    backdrop-filter: blur(12px);
-    position: relative;
-  }
-  .screenshot-card img { width:100%; height:100%; object-fit:cover; display:block; }
-  .screenshot-card .ss-label {
-    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-    font-size: 0.68rem; color: var(--muted);
-    background: rgba(245,242,236,0.85); border-radius: 4px; padding: 3px 10px;
-    white-space: nowrap;
-  }
-  .screenshot-placeholder { display:flex;flex-direction:column;align-items:center;gap:8px; }
-  .screenshot-placeholder span { font-size: 1.5rem; }
+/* Left column */
+.feat-left { display: flex; flex-direction: column; }
 
-  /* ─── TESTIMONIALS ───────────────────────────────────────────────────── */
-  #testimonials { padding: 120px 0; }
-  .testi-header { text-align: center; margin-bottom: 70px; }
-  .testi-header .heading-line { margin: 0 auto 60px; }
+.feat-number {
+  font-family: var(--serif); font-size: 5rem; font-weight: 800;
+  color: rgba(192,112,40,0.08); line-height: 1;
+  margin-bottom: 20px; letter-spacing: -0.04em;
+}
+.feat-icon {
+  width: 56px; height: 56px; background: var(--amber-soft);
+  border-radius: 16px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.8rem;
+  border: 1px solid rgba(192,112,40,0.12); margin-bottom: 24px;
+}
+.feat-title {
+  font-family: var(--serif); font-size: 1.55rem; font-weight: 700;
+  margin-bottom: 14px; line-height: 1.2; letter-spacing: -0.01em;
+}
+.feat-desc {
+  font-size: 0.9rem; color: var(--muted); line-height: 1.78; font-weight: 300;
+}
+.feat-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+.feat-tag {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em;
+  text-transform: uppercase; padding: 5px 12px; border-radius: 100px;
+  background: var(--amber-soft); border: 1px solid rgba(192,112,40,0.15); color: var(--amber);
+}
+.feat-tag.green {
+  background: var(--green-glow); border-color: rgba(45,143,104,0.20); color: var(--green);
+}
 
-  .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-  .testi-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-b);
-    border-radius: 18px;
-    padding: 32px 28px;
-    backdrop-filter: blur(20px);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-  .testi-card::before {
-    content: '"';
-    position: absolute; top: -20px; left: 20px;
-    font-family: var(--serif); font-size: 8rem; font-weight: 800;
-    color: var(--amber); opacity: 0.06; line-height: 1;
-    pointer-events: none;
-  }
-  .testi-card:hover { transform: translateY(-6px); border-color: rgba(192,112,40,0.25); }
+/* Right column — stat panel */
+.feat-right {
+  background: var(--bg); border-radius: 16px; height: 240px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;
+}
+.feat-right::before {
+  content: ''; position: absolute;
+  width: 180px; height: 180px; border-radius: 50%;
+  border: 1px solid rgba(192,112,40,0.08); pointer-events: none;
+}
+.feat-stat-block { text-align: center; position: relative; z-index: 1; }
+.feat-stat {
+  font-family: var(--serif); font-size: 3.2rem; font-weight: 800;
+  color: var(--amber); line-height: 1; letter-spacing: -0.03em; display: block;
+}
+.feat-stat.green { color: var(--green); }
+.feat-stat-label {
+  font-size: 0.78rem; color: var(--muted); font-weight: 400;
+  letter-spacing: 0.06em; text-transform: uppercase; margin-top: 8px; display: block;
+}
 
-  .testi-stars { color: var(--amber); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 18px; }
-  .testi-quote { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 24px; font-style: italic; }
-  .testi-person { display: flex; align-items: center; gap: 14px; }
-  .testi-avatar {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--amber), rgba(255,140,50,0.3));
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--serif); font-weight: 700; font-size: 1rem; color: #fff;
-    flex-shrink: 0;
-  }
-  .testi-avatar.green { background: linear-gradient(135deg, var(--green), rgba(45,143,104,0.4)); color: #fff; }
-  .testi-name { font-weight: 600; font-size: 0.875rem; margin-bottom: 3px; }
-  .testi-role { font-size: 0.75rem; color: var(--muted); }
+/* End spacer so last card can scroll fully into view before next section */
+.features-spacer { height: 60px; }
 
-  /* ─── FOOTER ─────────────────────────────────────────────────────────── */
-  footer {
-    background: rgba(238,234,226,0.95);
-    border-top: 1px solid rgba(0,0,0,0.07);
-    backdrop-filter: blur(24px);
-    padding: 60px 0 36px;
-    position: relative;
-    z-index: 2;
-  }
-  footer::before {
-    content: '';
-    position: absolute; top: -1px; left: 10%; right: 10%; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--amber), transparent);
-    opacity: 0.35;
-  }
-  .footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
-  .footer-brand .brand-name {
-    font-family: var(--serif); font-size: 1.4rem; font-weight: 700;
-    margin-bottom: 10px; letter-spacing: 0.02em;
-  }
-  .footer-brand .brand-name span { color: var(--amber); }
-  .footer-brand .brand-tag { font-size: 0.825rem; color: var(--muted); line-height: 1.65; max-width: 240px; font-weight: 300; }
-  .footer-col h4 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-  .footer-col a { color: rgba(28,24,20,0.55); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--text); }
-  .footer-bottom {
-    border-top: 1px solid rgba(0,0,0,0.07);
-    padding-top: 28px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .footer-copy { font-size: 0.78rem; color: var(--muted); }
-  .footer-tagline { font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: rgba(255,140,50,0.6); }
+/* ─── STATS BANNER ───────────────────────────────────────────────────── */
+#stats { padding: 80px 0; }
+.stats-banner {
+  background: rgba(255,255,255,0.80);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(24px);
+  display: grid; grid-template-columns: repeat(4,1fr);
+  overflow: hidden; position: relative;
+}
+.stats-banner::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), var(--green), transparent);
+  opacity: 0.4;
+}
+.stat-item {
+  padding: 48px 32px; text-align: center; position: relative;
+}
+.stat-item + .stat-item::before {
+  content: '';
+  position: absolute; left: 0; top: 20%; bottom: 20%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(192,112,40,0.25), transparent);
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800; color: var(--amber);
+  line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em;
+}
+.stat-num.green-num { color: var(--green); }
+.stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 400; letter-spacing: 0.02em; }
 
-  /* ─── Responsive ─────────────────────────────────────────────────────── */
-  @media (max-width: 980px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .features-grid { grid-template-columns: repeat(2,1fr); }
-    .stats-banner { grid-template-columns: repeat(2,1fr); }
-    .testi-grid { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; }
-    .steps-row { flex-direction: column; align-items: center; }
-    .step-connector { transform: rotate(90deg); margin: 0; }
-  }
-  @media (max-width: 640px) {
-    nav { padding: 14px 18px; }
-    .features-grid { grid-template-columns: 1fr; }
-    .stats-banner { grid-template-columns: 1fr 1fr; }
-    .screenshots-row { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr; }
-    .testi-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-    .hero-headline { font-size: 2.4rem; }
-    .fb-1, .fb-2 { display:none; }
-  }
+/* ─── HOW IT WORKS ───────────────────────────────────────────────────── */
+#how { padding: 120px 0; }
+.how-header { text-align: center; margin-bottom: 80px; }
+.how-header .heading-line { margin: 0 auto 60px; }
 
-  /* ═══════════════════════════════════════════════════════════════
-     ANIMATION SYSTEM LAYER
-  ═══════════════════════════════════════════════════════════════ */
+.steps-row { display: flex; align-items: flex-start; gap: 0; position: relative; }
+.step {
+  flex: 1; text-align: center; padding: 0 24px;
+  position: relative; z-index: 2;
+}
+.step-connector {
+  flex: 0 0 80px;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 40px;
+}
+.connector-line {
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--amber), var(--green));
+  transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+  border-radius: 1px; position: relative;
+}
+.connector-line::after {
+  content: '›'; position: absolute; right: -10px; top: -10px;
+  color: var(--green); font-size: 1.2rem;
+  opacity: 0; transition: opacity 0.4s 1.2s;
+}
+.connector-line.visible { width: 80px; }
+.connector-line.visible::after { opacity: 1; }
 
-  /* ─── Scroll Progress Bar ─────────────────────────────────────── */
-  #scroll-progress {
-    position: fixed;
-    top: 0; left: 0;
-    height: 2px;
-    width: 0%;
-    background: linear-gradient(90deg, var(--amber), var(--green), var(--amber));
-    background-size: 200% 100%;
-    z-index: 9999;
-    transition: width 0.05s linear;
-    animation: progressShimmer 3s linear infinite;
-    box-shadow: 0 0 8px var(--amber-glow);
-  }
-  @keyframes progressShimmer {
-    0%   { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-  }
+.step-num {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(255,140,50,0.08);
+  border: 1px solid rgba(255,140,50,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  font-family: var(--serif); font-size: 1.8rem; font-weight: 800;
+  color: var(--amber); position: relative;
+  box-shadow: 0 0 20px rgba(192,112,40,0.12);
+}
+.step-num::before {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%; border: 1px solid rgba(255,140,50,0.12);
+}
+.step-card {
+  background: var(--glass); border: 1px solid var(--glass-b);
+  border-radius: 18px; padding: 28px 24px;
+  backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+.step-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+.step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
 
-  /* ─── Cursor Glow ────────────────────────────────────────────── */
-  #cursor-glow {
-    position: fixed;
-    width: 380px; height: 380px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1;
-    background: radial-gradient(circle, rgba(192,112,40,0.08) 0%, rgba(45,143,104,0.04) 45%, transparent 70%);
-    transform: translate(-50%, -50%);
-    transition: transform 0.08s linear, opacity 0.4s ease;
-    mix-blend-mode: multiply;
-    opacity: 0;
-    will-change: transform;
-  }
+/* ─── VIDEO SECTION ──────────────────────────────────────────────────── */
+#media { padding: 120px 0; }
+.media-header { text-align: center; margin-bottom: 60px; }
+.media-header .heading-line { margin: 0 auto 60px; }
 
-  /* ─── 3D Card Tilt ───────────────────────────────────────────── */
-  .feat-card, .testi-card, .step-card {
-    transform-style: preserve-3d;
-    perspective: 800px;
-    will-change: transform;
-  }
-  /* Override existing hover on feat-card for tilt-managed state */
-  .feat-card.tilt-active {
-    transform: none !important; /* JS manages transform directly */
-  }
+.video-wrap {
+  position: relative; border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.09); aspect-ratio: 16/9;
+  background: rgba(240,236,228,0.9); margin-bottom: 28px;
+  box-shadow: 0 0 60px rgba(192,112,40,0.08), 0 40px 80px rgba(0,0,0,0.12);
+}
+.video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-placeholder {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 50%, rgba(240,236,228,0.5), rgba(245,242,236,0.90));
+}
+.play-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--amber); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: #fff;
+  box-shadow: 0 0 40px var(--amber-glow), 0 0 80px rgba(255,140,50,0.2);
+  transition: transform 0.25s, box-shadow 0.25s;
+  margin-bottom: 20px; padding-left: 6px;
+}
+.play-btn:hover { transform: scale(1.1); box-shadow: 0 0 60px rgba(255,140,50,0.6); }
+.video-label { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--text); }
 
-  /* ─── Glass Shimmer Sweep ────────────────────────────────────── */
-  .feat-card::before,
-  .testi-card::after,
-  .stats-banner::after,
-  .step-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -120%;
-    width: 60%; height: 100%;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      rgba(255,255,255,0.55) 50%,
-      transparent 70%
-    );
-    transform: skewX(-12deg);
-    transition: left 0s;
-    pointer-events: none;
-    z-index: 5;
-    border-radius: inherit;
-  }
-  /* Testi card already has ::before for the quote mark, use ::after */
-  .testi-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -120%;
-    width: 60%; height: 100%;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      rgba(255,255,255,0.45) 50%,
-      transparent 70%
-    );
-    transform: skewX(-12deg);
-    pointer-events: none;
-    z-index: 5;
-    border-radius: inherit;
-  }
-  .feat-card:hover::before,
-  .testi-card:hover::after,
-  .step-card:hover::before {
-    left: 140%;
-    transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  /* Override existing feat-card::after (amber glow) — keep it, shimmer is ::before */
-  .feat-card::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 18px;
-    background: radial-gradient(circle at 50% 0%, rgba(192,112,40,0.07), transparent 60%);
-    opacity: 0; transition: opacity 0.4s;
-    pointer-events: none;
-    z-index: 1;
-  }
+.screenshots-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 28px; }
+.screenshot-card {
+  background: var(--glass); border: 1px solid var(--glass-b);
+  border-radius: 14px; overflow: hidden; aspect-ratio: 16/10;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 0.8rem;
+  backdrop-filter: blur(12px); position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.screenshot-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+.screenshot-card img { width:100%; height:100%; object-fit:cover; display:block; }
+.screenshot-card .ss-label {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  font-size: 0.68rem; color: var(--muted);
+  background: rgba(245,242,236,0.85); border-radius: 4px; padding: 3px 10px;
+  white-space: nowrap;
+}
+.screenshot-placeholder { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.screenshot-placeholder span { font-size: 1.5rem; }
 
-  /* ─── Enhanced Inset Glass Shadows ──────────────────────────── */
-  .feat-card {
-    box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.90) inset,
-      0 -1px 0 0 rgba(0,0,0,0.06) inset,
-      1px 0 0 0 rgba(255,255,255,0.60) inset,
-      -1px 0 0 0 rgba(0,0,0,0.04) inset,
-      0 8px 32px rgba(0,0,0,0.06);
-    transition: transform 0.18s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  }
-  .feat-card:hover {
-    box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.95) inset,
-      0 -1px 0 0 rgba(0,0,0,0.06) inset,
-      1px 0 0 0 rgba(255,255,255,0.75) inset,
-      -1px 0 0 0 rgba(0,0,0,0.04) inset,
-      0 20px 60px rgba(0,0,0,0.08),
-      0 0 0 1px rgba(192,112,40,0.10),
-      0 0 30px var(--amber-dim);
-  }
-  .testi-card {
-    box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.85) inset,
-      0 -1px 0 0 rgba(0,0,0,0.05) inset,
-      0 6px 24px rgba(0,0,0,0.05);
-  }
-  .dashboard-card {
-    box-shadow:
-      0 40px 80px rgba(0,0,0,0.12),
-      0 0 0 1px rgba(0,0,0,0.04),
-      0 1px 0 0 rgba(255,255,255,0.95) inset,
-      0 -1px 0 0 rgba(0,0,0,0.08) inset,
-      1px 0 0 0 rgba(255,255,255,0.80) inset,
-      -1px 0 0 0 rgba(0,0,0,0.04) inset;
-  }
+/* ─── TESTIMONIALS ───────────────────────────────────────────────────── */
+#testimonials { padding: 120px 0; }
+.testi-header { text-align: center; margin-bottom: 70px; }
+.testi-header .heading-line { margin: 0 auto 60px; }
 
-  /* ─── Parallax Hero Layer ────────────────────────────────────── */
-  .hero-content { will-change: transform; }
-  .hero-video-bg video { will-change: transform; }
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.testi-card {
+  background: var(--glass); border: 1px solid var(--glass-b);
+  border-radius: 18px; padding: 32px 28px;
+  backdrop-filter: blur(20px); position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 1px 0 0 rgba(255,255,255,0.85) inset, 0 6px 24px rgba(0,0,0,0.05);
+}
+.testi-card::before {
+  content: '"'; position: absolute; top: -20px; left: 20px;
+  font-family: var(--serif); font-size: 8rem; font-weight: 800;
+  color: var(--amber); opacity: 0.06; line-height: 1; pointer-events: none;
+}
+/* Shimmer sweep */
+.testi-card::after {
+  content: ''; position: absolute; top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+  transform: skewX(-12deg); pointer-events: none; z-index: 5; border-radius: inherit;
+}
+.testi-card:hover::after { left: 140%; transition: left 0.7s cubic-bezier(0.4,0,0.2,1); }
+.testi-card:hover { transform: translateY(-6px); border-color: rgba(192,112,40,0.25); box-shadow: 0 20px 50px rgba(0,0,0,0.07); }
 
-  /* ─── Staggered Entrance Cascade ─────────────────────────────── */
-  /* Hero content elements animate in on load */
-  .hero-badge-anim {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: cascadeIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-    animation-delay: 0.15s;
-  }
-  .hero-headline-anim {
-    opacity: 0;
-    transform: translateY(28px);
-    animation: cascadeIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
-    animation-delay: 0.32s;
-  }
-  .hero-sub-anim {
-    opacity: 0;
-    transform: translateY(22px);
-    animation: cascadeIn 0.75s cubic-bezier(0.16,1,0.3,1) forwards;
-    animation-delay: 0.50s;
-  }
-  .hero-actions-anim {
-    opacity: 0;
-    transform: translateY(18px);
-    animation: cascadeIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-    animation-delay: 0.65s;
-  }
-  .hero-visual-anim {
-    opacity: 0;
-    transform: translateX(40px) scale(0.97);
-    animation: heroVisualIn 1s cubic-bezier(0.16,1,0.3,1) forwards;
-    animation-delay: 0.45s;
-  }
-  @keyframes cascadeIn {
-    to { opacity: 1; transform: none; }
-  }
-  @keyframes heroVisualIn {
-    to { opacity: 1; transform: translateX(0) scale(1); }
-  }
+.testi-stars { color: var(--amber); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 18px; }
+.testi-quote { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 24px; font-style: italic; }
+.testi-person { display: flex; align-items: center; gap: 14px; }
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber), rgba(255,140,50,0.3));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-weight: 700; font-size: 1rem; color: #fff;
+  flex-shrink: 0;
+}
+.testi-avatar.green { background: linear-gradient(135deg, var(--green), rgba(45,143,104,0.4)); }
+.testi-name { font-weight: 600; font-size: 0.875rem; margin-bottom: 3px; }
+.testi-role { font-size: 0.75rem; color: var(--muted); }
 
-  /* ─── Word-by-Word Heading Reveals ───────────────────────────── */
-  .word-reveal-heading .word {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(30px) rotate(2deg);
-    transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1),
-                transform 0.55s cubic-bezier(0.16,1,0.3,1);
-  }
-  .word-reveal-heading.words-visible .word {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg);
-  }
-  /* br elements between words preserved via JS */
+/* ─── CTA BANNER ─────────────────────────────────────────────────────── */
+#cta { padding: 100px 0; }
+.cta-inner {
+  background: linear-gradient(135deg, #1C1814 0%, #2A2018 50%, #1C1814 100%);
+  border-radius: 28px; padding: 80px 60px;
+  text-align: center; position: relative; overflow: hidden;
+  border: 1px solid rgba(255,160,60,0.15);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.18), 0 0 60px rgba(192,112,40,0.08);
+}
+.cta-inner::before {
+  content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), var(--green), transparent);
+  opacity: 0.5;
+}
+.cta-orb {
+  position: absolute; width: 400px; height: 400px; border-radius: 50%;
+  filter: blur(80px); pointer-events: none;
+}
+.cta-orb-1 { background: rgba(192,112,40,0.12); top: -100px; right: -80px; }
+.cta-orb-2 { background: rgba(45,143,104,0.08); bottom: -100px; left: -80px; }
 
-  /* ─── Stagger delay classes for word reveals ─────────────────── */
-  /* Applied dynamically by JS */
+.cta-label {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,160,60,0.7);
+  margin-bottom: 24px; display: block; position: relative; z-index: 1;
+}
+.cta-title {
+  font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800; color: #fff; line-height: 1.08;
+  letter-spacing: -0.025em; margin-bottom: 20px; position: relative; z-index: 1;
+}
+.cta-title em { font-style: italic; color: #E8973A; }
+.cta-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.5);
+  max-width: 520px; margin: 0 auto 44px; line-height: 1.7;
+  font-weight: 300; position: relative; z-index: 1;
+}
+.cta-actions {
+  display: flex; gap: 16px; justify-content: center;
+  align-items: center; flex-wrap: wrap; position: relative; z-index: 1;
+}
+.cta-note {
+  font-size: 0.75rem; color: rgba(255,255,255,0.3);
+  margin-top: 20px; position: relative; z-index: 1;
+  letter-spacing: 0.04em;
+}
 
-  /* ─── Nav scroll indicator dot ──────────────────────────────── */
-  nav.scrolled {
-    box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 24px rgba(0,0,0,0.06);
-  }
+/* ─── FOOTER ─────────────────────────────────────────────────────────── */
+footer {
+  background: rgba(238,234,226,0.95); border-top: 1px solid rgba(0,0,0,0.07);
+  backdrop-filter: blur(24px); padding: 60px 0 36px;
+  position: relative; z-index: 2;
+}
+footer::before {
+  content: ''; position: absolute; top: -1px; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent); opacity: 0.35;
+}
+.footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-brand .brand-name {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 700;
+  margin-bottom: 10px; letter-spacing: 0.02em;
+}
+.footer-brand .brand-name span { color: var(--amber); }
+.footer-brand .brand-tag { font-size: 0.825rem; color: var(--muted); line-height: 1.65; max-width: 240px; font-weight: 300; }
+.footer-col h4 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.footer-col a { color: rgba(28,24,20,0.55); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.2s; }
+.footer-col a:hover { color: var(--text); }
+.footer-bottom {
+  border-top: 1px solid rgba(0,0,0,0.07); padding-top: 28px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-copy { font-size: 0.78rem; color: var(--muted); }
+.footer-tagline { font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: rgba(255,140,50,0.6); }
 
-  /* ─── Feat card stagger reveal ───────────────────────────────── */
-  .features-grid .feat-card.reveal {
-    transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  }
+/* ─── Scroll Progress Bar ─────────────────────────────────────────────── */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--amber), var(--green), var(--amber));
+  background-size: 200% 100%; z-index: 9999;
+  transition: width 0.05s linear;
+  animation: progressShimmer 3s linear infinite;
+  box-shadow: 0 0 8px var(--amber-glow);
+}
+@keyframes progressShimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
 
-  /* ─── Screenshot card hover tilt ────────────────────────────── */
-  .screenshot-card {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .screenshot-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(192,112,40,0.10);
-  }
+/* ─── Cursor Glow ────────────────────────────────────────────────────── */
+#cursor-glow {
+  position: fixed; width: 380px; height: 380px; border-radius: 50%;
+  pointer-events: none; z-index: 1;
+  background: radial-gradient(circle, rgba(192,112,40,0.08) 0%, rgba(45,143,104,0.04) 45%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease; mix-blend-mode: multiply; opacity: 0;
+  will-change: transform;
+}
 
-  /* ─── Stats banner shimmer top line ─────────────────────────── */
-  .stats-banner::after {
-    display: none; /* disable the shimmer on stats banner - use ::before */
-  }
-  .stats-banner:hover::before {
-    animation: statsBannerGlow 1.5s ease-in-out;
-  }
-  @keyframes statsBannerGlow {
-    0%   { opacity: 0.4; }
-    50%  { opacity: 0.9; }
-    100% { opacity: 0.4; }
-  }
+/* ─── Word-by-Word Heading Reveals ───────────────────────────────────── */
+.word-reveal-heading .word {
+  display: inline-block;
+  opacity: 0; transform: translateY(30px) rotate(2deg);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.word-reveal-heading.words-visible .word { opacity: 1; transform: translateY(0) rotate(0deg); }
 
+/* ─── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .feat-card { grid-template-columns: 1fr; gap: 28px; padding: 36px 32px; }
+  .feat-right { height: 160px; }
+  .stats-banner { grid-template-columns: repeat(2,1fr); }
+  .testi-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .steps-row { flex-direction: column; align-items: center; }
+  .step-connector { transform: rotate(90deg); margin: 0; }
+  .cta-inner { padding: 60px 32px; }
+}
+@media (max-width: 640px) {
+  nav { padding: 14px 18px; }
+  .stats-banner { grid-template-columns: 1fr 1fr; }
+  .screenshots-row { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .hero-chapters { display: none; }
+  .features-stack { padding: 0 16px; }
+  .feat-card { padding: 28px 24px; }
+}
 </style>
 </head>
 <body>
 
-<!-- Scroll Progress Bar -->
+<!-- Scroll Progress -->
 <div id="scroll-progress"></div>
 
 <!-- Cursor Glow -->
 <div id="cursor-glow"></div>
 
-<!-- Noise & Orbs -->
+<!-- Orbs -->
 <div class="orb-wrap">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -845,40 +802,63 @@
   <button class="nav-cta">Start Free Trial</button>
 </nav>
 
-<!-- HERO -->
+<!-- ════ HERO — Scroll-Driven Video Scrubbing ════ -->
 <section id="hero">
+  <div class="hero-pin">
 
-  <!-- Left: Copy panel -->
-  <div class="hero-left">
-    <div class="container" style="padding-left: 48px;">
-      <div class="hero-content">
-        <div class="hero-badge hero-badge-anim">✦ Now in Public Beta</div>
-        <h1 class="hero-headline hero-headline-anim word-reveal-heading">
-          Master Your <em>Kitchen.</em><br>
-          Control Every<br>
-          <span class="line-green">Ingredient.</span>
-        </h1>
-        <p class="hero-sub hero-sub-anim">
-          Real-time stock tracking, intelligent supplier management, and smart low-stock alerts — designed for the modern professional kitchen. Zero waste. Total control.
-        </p>
-        <div class="hero-actions hero-actions-anim">
-          <button class="btn-amber">Get Started Free</button>
-          <button class="btn-glass">
-            <span class="play">▶</span>
-            Watch Demo
-          </button>
-        </div>
+    <div class="hero-scrub-video">
+      <video
+        id="heroScrubVideo"
+        src="media/Chef_working_in_restaurant_kitchen_202605201607.mp4"
+        preload="auto"
+        muted
+        playsinline
+        webkit-playsinline
+      ></video>
+    </div>
+
+    <div class="hero-scrim"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge hero-badge-anim">✦ Now in Public Beta</div>
+      <div class="hero-chapter" id="heroChapter">The Kitchen</div>
+      <h1 class="hero-headline hero-headline-anim" id="heroHeadline">
+        Master Your <em>Kitchen.</em><br>
+        Control Every<br>
+        <span class="line-green">Ingredient.</span>
+      </h1>
+      <p class="hero-sub hero-sub-anim" id="heroSub">
+        Real-time stock tracking, intelligent supplier management, and smart low-stock alerts — designed for the modern professional kitchen. Zero waste. Total control.
+      </p>
+      <div class="hero-actions hero-actions-anim">
+        <button class="btn-amber">Get Started Free</button>
+        <button class="btn-glass">
+          <span class="play">▶</span>
+          Watch Demo
+        </button>
       </div>
     </div>
-  </div>
 
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-arrow">↓</div>
+    <div class="hero-scrub-bar">
+      <div class="hero-scrub-fill" id="heroScrubFill"></div>
+    </div>
+
+    <div class="hero-chapters" id="heroChapters">
+      <div class="hero-ch-dot active"></div>
+      <div class="hero-ch-dot"></div>
+      <div class="hero-ch-dot"></div>
+      <div class="hero-ch-dot"></div>
+    </div>
+
+    <div class="scroll-hint" id="heroScrollHint">
+      <span>Scroll</span>
+      <div class="scroll-arrow">↓</div>
+    </div>
+
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- ════ FEATURES — Stacked Scroll Cards ════ -->
 <section id="features">
   <div class="container">
     <div class="features-header reveal">
@@ -887,43 +867,141 @@
       <div class="heading-line"></div>
       <p class="section-sub">A complete system built for the demanding pace of professional kitchens — from a single bistro to multi-location restaurant groups.</p>
     </div>
+  </div>
 
-    <div class="features-grid">
-      <div class="feat-card reveal" style="transition-delay:0.05s">
-        <span class="feat-icon">🥬</span>
+  <div class="features-stack">
+
+    <!-- Card 1 -->
+    <div class="feat-card">
+      <div class="feat-left">
+        <div class="feat-number">01</div>
+        <div class="feat-icon">🥬</div>
         <h3 class="feat-title">Ingredient Tracking</h3>
-        <p class="feat-desc">Track every item in real-time — quantity, unit, location, expiry date, and cost per unit. Full granular visibility across your entire pantry.</p>
+        <p class="feat-desc">Track every item in real-time — quantity, unit, location, expiry date, and cost per unit. Full granular visibility across your entire pantry at a glance.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">Real-time</span>
+          <span class="feat-tag green">Live Sync</span>
+          <span class="feat-tag">Expiry Alerts</span>
+        </div>
       </div>
-      <div class="feat-card reveal" style="transition-delay:0.1s">
-        <span class="feat-icon">🤝</span>
-        <h3 class="feat-title">Supplier Management</h3>
-        <p class="feat-desc">Manage all your supplier contacts, pricing tiers, lead times, and reliability scores in one place. Never miss a delivery window again.</p>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:0.15s">
-        <span class="feat-icon">📋</span>
-        <h3 class="feat-title">Purchase Orders</h3>
-        <p class="feat-desc">Generate, send, and track purchase orders automatically. Receive confirmations, log deliveries, and reconcile invoices seamlessly.</p>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:0.2s">
-        <span class="feat-icon">📊</span>
-        <h3 class="feat-title">Usage Logging</h3>
-        <p class="feat-desc">Log ingredient usage per service, per dish, or per shift. Understand your consumption patterns and eliminate costly waste.</p>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:0.25s">
-        <span class="feat-icon">🔔</span>
-        <h3 class="feat-title">Low Stock Alerts</h3>
-        <p class="feat-desc">Set intelligent thresholds and receive instant alerts via email or SMS when stock drops below your service requirements. Never 86 a dish again.</p>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:0.3s">
-        <span class="feat-icon">📈</span>
-        <h3 class="feat-title">Analytics Dashboard</h3>
-        <p class="feat-desc">Visualize food cost trends, waste reduction metrics, and supplier performance over time. Make data-driven decisions that protect your margins.</p>
+      <div class="feat-right">
+        <div class="feat-stat-block">
+          <span class="feat-stat">500+</span>
+          <span class="feat-stat-label">Ingredients tracked</span>
+        </div>
       </div>
     </div>
+
+    <!-- Card 2 -->
+    <div class="feat-card">
+      <div class="feat-left">
+        <div class="feat-number">02</div>
+        <div class="feat-icon">🤝</div>
+        <h3 class="feat-title">Supplier Management</h3>
+        <p class="feat-desc">Manage all your supplier contacts, pricing tiers, lead times, and reliability scores in one place. Never miss a delivery window again.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">Pricing Tiers</span>
+          <span class="feat-tag green">Lead Times</span>
+          <span class="feat-tag">Reliability Score</span>
+        </div>
+      </div>
+      <div class="feat-right">
+        <div class="feat-stat-block">
+          <span class="feat-stat green">50+</span>
+          <span class="feat-stat-label">Suppliers managed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="feat-card">
+      <div class="feat-left">
+        <div class="feat-number">03</div>
+        <div class="feat-icon">📋</div>
+        <h3 class="feat-title">Purchase Orders</h3>
+        <p class="feat-desc">Generate, send, and track purchase orders automatically. Receive confirmations, log deliveries, and reconcile invoices seamlessly in three clicks.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">Auto-Generate</span>
+          <span class="feat-tag green">Invoice Sync</span>
+          <span class="feat-tag">Delivery Logs</span>
+        </div>
+      </div>
+      <div class="feat-right">
+        <div class="feat-stat-block">
+          <span class="feat-stat">3</span>
+          <span class="feat-stat-label">Clicks to reorder</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="feat-card">
+      <div class="feat-left">
+        <div class="feat-number">04</div>
+        <div class="feat-icon">📊</div>
+        <h3 class="feat-title">Usage Logging</h3>
+        <p class="feat-desc">Log ingredient usage per service, per dish, or per shift. Understand your consumption patterns and eliminate costly waste across every station.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">Per Dish</span>
+          <span class="feat-tag green">Per Shift</span>
+          <span class="feat-tag">Waste Tracking</span>
+        </div>
+      </div>
+      <div class="feat-right">
+        <div class="feat-stat-block">
+          <span class="feat-stat">32%</span>
+          <span class="feat-stat-label">Average waste reduced</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="feat-card">
+      <div class="feat-left">
+        <div class="feat-number">05</div>
+        <div class="feat-icon">🔔</div>
+        <h3 class="feat-title">Low Stock Alerts</h3>
+        <p class="feat-desc">Set intelligent thresholds and receive instant alerts via email or SMS when stock drops below your service requirements. Never 86 a dish again.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">SMS Alerts</span>
+          <span class="feat-tag green">Email Alerts</span>
+          <span class="feat-tag">Custom Thresholds</span>
+        </div>
+      </div>
+      <div class="feat-right">
+        <div class="feat-stat-block">
+          <span class="feat-stat green">99.9%</span>
+          <span class="feat-stat-label">Alert delivery rate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="feat-card">
+      <div class="feat-left">
+        <div class="feat-number">06</div>
+        <div class="feat-icon">📈</div>
+        <h3 class="feat-title">Analytics Dashboard</h3>
+        <p class="feat-desc">Visualize food cost trends, waste reduction metrics, and supplier performance over time. Make data-driven decisions that protect your margins every week.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">Cost Trends</span>
+          <span class="feat-tag green">Margin Reports</span>
+          <span class="feat-tag">Supplier KPIs</span>
+        </div>
+      </div>
+      <div class="feat-right">
+        <div class="feat-stat-block">
+          <span class="feat-stat">18%</span>
+          <span class="feat-stat-label">Average margin gain</span>
+        </div>
+      </div>
+    </div>
+
   </div>
+  <div class="features-spacer"></div>
 </section>
 
-<!-- STATS -->
+<!-- ════ STATS ════ -->
 <section id="stats">
   <div class="container">
     <div class="stats-banner reveal">
@@ -940,14 +1018,14 @@
         <div class="stat-label">Uptime Guaranteed</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num green-num" data-target="0" data-suffix="" data-special="real-time">—</div>
+        <div class="stat-num green-num" data-special="real-time">—</div>
         <div class="stat-label">Real-time Sync</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- ════ HOW IT WORKS ════ -->
 <section id="how">
   <div class="container">
     <div class="how-header reveal">
@@ -964,11 +1042,9 @@
           <p class="step-desc">Import your existing inventory via CSV or add items manually. Set units, par levels, supplier links, and expiry tracking in minutes.</p>
         </div>
       </div>
-
       <div class="step-connector">
         <div class="connector-line"></div>
       </div>
-
       <div class="step reveal" style="transition-delay:0.15s">
         <div class="step-num">2</div>
         <div class="step-card">
@@ -976,11 +1052,9 @@
           <p class="step-desc">Log consumption after each service from any device. Our smart system learns your patterns and predicts what you'll need before you run out.</p>
         </div>
       </div>
-
       <div class="step-connector">
         <div class="connector-line"></div>
       </div>
-
       <div class="step reveal" style="transition-delay:0.25s">
         <div class="step-num">3</div>
         <div class="step-card">
@@ -992,7 +1066,7 @@
   </div>
 </section>
 
-<!-- VIDEO / MEDIA -->
+<!-- ════ VIDEO / MEDIA ════ -->
 <section id="media">
   <div class="container">
     <div class="media-header reveal">
@@ -1003,30 +1077,23 @@
 
     <div class="reveal">
       <div class="video-wrap">
-        <!-- ADD YOUR VIDEO FILE HERE -->
-        <video autoplay muted loop playsinline src=""></video>
-        <div class="video-placeholder">
-          <button class="play-btn" aria-label="Play Demo">▶</button>
+        <video id="demoVideo" muted loop playsinline src=""></video>
+        <div class="video-placeholder" id="videoPlaceholder">
+          <button class="play-btn" id="playDemoBtn" aria-label="Play Demo">▶</button>
           <div class="video-label">Watch the 2-minute walkthrough</div>
         </div>
       </div>
 
       <div class="screenshots-row">
         <div class="screenshot-card">
-          <!-- ADD SCREENSHOT 1 HERE -->
-          <img src="" alt="Inventory Dashboard" onerror="this.style.display='none'">
           <div class="screenshot-placeholder"><span>📦</span><span style="font-size:0.7rem;color:var(--muted)">Inventory View</span></div>
           <div class="ss-label">Inventory Dashboard</div>
         </div>
         <div class="screenshot-card">
-          <!-- ADD SCREENSHOT 2 HERE -->
-          <img src="" alt="Supplier Panel" onerror="this.style.display='none'">
           <div class="screenshot-placeholder"><span>🤝</span><span style="font-size:0.7rem;color:var(--muted)">Supplier Panel</span></div>
           <div class="ss-label">Supplier Management</div>
         </div>
         <div class="screenshot-card">
-          <!-- ADD SCREENSHOT 3 HERE -->
-          <img src="" alt="Analytics" onerror="this.style.display='none'">
           <div class="screenshot-placeholder"><span>📈</span><span style="font-size:0.7rem;color:var(--muted)">Analytics View</span></div>
           <div class="ss-label">Usage Analytics</div>
         </div>
@@ -1035,7 +1102,9 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
+
+
+<!-- ════ TESTIMONIALS ════ -->
 <section id="testimonials">
   <div class="container">
     <div class="testi-header reveal">
@@ -1081,7 +1150,28 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ════ CTA BANNER ════ -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div class="cta-orb cta-orb-1"></div>
+      <div class="cta-orb cta-orb-2"></div>
+      <span class="cta-label">Start Today — Free for 14 Days</span>
+      <h2 class="cta-title">Ready to run your kitchen<br>with <em>total control?</em></h2>
+      <p class="cta-sub">Join hundreds of professional kitchens already using Mise en Place to eliminate waste, master their suppliers, and protect their margins.</p>
+      <div class="cta-actions">
+        <button class="btn-amber">Get Started Free</button>
+        <button class="btn-glass" style="border-color:rgba(255,255,255,0.2)">
+          <span class="play">▶</span>
+          Book a Demo
+        </button>
+      </div>
+      <p class="cta-note">No credit card required · Cancel anytime · Free onboarding call</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
 <footer>
   <div class="container">
     <div class="footer-inner">
@@ -1125,260 +1215,287 @@
 </footer>
 
 <script>
-  /* ════════════════════════════════════════════════════════════════
-     ANIMATION SYSTEM
-  ════════════════════════════════════════════════════════════════ */
+/* ════ SCROLL PROGRESS ════ */
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
 
-  // ─── 1. Scroll Progress Bar ──────────────────────────────────────
-  const progressBar = document.getElementById('scroll-progress');
-  function updateProgress() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = pct + '%';
-  }
-  window.addEventListener('scroll', updateProgress, { passive: true });
+/* ════ CURSOR GLOW ════ */
+const cursorGlow = document.getElementById('cursor-glow');
+let mx = 0, my = 0, gx = 0, gy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursorGlow.style.opacity = '1'; });
+document.addEventListener('mouseleave', () => { cursorGlow.style.opacity = '0'; });
+(function animGlow() {
+  gx += (mx - gx) * 0.08; gy += (my - gy) * 0.08;
+  cursorGlow.style.left = gx + 'px'; cursorGlow.style.top = gy + 'px';
+  requestAnimationFrame(animGlow);
+})();
 
-  // ─── 2. Cursor Glow ─────────────────────────────────────────────
-  const cursorGlow = document.getElementById('cursor-glow');
-  let mouseX = 0, mouseY = 0;
-  let glowX = 0, glowY = 0;
-  let glowVisible = false;
+/* ════ NAV SCROLL STATE ════ */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
 
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    if (!glowVisible) {
-      cursorGlow.style.opacity = '1';
-      glowVisible = true;
-    }
-  });
-  document.addEventListener('mouseleave', () => {
-    cursorGlow.style.opacity = '0';
-    glowVisible = false;
-  });
-
-  function animateGlow() {
-    glowX += (mouseX - glowX) * 0.08;
-    glowY += (mouseY - glowY) * 0.08;
-    cursorGlow.style.left = glowX + 'px';
-    cursorGlow.style.top  = glowY + 'px';
-    requestAnimationFrame(animateGlow);
-  }
-  animateGlow();
-
-  // ─── 3. 3D Card Tilt ────────────────────────────────────────────
-  function setupTilt(selector, opts = {}) {
-    const maxTilt   = opts.maxTilt   ?? 10;
-    const glowColor = opts.glowColor ?? 'rgba(192,112,40,0.18)';
-    const scale     = opts.scale     ?? 1.015;
-
-    document.querySelectorAll(selector).forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width  - 0.5;
-        const y = (e.clientY - rect.top)  / rect.height - 0.5;
-        const tiltX = (-y * maxTilt).toFixed(2);
-        const tiltY = ( x * maxTilt).toFixed(2);
-        card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scale})`;
-        card.style.boxShadow = card.style.boxShadow; // preserve existing
-        // Dynamic highlight follows cursor
-        const px = ((x + 0.5) * 100).toFixed(1);
-        const py = ((y + 0.5) * 100).toFixed(1);
-        card.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.72) 100%)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
-        card.style.background = '';
-        card.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.5s ease';
-        setTimeout(() => { card.style.transition = ''; }, 500);
-      });
-
-      card.addEventListener('mouseenter', () => {
-        card.style.transition = 'transform 0.12s ease, background 0.12s ease';
-      });
+/* ════ 3D CARD TILT ════ */
+function setupTilt(selector, maxTilt = 10, scale = 1.015) {
+  document.querySelectorAll(selector).forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.12s ease, background 0.12s ease';
     });
-  }
-
-  setupTilt('.feat-card',  { maxTilt: 10, scale: 1.018 });
-  setupTilt('.testi-card', { maxTilt: 7,  scale: 1.012 });
-  setupTilt('.step-card',  { maxTilt: 8,  scale: 1.015 });
-
-  // ─── 4. Parallax Hero ────────────────────────────────────────────
-  const heroContent = document.querySelector('.hero-content');
-  let heroTicking = false;
-
-  window.addEventListener('scroll', () => {
-    if (!heroTicking) {
-      requestAnimationFrame(() => {
-        const sy = window.scrollY;
-        if (sy < window.innerHeight * 1.5) {
-          if (heroContent) heroContent.style.transform = `translateY(${sy * 0.10}px)`;
-        }
-        heroTicking = false;
-      });
-      heroTicking = true;
-    }
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `perspective(800px) rotateX(${(-y * maxTilt).toFixed(2)}deg) rotateY(${(x * maxTilt).toFixed(2)}deg) scale(${scale})`;
+      const px = ((x + 0.5) * 100).toFixed(1);
+      const py = ((y + 0.5) * 100).toFixed(1);
+      card.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.72) 100%)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease';
+      card.style.transform = '';
+      card.style.background = '';
+      setTimeout(() => { card.style.transition = ''; }, 500);
+    });
   });
+}
+setupTilt('.feat-card',  10, 1.018);
+setupTilt('.testi-card', 7,  1.012);
+setupTilt('.step-card',  8,  1.015);
 
-  // ─── 5. Word-by-Word Heading Reveals ────────────────────────────
-  function wrapWords(heading) {
-    // Walk child nodes, wrap text nodes word by word, preserve elements
-    function processNode(node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const words = node.textContent.split(/(\s+)/);
-        const frag = document.createDocumentFragment();
-        words.forEach(part => {
-          if (/\S/.test(part)) {
-            const span = document.createElement('span');
-            span.className = 'word';
-            span.textContent = part;
-            frag.appendChild(span);
-          } else if (part) {
-            frag.appendChild(document.createTextNode(part));
-          }
-        });
-        node.parentNode.replaceChild(frag, node);
-      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR') {
-        Array.from(node.childNodes).forEach(processNode);
+
+/* ════ HERO — SCROLL-DRIVEN VIDEO SCRUBBING ════ */
+(function () {
+  const section  = document.getElementById('hero');
+  const video    = document.getElementById('heroScrubVideo');
+  const fill     = document.getElementById('heroScrubFill');
+  const hint     = document.getElementById('heroScrollHint');
+  const chDots   = Array.from(document.querySelectorAll('.hero-ch-dot'));
+  const chLabel  = document.getElementById('heroChapter');
+  const headline = document.getElementById('heroHeadline');
+  const sub      = document.getElementById('heroSub');
+  if (!section || !video) return;
+
+  const chapters = [
+    { from: 0.00, to: 0.25,
+      label: 'The Kitchen',
+      head: 'Master Your <em>Kitchen.</em><br>Control Every<br><span class="line-green">Ingredient.</span>',
+      sub: 'Real-time stock tracking, intelligent supplier management, and smart low-stock alerts — designed for the modern professional kitchen.' },
+    { from: 0.25, to: 0.50,
+      label: 'The Inventory',
+      head: 'Every Item.<br><em>Accounted for.</em><br><span class="line-green">Always.</span>',
+      sub: 'Track quantities, expiry dates, and costs per unit across every shelf and station in your kitchen — in real time.' },
+    { from: 0.50, to: 0.75,
+      label: 'The Suppliers',
+      head: 'Your Suppliers.<br><em>Your Control.</em><br><span class="line-green">Zero Delays.</span>',
+      sub: 'Manage every supplier, pricing tier, and lead time in one place. Reorder in three clicks. Never miss a delivery window.' },
+    { from: 0.75, to: 1.00,
+      label: 'The Insight',
+      head: 'See the Waste.<br><em>Cut the Cost.</em><br><span class="line-green">Own Your Margins.</span>',
+      sub: 'Visualize food cost trends, waste metrics, and supplier performance. Data-driven decisions that protect your bottom line.' },
+  ];
+
+  let duration = 0;
+  let lastChapter = -1;
+  let rafId = null;
+
+  function onMeta() { duration = video.duration || 0; }
+  video.addEventListener('loadedmetadata', onMeta);
+  if (video.readyState >= 1) onMeta();
+
+  function scrub() {
+    rafId = null;
+    const sectionTop   = section.getBoundingClientRect().top + window.scrollY;
+    const scrollTravel = section.offsetHeight - window.innerHeight;
+    const progress     = Math.min(Math.max((window.scrollY - sectionTop) / scrollTravel, 0), 1);
+
+    if (duration > 0) {
+      const t = progress * duration;
+      if (Math.abs(video.currentTime - t) > 0.016) video.currentTime = t;
+    }
+
+    if (fill) fill.style.width = (progress * 100) + '%';
+
+    let activeChapter = 0;
+    chapters.forEach((ch, i) => { if (progress >= ch.from) activeChapter = i; });
+
+    if (activeChapter !== lastChapter) {
+      lastChapter = activeChapter;
+      const ch = chapters[activeChapter];
+      if (headline) {
+        headline.style.opacity = '0'; headline.style.transform = 'translateY(16px)';
+        setTimeout(() => {
+          headline.innerHTML = ch.head;
+          headline.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+          headline.style.opacity = '1'; headline.style.transform = 'translateY(0)';
+        }, 300);
       }
-    }
-    Array.from(heading.childNodes).forEach(processNode);
-  }
-
-  function assignWordDelays(heading) {
-    const words = heading.querySelectorAll('.word');
-    words.forEach((w, i) => {
-      w.style.transitionDelay = (i * 0.055) + 's';
-    });
-  }
-
-  const wordHeadings = document.querySelectorAll('.word-reveal-heading');
-
-  // Don't wrap the hero headline — it uses cascade-in as a whole block
-  // Only wrap section headings
-  wordHeadings.forEach(h => {
-    if (!h.classList.contains('hero-headline')) {
-      wrapWords(h);
-      assignWordDelays(h);
-    }
-  });
-
-  const wordHeadingObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('words-visible');
-        wordHeadingObserver.unobserve(entry.target);
+      if (sub) {
+        sub.style.opacity = '0'; sub.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          sub.textContent = ch.sub;
+          sub.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          sub.style.opacity = '1'; sub.style.transform = 'translateY(0)';
+        }, 420);
       }
-    });
-  }, { threshold: 0.25 });
-
-  wordHeadings.forEach(h => {
-    if (!h.classList.contains('hero-headline')) {
-      wordHeadingObserver.observe(h);
+      if (chLabel) {
+        chLabel.style.opacity = '0';
+        setTimeout(() => { chLabel.textContent = ch.label; chLabel.style.opacity = '1'; }, 200);
+      }
+      chDots.forEach((d, i) => d.classList.toggle('active', i === activeChapter));
     }
-  });
 
-  // ─── 6. Staggered Entrance Cascade (Scroll-triggered) ───────────
-  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    if (hint && progress > 0.015) hint.classList.add('hidden');
+  }
+
+  window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(scrub); }, { passive: true });
+  scrub();
+})();
+
+/* ════ STACKED CARDS — ACTIVE STATE ════ */
+(function () {
+  const cards = Array.from(document.querySelectorAll('.feat-card'));
+  if (!cards.length) return;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        const line = entry.target.querySelector?.('.heading-line');
-        if (line) line.classList.add('visible');
+        // Mark the intersecting card as active; dim previous ones
+        const idx = cards.indexOf(entry.target);
+        cards.forEach((c, i) => {
+          if (i < idx) {
+            // Card is buried — scale it down slightly
+            c.classList.remove('is-active');
+            c.style.transform = 'scale(0.97)';
+            c.style.opacity   = '0.75';
+            c.style.filter    = 'blur(0.5px)';
+          } else if (i === idx) {
+            c.classList.add('is-active');
+            c.style.transform = '';
+            c.style.opacity   = '1';
+            c.style.filter    = '';
+          } else {
+            c.classList.remove('is-active');
+          }
+        });
       }
     });
-  }, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.55, rootMargin: '-80px 0px -80px 0px' });
 
-  revealEls.forEach(el => observer.observe(el));
-
-  // Extra stagger for feature cards (already have transition-delay in HTML)
-  const featCards = document.querySelectorAll('.feat-card.reveal');
-  featCards.forEach((card, i) => {
-    card.style.transitionDelay = (0.05 + i * 0.07) + 's';
+  cards.forEach(c => {
+    c.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, filter 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease';
+    observer.observe(c);
   });
 
-  // Heading lines
-  const headingLines = document.querySelectorAll('.heading-line');
-  const lineObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.5 });
-  headingLines.forEach(l => lineObserver.observe(l));
+  // Activate first card on load
+  cards[0].classList.add('is-active');
+})();
 
-  // Connector lines
-  const connectors = document.querySelectorAll('.connector-line');
-  const connectorObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.5 });
-  connectors.forEach(c => connectorObserver.observe(c));
-
-  // ─── 7. Counter Animation ────────────────────────────────────────
-  function animateCounter(el) {
-    const special = el.dataset.special;
-    if (special === 'real-time') { el.textContent = 'Live'; return; }
-    const target = parseInt(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    const duration = 1800;
-    const start = performance.now();
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      const current = Math.floor(eased * target);
-      el.textContent = current + suffix;
-      if (progress < 1) requestAnimationFrame(update);
+/* ════ REVEAL ON SCROLL ════ */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll('.heading-line').forEach(l => l.classList.add('visible'));
     }
-    requestAnimationFrame(update);
-  }
+  });
+}, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
 
-  const statNums = document.querySelectorAll('[data-target]');
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        animateCounter(e.target);
-        statsObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.5 });
-  statNums.forEach(el => statsObserver.observe(el));
+/* ════ HEADING LINES ════ */
+const lineObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.5 });
+document.querySelectorAll('.heading-line').forEach(l => lineObserver.observe(l));
 
-  // ─── 8. Parallax Orbs on Scroll ──────────────────────────────────
-  const orbs = document.querySelectorAll('.orb');
-  let orbTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!orbTicking) {
-      requestAnimationFrame(() => {
-        const sy = window.scrollY;
-        if (orbs[0]) orbs[0].style.transform = `translateY(${sy * 0.10}px)`;
-        if (orbs[1]) orbs[1].style.transform = `translateY(${-sy * 0.07}px)`;
-        if (orbs[2]) orbs[2].style.transform = `translateY(${sy * 0.05}px)`;
-        if (orbs[3]) orbs[3].style.transform = `translateY(${-sy * 0.09}px)`;
-        orbTicking = false;
+/* ════ CONNECTOR LINES ════ */
+const connectorObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.5 });
+document.querySelectorAll('.connector-line').forEach(c => connectorObserver.observe(c));
+
+/* ════ WORD-BY-WORD HEADING REVEALS ════ */
+function wrapWords(heading) {
+  function processNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const frag = document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach(part => {
+        if (/\S/.test(part)) {
+          const span = document.createElement('span');
+          span.className = 'word'; span.textContent = part;
+          frag.appendChild(span);
+        } else if (part) {
+          frag.appendChild(document.createTextNode(part));
+        }
       });
-      orbTicking = true;
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR') {
+      Array.from(node.childNodes).forEach(processNode);
+    }
+  }
+  Array.from(heading.childNodes).forEach(processNode);
+  heading.querySelectorAll('.word').forEach((w, i) => { w.style.transitionDelay = (i * 0.055) + 's'; });
+}
+
+const wordObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('words-visible'); wordObserver.unobserve(e.target); } });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.word-reveal-heading').forEach(h => {
+  wrapWords(h); wordObserver.observe(h);
+});
+
+/* ════ COUNTER ANIMATION ════ */
+function animateCounter(el) {
+  if (el.dataset.special === 'real-time') { el.textContent = 'Live'; return; }
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const start  = performance.now();
+  (function update(now) {
+    const p = Math.min((now - start) / 1800, 1);
+    const e = 1 - Math.pow(1 - p, 4);
+    el.textContent = Math.floor(e * target) + suffix;
+    if (p < 1) requestAnimationFrame(update);
+  })(start);
+}
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); statsObserver.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => statsObserver.observe(el));
+
+/* ════ PARALLAX ORBS ════ */
+const orbs = document.querySelectorAll('.orb');
+let orbTick = false;
+window.addEventListener('scroll', () => {
+  if (!orbTick) {
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      if (orbs[0]) orbs[0].style.transform = `translateY(${sy * 0.10}px)`;
+      if (orbs[1]) orbs[1].style.transform = `translateY(${-sy * 0.07}px)`;
+      if (orbs[2]) orbs[2].style.transform = `translateY(${sy * 0.05}px)`;
+      if (orbs[3]) orbs[3].style.transform = `translateY(${-sy * 0.09}px)`;
+      orbTick = false;
+    });
+    orbTick = true;
+  }
+}, { passive: true });
+
+/* ════ DEMO VIDEO PLAY BUTTON ════ */
+const demoVideo   = document.getElementById('demoVideo');
+const playBtn     = document.getElementById('playDemoBtn');
+const placeholder = document.getElementById('videoPlaceholder');
+if (playBtn && demoVideo) {
+  playBtn.addEventListener('click', () => {
+    if (demoVideo.src && demoVideo.src !== window.location.href) {
+      demoVideo.play();
+      if (placeholder) { placeholder.style.opacity = '0'; placeholder.style.pointerEvents = 'none'; }
     }
   });
-
-  // ─── 9. Nav scroll state ─────────────────────────────────────────
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      navbar.style.background = 'rgba(245,242,236,0.96)';
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.style.background = 'rgba(245,242,236,0.88)';
-      navbar.classList.remove('scrolled');
-    }
-  }, { passive: true });
-
-  // ─── 10. All scroll handlers merged into one rAF ──────────────────
-  // (Individual handlers above use passive + own rAF flags — fine)
-
-  // (hero video removed) play/pause toggle code removed
-
+}
 </script>
 </body>
 </html>
