@@ -23,10 +23,10 @@ public class APIServer {
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/api/health", APIServer::health);
         server.createContext("/api/suppliers", ex -> handleGet(ex, "SELECT supplier_id, supplier_name, contact_name, phone, email, address FROM suppliers ORDER BY supplier_id"));
-        server.createContext("/api/ingredients", ex -> handleGet(ex, "SELECT ingredient_id, item_name, category, unit, quantity, reorder_level, unit_price, supplier_name, expiry_date FROM ingredient_details ORDER BY ingredient_id"));
+        server.createContext("/api/ingredients", ex -> handleGet(ex, "SELECT ingredient_id, item_name, category, unit, quantity, unit_price, supplier_name, expiry_date FROM ingredient_details ORDER BY ingredient_id"));
         server.createContext("/api/purchase_orders", ex -> handleGet(ex, "SELECT order_id, item_name, supplier_name, order_date, quantity_ordered, unit_price, total_cost, status FROM order_summary ORDER BY order_id"));
         server.createContext("/api/usage_log", ex -> handleGet(ex, "SELECT log_id, item_name, unit, used_quantity, used_date, purpose, recorded_by FROM usage_details ORDER BY log_id DESC"));
-        server.createContext("/api/low_stock_alert", ex -> handleGet(ex, "SELECT item_name, category, unit, quantity, reorder_level FROM low_stock_alert ORDER BY item_name"));
+        server.createContext("/api/low_stock_alert", ex -> handleGet(ex, "SELECT item_name, category, unit, quantity FROM low_stock_alert ORDER BY item_name"));
         server.createContext("/api/ingredient", APIServer::addIngredient);
         server.createContext("/api/supplier", APIServer::addSupplier);
         server.createContext("/api/order", APIServer::addOrder);
@@ -59,16 +59,15 @@ public class APIServer {
         if (handleOptions(ex)) return;
         try {
             Map<String, String> body = parseJson(readBody(ex));
-            String sql = "INSERT INTO ingredients (item_name, category, unit, quantity, reorder_level, unit_price, supplier_id, expiry_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO ingredients (item_name, category, unit, quantity, unit_price, supplier_id, expiry_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
                 ps.setString(1, body.get("item_name"));
                 ps.setString(2, body.getOrDefault("category", ""));
                 ps.setString(3, body.get("unit"));
                 ps.setDouble(4, parseDouble(body.get("quantity")));
-                ps.setDouble(5, parseDouble(body.getOrDefault("reorder_level", "5")));
-                ps.setDouble(6, parseDouble(body.getOrDefault("unit_price", "0")));
-                setNullableInt(ps, 7, body.get("supplier_id"));
-                setNullableDate(ps, 8, body.get("expiry_date"));
+                ps.setDouble(5, parseDouble(body.getOrDefault("unit_price", "0")));
+                setNullableInt(ps, 6, body.get("supplier_id"));
+                setNullableDate(ps, 7, body.get("expiry_date"));
                 ps.executeUpdate();
             }
             sendJson(ex, 200, "{\"ok\":true,\"message\":\"Ingredient saved in MySQL\"}");

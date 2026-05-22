@@ -30,7 +30,7 @@ nav{
   padding:0 48px;background:rgba(245,242,236,.86);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);z-index:12
 }
 .brand{font-family:var(--serif);font-weight:800;font-size:1.25rem;letter-spacing:.02em}.brand span{color:var(--amber)}
-.links{display:flex;gap:30px;list-style:none}.links a{color:var(--muted);font-size:.86rem;text-decoration:none}.links a:hover{color:var(--ink)}
+.links{display:flex;gap:30px;list-style:none}.links a{color:var(--muted);font-size:.86rem;text-decoration:none;padding:8px 0;border-bottom:2px solid transparent}.links a:hover,.links a.active{color:var(--ink);border-bottom-color:var(--amber)}
 button{font:inherit}
 .nav-cta,.btn-primary{
   border:0;border-radius:10px;background:var(--amber);color:white;padding:12px 22px;font-weight:700;cursor:pointer;
@@ -85,7 +85,10 @@ label{display:block;color:var(--muted);font-size:.72rem;font-weight:800;letter-s
 input,select,textarea{
   width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:8px;background:#f7f3eb;color:var(--ink);font:inherit;outline:none
 }
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:42px;cursor:pointer}
 textarea{min-height:92px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(192,112,40,.12);background:white}
+.api-config{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:18px}.api-config input{background:white}.api-config button,.loading-btn{border:0;border-radius:8px;background:var(--ink);color:white;padding:0 16px;font-weight:800;cursor:pointer}
+.loading-btn[disabled],.submit-row button[disabled]{opacity:.68;cursor:wait}
 .submit-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:.82rem}
 .submit-row button{border:0;border-radius:10px;background:var(--amber);color:white;padding:13px 24px;font-weight:800;cursor:pointer}.submit-row button.green{background:var(--green)}
 .dbms-board{margin-top:28px;border-top:1px solid var(--line);padding-top:26px}
@@ -93,8 +96,11 @@ textarea{min-height:92px;resize:vertical}input:focus,select:focus,textarea:focus
 .dbms-toolbar h3{font-family:var(--serif);font-size:1.45rem}.dbms-actions{display:flex;gap:10px;flex-wrap:wrap}
 .small-btn{border:1px solid var(--line);border-radius:8px;background:#f7f3eb;color:var(--ink);padding:10px 13px;font-weight:800;cursor:pointer}
 .small-btn.active{background:var(--ink);color:white}.small-btn.danger{color:#b83232}
+.dbms-search{display:flex;gap:10px;align-items:center;margin-bottom:12px}.dbms-search input{background:white}
 .dbms-shell{background:#16130f;color:#f6ead6;border-radius:8px;overflow:auto;border:1px solid rgba(28,24,20,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
-.dbms-shell pre{font:12px/1.55 "Consolas","Courier New",monospace;min-width:820px;padding:18px;white-space:pre}
+.sql-line{font:12px/1.55 "Consolas","Courier New",monospace;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08);color:#d8c8a8}
+.db-table{width:100%;min-width:820px;border-collapse:collapse;font:12px/1.45 "Consolas","Courier New",monospace}.db-table th,.db-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.09);text-align:left;white-space:nowrap}.db-table th{color:#ffd28c;background:rgba(255,255,255,.05);position:sticky;top:0}.db-table tr.highlight{animation:rowFlash 2.4s ease;background:rgba(45,143,104,.24)}.db-table tr.low-stock{background:rgba(190,43,43,.22);color:#ffd6cf}.db-empty{padding:18px;font:12px/1.55 "Consolas","Courier New",monospace}
+@keyframes rowFlash{0%{background:rgba(232,151,58,.58)}100%{background:rgba(45,143,104,.24)}}
 .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 4px}
 .summary-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#f7f3eb}.summary-card b{display:block;font-family:var(--serif);font-size:1.6rem;color:var(--amber)}.summary-card span{color:var(--muted);font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
 .testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px}
@@ -104,6 +110,7 @@ textarea{min-height:92px;resize:vertical}input:focus,select:focus,textarea:focus
 footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:var(--muted)}.footer{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer b{font-family:var(--serif);color:var(--ink);font-size:1.18rem}.footer b span{color:var(--amber)}
 .toast-wrap{position:fixed;right:24px;bottom:24px;display:grid;gap:10px;z-index:30}.toast{background:white;border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:8px;box-shadow:0 18px 50px rgba(28,24,20,.16);padding:14px 16px;max-width:350px}.toast.success{border-left-color:var(--green)}.toast.error{border-left-color:#b83232}.toast b{display:block;margin-bottom:4px}.toast span{color:var(--muted);font-size:.82rem;line-height:1.45}
 .reveal{opacity:0;transform:translateY(24px);transition:.7s opacity,.7s transform}.reveal.visible{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 @media(max-width:900px){nav{padding:0 22px}.links{display:none}.features,.steps,.testimonials{grid-template-columns:1fr}.stats,.summary-grid{grid-template-columns:1fr 1fr}.stat:nth-child(odd){border-left:0}.form{grid-template-columns:1fr}.full{grid-column:auto}}
 @media(max-width:560px){.container{width:min(100% - 28px,1160px)}.hero{padding-top:116px}.stats{grid-template-columns:1fr}.stat+.stat{border-left:0;border-top:1px solid var(--line)}.panel-body{padding:24px}.footer{align-items:flex-start;flex-direction:column}.nav-cta{display:none}}
 </style>
@@ -113,12 +120,11 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
 <nav>
   <div class="brand">Mise en <span>Place</span></div>
   <ul class="links">
-    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#features">Features</a></li>
-    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#how">How It Works</a></li>
-    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#demo">Demo</a></li>
-    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#reviews">Reviews</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#reviews">Reviews</a></li>
   </ul>
-  <button class="nav-cta">Start Free Trial</button>
 </nav>
 
 <main>
@@ -127,10 +133,6 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
       <div class="badge">Now in public beta</div>
       <h1>Master Your <em>Kitchen.</em><br>Control Every Ingredient.</h1>
       <p>Real-time stock tracking, intelligent supplier management, purchase orders, usage logging, and low-stock alerts designed for a professional kitchen pace.</p>
-      <div class="hero-actions">
-        <button class="btn-primary">Get Started Free</button>
-        <button class="btn-ghost">Watch Demo</button>
-      </div>
       <div class="scroll-note">Scroll to explore</div>
     </div>
   </section>
@@ -140,16 +142,14 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
       <div class="eyebrow">What We Offer</div>
       <h2 class="section-title">Everything your kitchen <em>needs to thrive</em></h2>
       <p class="section-sub">A complete system for the demanding rhythm of professional kitchens, from a single bistro to multi-location restaurant groups.</p>
-    </div>
-    <div class="container features">
-      <article class="feature reveal visible"><div class="num">01</div><div class="icon">ÃƒÂ°Ã…Â¸Ã‚Â¥Ã‚Â¬</div><h3>Ingredient Tracking</h3><p>Track quantity, unit, location, expiry date, and unit cost with clear real-time stock visibility.</p></article>
-      <article class="feature reveal visible"><div class="num">02</div><div class="icon">ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â</div><h3>Supplier Management</h3><p>Keep contacts, pricing tiers, lead times, and reliability notes in one place.</p></article>
-      <article class="feature reveal visible"><div class="num">03</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹</div><h3>Purchase Orders</h3><p>Generate and log purchase orders, delivery status, quantities, pricing, and notes.</p></article>
-      <article class="feature reveal visible"><div class="num">04</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â </div><h3>Usage Logging</h3><p>Record consumption by service, station, or dish so waste patterns become visible.</p></article>
-      <article class="feature reveal visible"><div class="num">05</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â</div><h3>Low Stock Alerts</h3><p>Set par levels and get alerts before a critical ingredient disappears mid-service.</p></article>
-      <article class="feature reveal visible"><div class="num">06</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‹â€ </div><h3>Analytics Dashboard</h3><p>Understand food cost trends, supplier performance, and weekly margin movement.</p></article>
-    </div>
-  </section>
+    </div>    <div class="container features">
+      <article class="feature reveal visible"><div class="num">01</div><div class="icon">Items</div><h3>Ingredient Tracking</h3><p>Track quantity, unit, location, expiry date, and unit cost with clear real-time stock visibility.</p></article>
+      <article class="feature reveal visible"><div class="num">02</div><div class="icon">Vendors</div><h3>Supplier Management</h3><p>Keep contacts, pricing tiers, lead times, and reliability notes in one place.</p></article>
+      <article class="feature reveal visible"><div class="num">03</div><div class="icon">Orders</div><h3>Purchase Orders</h3><p>Generate and log purchase orders, delivery status, quantities, pricing, and notes.</p></article>
+      <article class="feature reveal visible"><div class="num">04</div><div class="icon">Usage</div><h3>Usage Logging</h3><p>Record consumption by service, station, or dish so waste patterns become visible.</p></article>
+      <article class="feature reveal visible"><div class="num">05</div><div class="icon">Alerts</div><h3>Low Stock Alerts</h3><p>Set stock thresholds and get alerts before a critical ingredient disappears mid-service.</p></article>
+      <article class="feature reveal visible"><div class="num">06</div><div class="icon">Reports</div><h3>Analytics Dashboard</h3><p>Understand food cost trends, supplier performance, and weekly margin movement.</p></article>
+    </div>  </section>
 
   <section>
     <div class="container stats reveal visible">
@@ -187,15 +187,18 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
         <button class="tab" data-pane="alerts">Low Stock</button>
       </div>
       <div class="panel-body">
+        <div class="api-config">
+          <input id="api-url" placeholder="API URL for local or deployed backend">
+          <button id="btn-api" type="button">Save API</button>
+        </div>
         <div class="status online" id="apiStatus">MySQL API required - start APIServer.java, then use these operations.</div>
         <div class="pane active" id="ingredient">
           <div class="form">
-            <div><label>Item Name *</label><input id="ing-name" placeholder="Cherry Tomatoes"></div>
-            <div><label>Category</label><input id="ing-cat" placeholder="Vegetables"></div>
+            <div><label>Item Name *</label><select id="ing-name" data-custom="Enter item name"><option value="">Select item...</option><option>Tomatoes</option><option>Onions</option><option>Potatoes</option><option>Rice</option><option>Milk</option><option>Butter</option><option>Cheese</option><option>Turmeric</option><option>Red Chilli</option><option>Cooking Oil</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div><label>Category</label><select id="ing-cat" data-custom="Enter category"><option value="">Select category...</option><option>Vegetable</option><option>Dairy</option><option>Spice</option><option>Grain</option><option>Oil</option><option>Fruit</option><option>Bakery</option><option>Meat</option><option>Beverage</option><option value="__custom__">Other / Custom...</option></select></div>
             <div><label>Unit *</label><select id="ing-unit"><option value="">Select unit...</option><option>kg</option><option>grams</option><option>litre</option><option>ml</option><option>pcs</option><option>box</option></select></div>
-            <div><label>Quantity *</label><input id="ing-qty" type="number" min="0" step="0.01" placeholder="25"></div>
-            <div><label>Reorder Level</label><input id="ing-reorder" type="number" min="0" step="0.01" placeholder="5"></div>
-            <div><label>Unit Price (INR)</label><input id="ing-price" type="number" min="0" step="0.01" placeholder="120"></div>
+            <div><label>Quantity *</label><select id="ing-qty" data-custom="Enter quantity"><option value="">Select quantity...</option><option>1</option><option>2</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>50</option><option>100</option><option>500</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div><label>Unit Price (INR)</label><select id="ing-price" data-custom="Enter unit price"><option value="">Select price...</option><option>5</option><option>10</option><option>20</option><option>25</option><option>50</option><option>55</option><option>100</option><option>150</option><option>480</option><option value="__custom__">Other / Custom...</option></select></div>
             <div><label>Supplier</label><select id="ing-supplier"><option value="">None</option></select></div>
             <div><label>Expiry Date</label><input id="ing-expiry" type="date"></div>
           </div>
@@ -203,11 +206,11 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
         </div>
         <div class="pane" id="supplier">
           <div class="form">
-            <div class="full"><label>Supplier Name *</label><input id="sup-name" placeholder="Fresh Farms Co."></div>
-            <div><label>Contact Person</label><input id="sup-contact" placeholder="Rajesh Kumar"></div>
-            <div><label>Phone</label><input id="sup-phone" placeholder="9876543210"></div>
-            <div><label>Email</label><input id="sup-email" type="email" placeholder="orders@example.com"></div>
-            <div class="full"><label>Address</label><input id="sup-addr" placeholder="APMC Market, Bengaluru"></div>
+            <div class="full"><label>Supplier Name *</label><select id="sup-name" data-custom="Enter supplier name"><option value="">Select supplier name...</option><option>FreshFarm Supplies</option><option>SpiceWorld Co.</option><option>DairyBest Ltd.</option><option>Local Market</option><option>Organic Basket</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div><label>Contact Person</label><select id="sup-contact" data-custom="Enter contact person"><option value="">Select contact...</option><option>Ravi Kumar</option><option>Meena Rao</option><option>Arjun Sharma</option><option>Rajesh Kumar</option><option>Priya Nair</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div><label>Phone</label><select id="sup-phone" data-custom="Enter phone number"><option value="">Select phone...</option><option>9876543210</option><option>9845612378</option><option>9900112233</option><option>9988776655</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div><label>Email</label><select id="sup-email" data-custom="Enter email"><option value="">Select email...</option><option>ravi@freshfarm.com</option><option>meena@spiceworld.com</option><option>arjun@dairybest.com</option><option>orders@example.com</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="full"><label>Address</label><select id="sup-addr" data-custom="Enter address"><option value="">Select address...</option><option>Bengaluru, KA</option><option>Mysuru, KA</option><option>Mangaluru, KA</option><option>APMC Market, Bengaluru</option><option value="__custom__">Other / Custom...</option></select></div>
           </div>
           <div class="submit-row"><span>Only supplier name is required.</span><button id="btn-sup">Add Supplier</button></div>
         </div>
@@ -216,8 +219,8 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
             <div><label>Ingredient *</label><select id="ord-ing"><option value="">Select ingredient...</option></select></div>
             <div><label>Supplier *</label><select id="ord-sup"><option value="">Select supplier...</option></select></div>
             <div><label>Order Date *</label><input id="ord-date" type="date"></div>
-            <div><label>Quantity *</label><input id="ord-qty" type="number" min="0.01" step="0.01"></div>
-            <div><label>Unit Price *</label><input id="ord-price" type="number" min="0" step="0.01"></div>
+            <div><label>Quantity *</label><select id="ord-qty" data-custom="Enter order quantity"><option value="">Select quantity...</option><option>1</option><option>2</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>50</option><option>100</option><option>500</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div><label>Unit Price *</label><select id="ord-price" data-custom="Enter unit price"><option value="">Select price...</option><option>5</option><option>10</option><option>20</option><option>25</option><option>50</option><option>55</option><option>100</option><option>150</option><option>480</option><option value="__custom__">Other / Custom...</option></select></div>
             <div><label>Status</label><select id="ord-status"><option>Pending</option><option>Received</option><option>Cancelled</option></select></div>
             <div class="full"><label>Notes</label><textarea id="ord-notes"></textarea></div>
           </div>
@@ -226,16 +229,16 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
         <div class="pane" id="usage">
           <div class="form">
             <div><label>Ingredient *</label><select id="use-ing"><option value="">Select ingredient...</option></select></div>
-            <div><label>Used Quantity *</label><input id="use-qty" type="number" min="0.01" step="0.01"></div>
+            <div><label>Used Quantity *</label><select id="use-qty" data-custom="Enter used quantity"><option value="">Select quantity...</option><option>0.5</option><option>1</option><option>2</option><option>5</option><option>10</option><option>25</option><option>50</option><option value="__custom__">Other / Custom...</option></select></div>
             <div><label>Date Used *</label><input id="use-date" type="date"></div>
-            <div><label>Purpose</label><input id="use-purpose" placeholder="Dinner service"></div>
-            <div class="full"><label>Recorded By</label><input id="use-by" placeholder="Chef Prabhas"></div>
+            <div><label>Purpose</label><select id="use-purpose" data-custom="Enter purpose"><option value="">Select purpose...</option><option>Breakfast prep</option><option>Lunch service</option><option>Dinner service</option><option>Curry preparation</option><option>Bakery section</option><option>Staff meal</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="full"><label>Recorded By</label><select id="use-by" data-custom="Enter recorded by"><option value="">Select person...</option><option>Chef Anand</option><option>Chef Priya</option><option>Chef Ritu</option><option>Chef Prabhas</option><option>Kitchen Manager</option><option value="__custom__">Other / Custom...</option></select></div>
           </div>
           <div class="submit-row"><span>Usage is deducted immediately from current stock.</span><button class="green" id="btn-use">Log Usage</button></div>
         </div>
-        <div class="pane" id="alerts"><div class="status offline">Low stock alert shows items where quantity is less than or equal to reorder level.</div></div>
+        <div class="pane" id="alerts"><div class="status offline">Low stock alert shows items whose current quantity has reached the internal restock threshold.</div></div>
         <div class="summary-grid"><div class="summary-card"><b id="sum-ingredients">0</b><span>Ingredients</span></div><div class="summary-card"><b id="sum-suppliers">0</b><span>Suppliers</span></div><div class="summary-card"><b id="sum-orders">0</b><span>Orders</span></div><div class="summary-card"><b id="sum-alerts">0</b><span>Low Stock</span></div></div>
-        <div class="dbms-board"><div class="dbms-toolbar"><h3>DBMS Table View</h3><div class="dbms-actions"><button class="small-btn active" data-table="ingredients">ingredients</button><button class="small-btn" data-table="suppliers">suppliers</button><button class="small-btn" data-table="purchase_orders">purchase_orders</button><button class="small-btn" data-table="usage_log">usage_log</button><button class="small-btn" data-table="low_stock_alert">low_stock_alert</button><button class="small-btn danger" id="btn-reset">Refresh MySQL</button></div></div><div class="dbms-shell"><pre id="db-table"></pre></div></div>
+        <div class="dbms-board"><div class="dbms-toolbar"><h3>DBMS Table View</h3><div class="dbms-actions"><button class="small-btn active" data-table="ingredients">ingredients</button><button class="small-btn" data-table="suppliers">suppliers</button><button class="small-btn" data-table="purchase_orders">purchase_orders</button><button class="small-btn" data-table="usage_log">usage_log</button><button class="small-btn" data-table="low_stock_alert">low_stock_alert</button><button class="small-btn danger" id="btn-reset">Refresh MySQL</button></div></div><div class="dbms-search"><input id="table-search" placeholder="Search current DBMS table..."></div><div class="dbms-shell"><div class="sql-line" id="sql-line"></div><div id="db-table"></div></div></div>
       </div>
     </div>
   </section>
@@ -243,62 +246,65 @@ footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:
     <div class="container center reveal">
       <div class="eyebrow">Trusted by Chefs</div>
       <h2 class="section-title">Words from the <em>professional kitchen</em></h2>
-    </div>
-    <div class="container testimonials">
-      <article class="quote reveal"><div class="stars">ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦</div><p>"We reduced food waste in the first month and finally had a single source of truth for prep."</p><div class="person">Marcus MÃƒÆ’Ã‚Â¼ller</div><div class="role">Executive Chef, Atelier Berlin</div></article>
-      <article class="quote reveal"><div class="stars">ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦</div><p>"Managing multiple locations stopped feeling chaotic. Supplier pricing and lead times are always visible."</p><div class="person">Sophie Laurent</div><div class="role">Restaurant Director, Brasserie Lumiere Group</div></article>
-      <article class="quote reveal"><div class="stars">ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦</div><p>"The low-stock alerts saved Saturday service more than once. The team adopted it without training."</p><div class="person">Ravi Kapoor</div><div class="role">Head Chef, The Ember Room</div></article>
-    </div>
-  </section>
-
-  <section class="cta">
-    <div class="container cta-box reveal">
-      <div class="eyebrow">Start Today - Free for 14 Days</div>
-      <h2 class="section-title">Run your kitchen with <em>total control</em></h2>
-      <p>Join professional kitchens using Mise en Place to reduce waste, master suppliers, and protect margins.</p>
-      <button class="btn-primary">Get Started Free</button>
-    </div>
-  </section>
+    </div>    <div class="container testimonials">
+      <article class="quote reveal"><div class="stars">5/5</div><p>"We reduced food waste in the first month and finally had a single source of truth for prep."</p><div class="person">Marcus Muller</div><div class="role">Executive Chef, Atelier Berlin</div></article>
+      <article class="quote reveal"><div class="stars">5/5</div><p>"Managing multiple locations stopped feeling chaotic. Supplier pricing and lead times are always visible."</p><div class="person">Sophie Laurent</div><div class="role">Restaurant Director, Brasserie Lumiere Group</div></article>
+      <article class="quote reveal"><div class="stars">5/5</div><p>"The low-stock alerts saved Saturday service more than once. The team adopted it without training."</p><div class="person">Ravi Kapoor</div><div class="role">Head Chef, The Ember Room</div></article>
+    </div>  </section>
 </main>
 
 <footer>
   <div class="container footer">
     <b>Mise en <span>Place</span></b>
-    <span>Ãƒâ€šÃ‚Â© 2026 Mise en Place. Every detail matters in the kitchen.</span>
+    <span>(c) 2026 Mise en Place. Every detail matters in the kitchen.</span>
   </div>
 </footer>
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-const API="http://localhost:8080";
+const DEFAULT_API="http://localhost:8080";
+let API=localStorage.getItem("kitchenInventoryApiUrl") || DEFAULT_API;
 const $=id=>document.getElementById(id);
 const today=new Date().toISOString().slice(0,10);
 let activeTable="ingredients";
+let tableFilter="";
+let highlight={table:"",key:"",value:""};
 let cache={suppliers:[],ingredients:[],purchase_orders:[],usage_log:[],low_stock_alert:[]};
 const endpoints={ingredients:"/api/ingredients",suppliers:"/api/suppliers",purchase_orders:"/api/purchase_orders",usage_log:"/api/usage_log",low_stock_alert:"/api/low_stock_alert"};
 
 function num(value){return Number.parseFloat(value)||0}
 function pad(value,width){
   value=value===null||value===undefined||value===""?"NULL":String(value);
-  return value.length>width?value.slice(0,width-1)+"…":value.padEnd(width," ");
+  return value.length>width?value.slice(0,width-3)+"...":value.padEnd(width," ");
 }
 function columnsFor(table){
   return {
-    ingredients:["ingredient_id","item_name","category","unit","quantity","reorder_level","unit_price","supplier_name","expiry_date"],
+    ingredients:["ingredient_id","item_name","category","unit","quantity","unit_price","supplier_name","expiry_date"],
     suppliers:["supplier_id","supplier_name","contact_name","phone","email","address"],
     purchase_orders:["order_id","item_name","supplier_name","order_date","quantity_ordered","unit_price","total_cost","status"],
     usage_log:["log_id","item_name","unit","used_quantity","used_date","purpose","recorded_by"],
-    low_stock_alert:["item_name","category","unit","quantity","reorder_level"]
+    low_stock_alert:["item_name","category","unit","quantity"]
   }[table];
+}
+function escapeHtml(value){
+  return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
 }
 function renderDbTable(table=activeTable){
   activeTable=table;
-  const rows=cache[table]||[],cols=columnsFor(table);
-  const widths=cols.map(c=>Math.max(c.length,...rows.map(r=>String(r[c]??"NULL").length),4));
-  const line="+"+widths.map(w=>"-".repeat(w+2)).join("+")+"+";
-  const header="| "+cols.map((c,i)=>pad(c,widths[i])).join(" | ")+" |";
-  const body=rows.length?rows.map(r=>"| "+cols.map((c,i)=>pad(r[c],widths[i])).join(" | ")+" |").join("\n"):"| "+pad("No rows found",Math.max(header.length-4,13))+" |";
-  $("db-table").textContent=`mysql> SELECT * FROM ${table};\n${line}\n${header}\n${line}\n${body}\n${line}\n${rows.length} row(s) in set`;
+  const cols=columnsFor(table);
+  const rawRows=cache[table]||[];
+  const query=tableFilter.trim().toLowerCase();
+  const rows=query?rawRows.filter(row=>cols.some(col=>String(row[col]??"").toLowerCase().includes(query))):rawRows;
+  $("sql-line").textContent=`mysql> SELECT * FROM ${table}${query ? " WHERE any_column LIKE '%"+query+"%'" : ""};  ${rows.length} row(s)`;
+  if(!rows.length){
+    $("db-table").innerHTML='<div class="db-empty">No rows found</div>';
+  }else{
+    $("db-table").innerHTML=`<table class="db-table"><thead><tr>${cols.map(col=>`<th>${escapeHtml(col)}</th>`).join("")}</tr></thead><tbody>${rows.map(row=>{
+      const isHighlight=highlight.table===table && highlight.key && String(row[highlight.key]??"")===String(highlight.value);
+      const isLow=table==="low_stock_alert";
+      return `<tr class="${isHighlight?"highlight ":""}${isLow?"low-stock":""}">${cols.map(col=>`<td>${escapeHtml(row[col]??"NULL")}</td>`).join("")}</tr>`;
+    }).join("")}</tbody></table>`;
+  }
   document.querySelectorAll("[data-table]").forEach(btn=>btn.classList.toggle("active",btn.dataset.table===table));
 }
 function fillSelect(id,rows,label,value,empty){
@@ -319,6 +325,38 @@ function refreshDropdowns(){
   fillSelect("ord-sup",cache.suppliers,s=>s.supplier_name,s=>s.supplier_id,"Select supplier...");
   fillSelect("ord-ing",cache.ingredients,i=>`${i.item_name} (${i.unit})`,i=>i.ingredient_id,"Select ingredient...");
   fillSelect("use-ing",cache.ingredients,i=>`${i.item_name} (${i.unit})`,i=>i.ingredient_id,"Select ingredient...");
+  addOptionsToSelect("ing-name", cache.ingredients.map(i=>i.item_name));
+  addOptionsToSelect("ing-cat", cache.ingredients.map(i=>i.category));
+  addOptionsToSelect("sup-name", cache.suppliers.map(s=>s.supplier_name));
+  addOptionsToSelect("sup-contact", cache.suppliers.map(s=>s.contact_name));
+  addOptionsToSelect("sup-phone", cache.suppliers.map(s=>s.phone));
+  addOptionsToSelect("sup-email", cache.suppliers.map(s=>s.email));
+  addOptionsToSelect("sup-addr", cache.suppliers.map(s=>s.address));
+  addOptionsToSelect("use-purpose", cache.usage_log.map(u=>u.purpose));
+  addOptionsToSelect("use-by", cache.usage_log.map(u=>u.recorded_by));
+}
+function addOptionsToSelect(id, values){
+  const select=$(id); if(!select)return;
+  const custom=select.querySelector('option[value="__custom__"]');
+  const existing=new Set([...select.options].map(option=>option.value));
+  values.filter(Boolean).forEach(value=>{
+    value=String(value);
+    if(existing.has(value))return;
+    const option=new Option(value,value);
+    select.insertBefore(option,custom);
+    existing.add(value);
+  });
+}
+function installCustomSelects(){
+  document.querySelectorAll("select[data-custom]").forEach(select=>{
+    select.addEventListener("change",()=>{
+      if(select.value!=="__custom__")return;
+      const value=prompt(select.dataset.custom || "Enter custom value");
+      if(!value){select.value="";return;}
+      const option=new Option(value,value,true,true);
+      select.insertBefore(option,select.querySelector('option[value="__custom__"]'));
+    });
+  });
 }
 async function apiGet(endpoint){
   const res=await fetch(API+endpoint,{cache:"no-store"});
@@ -333,25 +371,41 @@ async function loadAll(table=activeTable){
     ]);
     cache={suppliers,ingredients,purchase_orders:orders,usage_log:usage,low_stock_alert:alerts};
     status.className="status online";
-    status.textContent="MySQL connected through http://localhost:8080 - operations are saving to the real database.";
+    status.textContent=`MySQL connected through ${API} - operations are saving to the real database.`;
     refreshDropdowns(); updateSummary(); renderDbTable(table);
   }catch(err){
     status.className="status offline";
-    status.textContent="API offline - run APIServer.java first, then refresh this page.";
-    $("db-table").textContent="Cannot connect to MySQL API at http://localhost:8080.\nStart the API server and refresh.";
+    status.textContent="API offline - start your backend or update the API URL above.";
+    $("sql-line").textContent=`mysql> CONNECT ${API}`;
+    $("db-table").innerHTML='<div class="db-empty">Cannot connect to the MySQL API. Start the API server locally or paste your deployed backend URL.</div>';
   }
 }
-async function post(endpoint,payload,success,table){
+function setLoading(button,isLoading,label){
+  if(!button)return;
+  if(isLoading){
+    button.dataset.label=button.textContent;
+    button.textContent=label || "Saving...";
+    button.disabled=true;
+  }else{
+    button.textContent=button.dataset.label || button.textContent;
+    button.disabled=false;
+  }
+}
+async function post(endpoint,payload,success,table,button,highlightKey,highlightValue){
+  setLoading(button,true);
   try{
     const res=await fetch(API+endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
     const data=await res.json();
     if(!res.ok||!data.ok)throw new Error(data.message||"Save failed");
     toast(success,data.message||"Saved in MySQL.");
+    highlight={table,key:highlightKey||"",value:highlightValue||""};
     await loadAll(table);
     return true;
   }catch(err){
     toast("MySQL Save Failed",err.message||"Start APIServer.java and try again.","error");
     return false;
+  }finally{
+    setLoading(button,false);
   }
 }
 function clearFields(ids){ids.forEach(id=>{if($(id))$(id).value=""})}
@@ -388,31 +442,49 @@ document.querySelectorAll(".tab").forEach(tab=>{
   });
 });
 document.querySelectorAll("[data-table]").forEach(btn=>btn.addEventListener("click",()=>renderDbTable(btn.dataset.table)));
+$("table-search").addEventListener("input",e=>{tableFilter=e.target.value;renderDbTable(activeTable)});
+$("api-url").value=API;
+$("btn-api").addEventListener("click",()=>{
+  API=$("api-url").value.trim() || DEFAULT_API;
+  localStorage.setItem("kitchenInventoryApiUrl",API);
+  toast("API Updated","The frontend will now use "+API+".");
+  loadAll(activeTable);
+});
+const navObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    document.querySelectorAll(".links a").forEach(link=>link.classList.toggle("active",link.getAttribute("href")==="#"+entry.target.id));
+  });
+},{rootMargin:"-42% 0px -50% 0px",threshold:.01});
+["features","how","demo","reviews"].forEach(id=>{const section=$(id);if(section)navObserver.observe(section)});
 
-$("btn-ing").addEventListener("click",async()=>{
+$("btn-ing").addEventListener("click",async e=>{
   const name=$("ing-name").value.trim(),unit=$("ing-unit").value,qty=$("ing-qty").value;
   if(!name||!unit||qty==="")return toast("Missing Fields","Item Name, Unit and Quantity are required.","error");
-  const ok=await post("/api/ingredient",{item_name:name,category:$("ing-cat").value.trim(),unit,quantity:num(qty),reorder_level:num($("ing-reorder").value)||5,unit_price:num($("ing-price").value),supplier_id:Number($("ing-supplier").value)||0,expiry_date:$("ing-expiry").value||null},"Ingredient Added","ingredients");
-  if(ok)clearFields(["ing-name","ing-cat","ing-qty","ing-reorder","ing-price","ing-expiry"]);
+  const ok=await post("/api/ingredient",{item_name:name,category:$("ing-cat").value.trim(),unit,quantity:num(qty),unit_price:num($("ing-price").value),supplier_id:Number($("ing-supplier").value)||0,expiry_date:$("ing-expiry").value||null},"Ingredient Added","ingredients",e.currentTarget,"item_name",name);
+  if(ok)clearFields(["ing-name","ing-cat","ing-qty","ing-price","ing-expiry"]);
 });
-$("btn-sup").addEventListener("click",async()=>{
+$("btn-sup").addEventListener("click",async e=>{
   const name=$("sup-name").value.trim();
   if(!name)return toast("Missing Fields","Supplier Name is required.","error");
-  const ok=await post("/api/supplier",{supplier_name:name,contact_name:$("sup-contact").value.trim(),phone:$("sup-phone").value.trim(),email:$("sup-email").value.trim(),address:$("sup-addr").value.trim()},"Supplier Added","suppliers");
+  const ok=await post("/api/supplier",{supplier_name:name,contact_name:$("sup-contact").value.trim(),phone:$("sup-phone").value.trim(),email:$("sup-email").value.trim(),address:$("sup-addr").value.trim()},"Supplier Added","suppliers",e.currentTarget,"supplier_name",name);
   if(ok)clearFields(["sup-name","sup-contact","sup-phone","sup-email","sup-addr"]);
 });
-$("btn-ord").addEventListener("click",async()=>{
+$("btn-ord").addEventListener("click",async e=>{
   if(!$("ord-ing").value||!$("ord-sup").value||!$("ord-date").value||!$("ord-qty").value||!$("ord-price").value)return toast("Missing Fields","Ingredient, Supplier, Date, Quantity and Unit Price are required.","error");
-  const ok=await post("/api/order",{ingredient_id:Number($("ord-ing").value),supplier_id:Number($("ord-sup").value),order_date:$("ord-date").value,quantity_ordered:num($("ord-qty").value),unit_price:num($("ord-price").value),status:$("ord-status").value,notes:$("ord-notes").value.trim()},"Order Placed","purchase_orders");
+  const selectedText=$("ord-ing").selectedOptions[0]?.textContent.split(" (")[0] || "";
+  const ok=await post("/api/order",{ingredient_id:Number($("ord-ing").value),supplier_id:Number($("ord-sup").value),order_date:$("ord-date").value,quantity_ordered:num($("ord-qty").value),unit_price:num($("ord-price").value),status:$("ord-status").value,notes:$("ord-notes").value.trim()},"Order Placed","purchase_orders",e.currentTarget,"item_name",selectedText);
   if(ok){clearFields(["ord-qty","ord-price","ord-notes"]);$("ord-date").value=today}
 });
-$("btn-use").addEventListener("click",async()=>{
+$("btn-use").addEventListener("click",async e=>{
   if(!$("use-ing").value||!$("use-qty").value||!$("use-date").value)return toast("Missing Fields","Ingredient, Used Quantity and Date are required.","error");
-  const ok=await post("/api/usage",{ingredient_id:Number($("use-ing").value),used_quantity:num($("use-qty").value),used_date:$("use-date").value,purpose:$("use-purpose").value.trim(),recorded_by:$("use-by").value.trim()},"Usage Logged","usage_log");
+  const selectedText=$("use-ing").selectedOptions[0]?.textContent.split(" (")[0] || "";
+  const ok=await post("/api/usage",{ingredient_id:Number($("use-ing").value),used_quantity:num($("use-qty").value),used_date:$("use-date").value,purpose:$("use-purpose").value.trim(),recorded_by:$("use-by").value.trim()},"Usage Logged","usage_log",e.currentTarget,"item_name",selectedText);
   if(ok){clearFields(["use-qty","use-purpose","use-by"]);$("use-date").value=today}
 });
 $("btn-reset").addEventListener("click",()=>loadAll(activeTable));
 ["ord-date","use-date"].forEach(id=>$(id).value=today);
+installCustomSelects();
 loadAll("ingredients");
 </script>
 
