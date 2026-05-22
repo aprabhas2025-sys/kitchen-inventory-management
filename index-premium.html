@@ -1,1501 +1,420 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0099)file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mise en Place — Kitchen Inventory Management System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Mise en Place - Kitchen Inventory Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./index-premium_files/css2" rel="stylesheet">
 <style>
-/* ─── Reset & Base ─────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg:         #F5F2EC;
-  --glass:      rgba(255,255,255,0.72);
-  --glass-b:    rgba(0,0,0,0.07);
-  --amber:      #C07028;
-  --amber-dim:  rgba(192,112,40,0.12);
-  --amber-glow: rgba(192,112,40,0.22);
-  --amber-soft: rgba(192,112,40,0.08);
-  --green:      #2D8F68;
-  --green-glow: rgba(45,143,104,0.18);
-  --text:       #1C1814;
-  --muted:      #7B7260;
-  --serif:      'Playfair Display', Georgia, serif;
-  --sans:       'Inter', system-ui, sans-serif;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f2ec;--paper:#fffaf3;--ink:#1c1814;--muted:#776e5f;
+  --amber:#c07028;--amber-2:#e8973a;--green:#2d8f68;--line:rgba(28,24,20,.1);
+  --serif:"Playfair Display",Georgia,serif;--sans:"Inter",system-ui,sans-serif;
 }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  overflow-x: hidden;
-  cursor: default;
-}
-
-/* ─── Custom Scrollbar ──────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #E8E3D8; }
-::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #A05C1A; }
-
-/* ─── Noise texture ─────────────────────────────────────────────────── */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  pointer-events: none;
-  opacity: 0.25;
-}
-
-/* ─── Background Orbs ──────────────────────────────────────────────── */
-.orb-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  will-change: transform;
-  animation: orbFloat linear infinite;
-}
-.orb-1 {
-  width: 520px; height: 520px;
-  background: radial-gradient(circle, rgba(192,112,40,0.10) 0%, transparent 70%);
-  top: -120px; left: -80px;
-  animation-duration: 22s; animation-delay: 0s;
-}
-.orb-2 {
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(45,143,104,0.08) 0%, transparent 70%);
-  bottom: 10%; right: -100px;
-  animation-duration: 28s; animation-delay: -8s;
-}
-.orb-3 {
-  width: 340px; height: 340px;
-  background: radial-gradient(circle, rgba(192,112,40,0.06) 0%, transparent 70%);
-  top: 55%; left: 40%;
-  animation-duration: 35s; animation-delay: -14s;
-}
-.orb-4 {
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(45,143,104,0.06) 0%, transparent 70%);
-  top: 30%; right: 20%;
-  animation-duration: 30s; animation-delay: -5s;
-}
-@keyframes orbFloat {
-  0%   { transform: translate(0,0) scale(1); }
-  25%  { transform: translate(30px,-40px) scale(1.04); }
-  50%  { transform: translate(-20px,30px) scale(0.97); }
-  75%  { transform: translate(40px,20px) scale(1.02); }
-  100% { transform: translate(0,0) scale(1); }
-}
-
-/* ─── Layout Utilities ──────────────────────────────────────────────── */
-.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
-section { position: relative; z-index: 2; }
-
-/* ─── Scroll Animation States ───────────────────────────────────────── */
-.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.75s ease, transform 0.75s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-left  { opacity: 0; transform: translateX(-50px); transition: opacity 0.75s ease, transform 0.75s ease; }
-.reveal-right { opacity: 0; transform: translateX(50px);  transition: opacity 0.75s ease, transform 0.75s ease; }
-.reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translateX(0); }
-
-/* ─── NAV ────────────────────────────────────────────────────────────── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 48px;
-  background: rgba(245,242,236,0.88);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: background 0.4s, box-shadow 0.4s;
-}
-nav.scrolled {
-  background: rgba(245,242,236,0.96);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 24px rgba(0,0,0,0.06);
-}
-.nav-logo {
-  font-family: var(--serif);
-  font-size: 1.25rem; font-weight: 700;
-  letter-spacing: 0.03em; color: var(--text);
-}
-.nav-logo span { color: var(--amber); }
-.nav-links { display: flex; gap: 36px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.25s; letter-spacing: 0.02em; }
-.nav-links a:hover { color: var(--text); }
-.nav-cta {
-  background: var(--amber); color: #fff;
-  border: none; padding: 10px 24px;
-  border-radius: 8px; font-size: 0.875rem; font-weight: 600;
-  cursor: pointer; font-family: var(--sans);
-  transition: opacity 0.2s, box-shadow 0.2s;
-  box-shadow: 0 0 20px var(--amber-glow);
-}
-.nav-cta:hover { opacity: 0.88; box-shadow: 0 0 32px rgba(255,140,50,0.5); }
-
-/* ─── HERO — Scroll-Driven Video Scrubbing ──────────────────────────── */
-#hero { position: relative; height: 600vh; }
-
-.hero-pin {
-  position: sticky; top: 0;
-  width: 100%; height: 100vh;
-  overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.hero-scrub-video { position: absolute; inset: 0; z-index: 0; }
-.hero-scrub-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-.hero-scrim {
-  position: absolute; inset: 0; z-index: 1;
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.42;
   background:
-    linear-gradient(to right,
-      rgba(14,10,6,0.82) 0%,
-      rgba(14,10,6,0.55) 35%,
-      rgba(14,10,6,0.18) 60%,
-      transparent 100%
-    ),
-    linear-gradient(to top, rgba(14,10,6,0.55) 0%, transparent 45%);
-}
-
-.hero-content {
-  position: relative; z-index: 3;
-  width: 100%; max-width: 1200px;
-  padding: 0 10vw;
-  will-change: transform;
-}
-
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(192,112,40,0.18);
-  border: 1px solid rgba(255,160,60,0.35);
-  border-radius: 100px; padding: 6px 16px;
-  font-size: 0.75rem; font-weight: 500; color: #F5C07A;
-  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 28px;
-}
-.hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-.hero-chapter {
-  font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 20px;
-  display: flex; align-items: center; gap: 12px;
-  transition: opacity 0.4s ease;
-}
-.hero-chapter::before {
-  content: ''; display: inline-block;
-  width: 28px; height: 1px; background: var(--amber);
-}
-
-.hero-headline {
-  font-family: var(--serif);
-  font-size: clamp(2.8rem, 5.5vw, 5rem);
-  font-weight: 800; line-height: 1.06;
-  letter-spacing: -0.025em; margin-bottom: 28px; color: #fff;
-  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-.hero-headline em { font-style: italic; color: #E8973A; }
-.hero-headline .line-green { color: #4FC99A; }
-
-.hero-sub {
-  font-size: 1.05rem; color: rgba(255,255,255,0.65);
-  line-height: 1.75; max-width: 480px;
-  margin-bottom: 44px; font-weight: 300;
-  transition: opacity 0.4s ease, transform 0.5s ease;
-}
-
-.hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-
-.btn-amber {
-  background: var(--amber); color: #fff;
-  border: none; padding: 15px 34px;
-  border-radius: 10px; font-size: 0.925rem; font-weight: 600;
-  cursor: pointer; font-family: var(--sans);
-  box-shadow: 0 0 28px var(--amber-glow), 0 4px 16px rgba(0,0,0,0.3);
-  transition: all 0.25s; letter-spacing: 0.01em;
-}
-.btn-amber:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(255,140,50,0.5), 0 8px 24px rgba(0,0,0,0.4); }
-
-.btn-glass {
-  background: rgba(255,255,255,0.15);
-  color: #fff; border: 1px solid rgba(255,255,255,0.25);
-  padding: 14px 30px; border-radius: 10px;
-  font-size: 0.925rem; font-weight: 500; cursor: pointer;
-  font-family: var(--sans); backdrop-filter: blur(12px);
-  transition: all 0.25s; display: flex; align-items: center; gap: 10px;
-  letter-spacing: 0.01em;
-}
-.btn-glass:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
-.btn-glass .play {
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--amber); display: flex; align-items: center;
-  justify-content: center; font-size: 0.55rem;
-}
-
-/* Scrub progress bar */
-.hero-scrub-bar {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 3px; background: rgba(255,255,255,0.10); z-index: 10;
-}
-.hero-scrub-fill {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--amber), var(--green));
-  transition: width 0.04s linear;
-}
-
-/* Chapter dots */
-.hero-chapters {
-  position: absolute; right: 40px; top: 50%;
-  transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 12px; z-index: 10;
-}
-.hero-ch-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  transition: background 0.3s, height 0.3s, border-radius 0.3s;
-}
-.hero-ch-dot.active { background: #fff; height: 24px; border-radius: 3px; }
-
-/* Scroll hint */
-.scroll-hint {
-  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  color: rgba(255,255,255,0.45);
-  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
-  z-index: 10; transition: opacity 0.5s;
-}
-.scroll-hint.hidden { opacity: 0; pointer-events: none; }
-.scroll-arrow {
-  width: 28px; height: 28px;
-  border: 1px solid rgba(255,255,255,0.22); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; color: rgba(255,255,255,0.45);
-  animation: bounce 2s ease-in-out infinite;
-}
-@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
-
-/* Hero entrance animations */
-.hero-badge-anim {
-  opacity: 0; transform: translateY(20px);
-  animation: cascadeIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-  animation-delay: 0.15s;
-}
-.hero-headline-anim {
-  opacity: 0; transform: translateY(28px);
-  animation: cascadeIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
-  animation-delay: 0.32s;
-}
-.hero-sub-anim {
-  opacity: 0; transform: translateY(22px);
-  animation: cascadeIn 0.75s cubic-bezier(0.16,1,0.3,1) forwards;
-  animation-delay: 0.50s;
-}
-.hero-actions-anim {
-  opacity: 0; transform: translateY(18px);
-  animation: cascadeIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-  animation-delay: 0.65s;
-}
-@keyframes cascadeIn { to { opacity: 1; transform: none; } }
-
-/* ─── SECTION HEADINGS ───────────────────────────────────────────────── */
-.section-label {
-  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--amber); margin-bottom: 14px;
-}
-.section-title {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 800; line-height: 1.1;
-  letter-spacing: -0.02em; margin-bottom: 20px;
-}
-.section-title em { font-style: italic; color: var(--amber); }
-.section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7; font-weight: 300; }
-
-.heading-line {
-  width: 0; height: 3px;
-  background: linear-gradient(90deg, var(--amber), var(--green));
-  border-radius: 2px; margin-bottom: 48px;
-  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
-}
-.heading-line.visible { width: 80px; }
-
-/* ─── FEATURES — Stacked Scroll Cards ──────────────────────────────── */
-#features { padding: 120px 0 60px; }
-
-.features-header { text-align: center; margin-bottom: 80px; }
-.features-header .heading-line { margin: 0 auto 60px; }
-.features-header .section-sub  { margin: 0 auto; }
-
-.features-stack {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 24px;
-  position: relative;
-}
-
-/* Each card is sticky — later cards have higher z-index, slide on top */
-.feat-card {
-  position: sticky;
-  top: 100px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.07);
-  border-radius: 24px;
-  padding: 52px 56px;
-  margin-bottom: 120px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
-  overflow: hidden;
-  transform-origin: top center;
-  will-change: transform, opacity;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-  box-shadow:
-    0 1px 0 0 rgba(255,255,255,0.90) inset,
-    0 -1px 0 0 rgba(0,0,0,0.06) inset,
-    1px 0 0 0 rgba(255,255,255,0.60) inset,
-    -1px 0 0 0 rgba(0,0,0,0.04) inset,
-    0 8px 32px rgba(0,0,0,0.06);
-}
-.feat-card:nth-child(1) { z-index: 1; }
-.feat-card:nth-child(2) { z-index: 2; }
-.feat-card:nth-child(3) { z-index: 3; }
-.feat-card:nth-child(4) { z-index: 4; }
-.feat-card:nth-child(5) { z-index: 5; }
-.feat-card:nth-child(6) { z-index: 6; margin-bottom: 0; }
-
-/* Amber gradient bar — animates in when card is active */
-.feat-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--amber), var(--green));
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-  z-index: 2;
-}
-.feat-card.is-active::before { transform: scaleX(1); }
-
-/* Shimmer sweep on hover */
-.feat-card::after {
-  content: '';
-  position: absolute; top: 0; left: -120%;
-  width: 60%; height: 100%;
-  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
-  transform: skewX(-12deg);
-  transition: left 0s;
-  pointer-events: none; z-index: 3;
-}
-.feat-card:hover::after {
-  left: 140%;
-  transition: left 0.7s cubic-bezier(0.4,0,0.2,1);
-}
-.feat-card:hover {
-  box-shadow:
-    0 1px 0 0 rgba(255,255,255,0.95) inset,
-    0 -1px 0 0 rgba(0,0,0,0.06) inset,
-    1px 0 0 0 rgba(255,255,255,0.75) inset,
-    -1px 0 0 0 rgba(0,0,0,0.04) inset,
-    0 20px 60px rgba(0,0,0,0.08),
-    0 0 0 1px rgba(192,112,40,0.10),
-    0 0 30px var(--amber-dim);
-}
-
-/* Left column */
-.feat-left { display: flex; flex-direction: column; }
-
-.feat-number {
-  font-family: var(--serif); font-size: 5rem; font-weight: 800;
-  color: rgba(192,112,40,0.08); line-height: 1;
-  margin-bottom: 20px; letter-spacing: -0.04em;
-}
-.feat-icon {
-  width: 56px; height: 56px; background: var(--amber-soft);
-  border-radius: 16px; display: flex; align-items: center;
-  justify-content: center; font-size: 1.8rem;
-  border: 1px solid rgba(192,112,40,0.12); margin-bottom: 24px;
-}
-.feat-title {
-  font-family: var(--serif); font-size: 1.55rem; font-weight: 700;
-  margin-bottom: 14px; line-height: 1.2; letter-spacing: -0.01em;
-}
-.feat-desc {
-  font-size: 0.9rem; color: var(--muted); line-height: 1.78; font-weight: 300;
-}
-.feat-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
-.feat-tag {
-  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em;
-  text-transform: uppercase; padding: 5px 12px; border-radius: 100px;
-  background: var(--amber-soft); border: 1px solid rgba(192,112,40,0.15); color: var(--amber);
-}
-.feat-tag.green {
-  background: var(--green-glow); border-color: rgba(45,143,104,0.20); color: var(--green);
-}
-
-/* Right column — stat panel */
-.feat-right {
-  background: var(--bg); border-radius: 16px; height: 240px;
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;
-}
-.feat-right::before {
-  content: ''; position: absolute;
-  width: 180px; height: 180px; border-radius: 50%;
-  border: 1px solid rgba(192,112,40,0.08); pointer-events: none;
-}
-.feat-stat-block { text-align: center; position: relative; z-index: 1; }
-.feat-stat {
-  font-family: var(--serif); font-size: 3.2rem; font-weight: 800;
-  color: var(--amber); line-height: 1; letter-spacing: -0.03em; display: block;
-}
-.feat-stat.green { color: var(--green); }
-.feat-stat-label {
-  font-size: 0.78rem; color: var(--muted); font-weight: 400;
-  letter-spacing: 0.06em; text-transform: uppercase; margin-top: 8px; display: block;
-}
-
-/* End spacer so last card can scroll fully into view before next section */
-.features-spacer { height: 60px; }
-
-/* ─── STATS BANNER ───────────────────────────────────────────────────── */
-#stats { padding: 80px 0; }
-.stats-banner {
-  background: rgba(255,255,255,0.80);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 20px;
-  backdrop-filter: blur(24px);
-  display: grid; grid-template-columns: repeat(4,1fr);
-  overflow: hidden; position: relative;
-}
-.stats-banner::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--amber), var(--green), transparent);
-  opacity: 0.4;
-}
-.stat-item {
-  padding: 48px 32px; text-align: center; position: relative;
-}
-.stat-item + .stat-item::before {
-  content: '';
-  position: absolute; left: 0; top: 20%; bottom: 20%;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(192,112,40,0.25), transparent);
-}
-.stat-num {
-  font-family: var(--serif);
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 800; color: var(--amber);
-  line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em;
-}
-.stat-num.green-num { color: var(--green); }
-.stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 400; letter-spacing: 0.02em; }
-
-/* ─── HOW IT WORKS ───────────────────────────────────────────────────── */
-#how { padding: 120px 0; }
-.how-header { text-align: center; margin-bottom: 80px; }
-.how-header .heading-line { margin: 0 auto 60px; }
-
-.steps-row { display: flex; align-items: flex-start; gap: 0; position: relative; }
-.step {
-  flex: 1; text-align: center; padding: 0 24px;
-  position: relative; z-index: 2;
-}
-.step-connector {
-  flex: 0 0 80px;
-  display: flex; align-items: center; justify-content: center;
-  margin-top: 40px;
-}
-.connector-line {
-  width: 0; height: 2px;
-  background: linear-gradient(90deg, var(--amber), var(--green));
-  transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
-  border-radius: 1px; position: relative;
-}
-.connector-line::after {
-  content: '›'; position: absolute; right: -10px; top: -10px;
-  color: var(--green); font-size: 1.2rem;
-  opacity: 0; transition: opacity 0.4s 1.2s;
-}
-.connector-line.visible { width: 80px; }
-.connector-line.visible::after { opacity: 1; }
-
-.step-num {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: rgba(255,140,50,0.08);
-  border: 1px solid rgba(255,140,50,0.3);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 24px;
-  font-family: var(--serif); font-size: 1.8rem; font-weight: 800;
-  color: var(--amber); position: relative;
-  box-shadow: 0 0 20px rgba(192,112,40,0.12);
-}
-.step-num::before {
-  content: ''; position: absolute; inset: -4px;
-  border-radius: 50%; border: 1px solid rgba(255,140,50,0.12);
-}
-.step-card {
-  background: var(--glass); border: 1px solid var(--glass-b);
-  border-radius: 18px; padding: 28px 24px;
-  backdrop-filter: blur(16px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-.step-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
-.step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
-
-/* ─── VIDEO SECTION ──────────────────────────────────────────────────── */
-#media { padding: 120px 0; }
-.media-header { text-align: center; margin-bottom: 60px; }
-.media-header .heading-line { margin: 0 auto 60px; }
-
-.video-wrap {
-  position: relative; border-radius: 20px; overflow: hidden;
-  border: 1px solid rgba(0,0,0,0.09); aspect-ratio: 16/9;
-  background: rgba(240,236,228,0.9); margin-bottom: 28px;
-  box-shadow: 0 0 60px rgba(192,112,40,0.08), 0 40px 80px rgba(0,0,0,0.12);
-}
-.video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.video-placeholder {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  background: radial-gradient(circle at 50% 50%, rgba(240,236,228,0.5), rgba(245,242,236,0.90));
-}
-.play-btn {
-  width: 80px; height: 80px; border-radius: 50%;
-  background: var(--amber); border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; color: #fff;
-  box-shadow: 0 0 40px var(--amber-glow), 0 0 80px rgba(255,140,50,0.2);
-  transition: transform 0.25s, box-shadow 0.25s;
-  margin-bottom: 20px; padding-left: 6px;
-}
-.play-btn:hover { transform: scale(1.1); box-shadow: 0 0 60px rgba(255,140,50,0.6); }
-.video-label { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--text); }
-
-.screenshots-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 28px; }
-.screenshot-card {
-  background: var(--glass); border: 1px solid var(--glass-b);
-  border-radius: 14px; overflow: hidden; aspect-ratio: 16/10;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted); font-size: 0.8rem;
-  backdrop-filter: blur(12px); position: relative;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.screenshot-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-.screenshot-card img { width:100%; height:100%; object-fit:cover; display:block; }
-.screenshot-card .ss-label {
-  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-  font-size: 0.68rem; color: var(--muted);
-  background: rgba(245,242,236,0.85); border-radius: 4px; padding: 3px 10px;
-  white-space: nowrap;
-}
-.screenshot-placeholder { display:flex; flex-direction:column; align-items:center; gap:8px; }
-.screenshot-placeholder span { font-size: 1.5rem; }
-
-/* ─── TESTIMONIALS ───────────────────────────────────────────────────── */
-#testimonials { padding: 120px 0; }
-.testi-header { text-align: center; margin-bottom: 70px; }
-.testi-header .heading-line { margin: 0 auto 60px; }
-
-.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-.testi-card {
-  background: var(--glass); border: 1px solid var(--glass-b);
-  border-radius: 18px; padding: 32px 28px;
-  backdrop-filter: blur(20px); position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 1px 0 0 rgba(255,255,255,0.85) inset, 0 6px 24px rgba(0,0,0,0.05);
-}
-.testi-card::before {
-  content: '"'; position: absolute; top: -20px; left: 20px;
-  font-family: var(--serif); font-size: 8rem; font-weight: 800;
-  color: var(--amber); opacity: 0.06; line-height: 1; pointer-events: none;
-}
-/* Shimmer sweep */
-.testi-card::after {
-  content: ''; position: absolute; top: 0; left: -120%;
-  width: 60%; height: 100%;
-  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
-  transform: skewX(-12deg); pointer-events: none; z-index: 5; border-radius: inherit;
-}
-.testi-card:hover::after { left: 140%; transition: left 0.7s cubic-bezier(0.4,0,0.2,1); }
-.testi-card:hover { transform: translateY(-6px); border-color: rgba(192,112,40,0.25); box-shadow: 0 20px 50px rgba(0,0,0,0.07); }
-
-.testi-stars { color: var(--amber); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 18px; }
-.testi-quote { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 24px; font-style: italic; }
-.testi-person { display: flex; align-items: center; gap: 14px; }
-.testi-avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--amber), rgba(255,140,50,0.3));
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif); font-weight: 700; font-size: 1rem; color: #fff;
-  flex-shrink: 0;
-}
-.testi-avatar.green { background: linear-gradient(135deg, var(--green), rgba(45,143,104,0.4)); }
-.testi-name { font-weight: 600; font-size: 0.875rem; margin-bottom: 3px; }
-.testi-role { font-size: 0.75rem; color: var(--muted); }
-
-/* ─── CTA BANNER ─────────────────────────────────────────────────────── */
-#cta { padding: 100px 0; }
-.cta-inner {
-  background: linear-gradient(135deg, #1C1814 0%, #2A2018 50%, #1C1814 100%);
-  border-radius: 28px; padding: 80px 60px;
-  text-align: center; position: relative; overflow: hidden;
-  border: 1px solid rgba(255,160,60,0.15);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.18), 0 0 60px rgba(192,112,40,0.08);
-}
-.cta-inner::before {
-  content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--amber), var(--green), transparent);
-  opacity: 0.5;
-}
-.cta-orb {
-  position: absolute; width: 400px; height: 400px; border-radius: 50%;
-  filter: blur(80px); pointer-events: none;
-}
-.cta-orb-1 { background: rgba(192,112,40,0.12); top: -100px; right: -80px; }
-.cta-orb-2 { background: rgba(45,143,104,0.08); bottom: -100px; left: -80px; }
-
-.cta-label {
-  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(255,160,60,0.7);
-  margin-bottom: 24px; display: block; position: relative; z-index: 1;
-}
-.cta-title {
-  font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 800; color: #fff; line-height: 1.08;
-  letter-spacing: -0.025em; margin-bottom: 20px; position: relative; z-index: 1;
-}
-.cta-title em { font-style: italic; color: #E8973A; }
-.cta-sub {
-  font-size: 1.05rem; color: rgba(255,255,255,0.5);
-  max-width: 520px; margin: 0 auto 44px; line-height: 1.7;
-  font-weight: 300; position: relative; z-index: 1;
-}
-.cta-actions {
-  display: flex; gap: 16px; justify-content: center;
-  align-items: center; flex-wrap: wrap; position: relative; z-index: 1;
-}
-.cta-note {
-  font-size: 0.75rem; color: rgba(255,255,255,0.3);
-  margin-top: 20px; position: relative; z-index: 1;
-  letter-spacing: 0.04em;
-}
-
-/* ─── FOOTER ─────────────────────────────────────────────────────────── */
-footer {
-  background: rgba(238,234,226,0.95); border-top: 1px solid rgba(0,0,0,0.07);
-  backdrop-filter: blur(24px); padding: 60px 0 36px;
-  position: relative; z-index: 2;
-}
-footer::before {
-  content: ''; position: absolute; top: -1px; left: 10%; right: 10%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--amber), transparent); opacity: 0.35;
-}
-.footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
-.footer-brand .brand-name {
-  font-family: var(--serif); font-size: 1.4rem; font-weight: 700;
-  margin-bottom: 10px; letter-spacing: 0.02em;
-}
-.footer-brand .brand-name span { color: var(--amber); }
-.footer-brand .brand-tag { font-size: 0.825rem; color: var(--muted); line-height: 1.65; max-width: 240px; font-weight: 300; }
-.footer-col h4 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-.footer-col a { color: rgba(28,24,20,0.55); text-decoration: none; font-size: 0.875rem; font-weight: 400; transition: color 0.2s; }
-.footer-col a:hover { color: var(--text); }
-.footer-bottom {
-  border-top: 1px solid rgba(0,0,0,0.07); padding-top: 28px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.footer-copy { font-size: 0.78rem; color: var(--muted); }
-.footer-tagline { font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: rgba(255,140,50,0.6); }
-
-/* ─── Scroll Progress Bar ─────────────────────────────────────────────── */
-#scroll-progress {
-  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
-  background: linear-gradient(90deg, var(--amber), var(--green), var(--amber));
-  background-size: 200% 100%; z-index: 9999;
-  transition: width 0.05s linear;
-  animation: progressShimmer 3s linear infinite;
-  box-shadow: 0 0 8px var(--amber-glow);
-}
-@keyframes progressShimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-
-/* ─── Cursor Glow ────────────────────────────────────────────────────── */
-#cursor-glow {
-  position: fixed; width: 380px; height: 380px; border-radius: 50%;
-  pointer-events: none; z-index: 1;
-  background: radial-gradient(circle, rgba(192,112,40,0.08) 0%, rgba(45,143,104,0.04) 45%, transparent 70%);
-  transform: translate(-50%, -50%);
-  transition: opacity 0.4s ease; mix-blend-mode: multiply; opacity: 0;
-  will-change: transform;
-}
-
-/* ─── Word-by-Word Heading Reveals ───────────────────────────────────── */
-.word-reveal-heading .word {
-  display: inline-block;
-  opacity: 0; transform: translateY(30px) rotate(2deg);
-  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
-}
-.word-reveal-heading.words-visible .word { opacity: 1; transform: translateY(0) rotate(0deg); }
-
-/* ─── Responsive ─────────────────────────────────────────────────────── */
-@media (max-width: 980px) {
-  nav { padding: 16px 24px; }
-  .nav-links { display: none; }
-  .feat-card { grid-template-columns: 1fr; gap: 28px; padding: 36px 32px; }
-  .feat-right { height: 160px; }
-  .stats-banner { grid-template-columns: repeat(2,1fr); }
-  .testi-grid { grid-template-columns: 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-  .footer-inner { grid-template-columns: 1fr 1fr; }
-  .steps-row { flex-direction: column; align-items: center; }
-  .step-connector { transform: rotate(90deg); margin: 0; }
-  .cta-inner { padding: 60px 32px; }
-}
-@media (max-width: 640px) {
-  nav { padding: 14px 18px; }
-  .stats-banner { grid-template-columns: 1fr 1fr; }
-  .screenshots-row { grid-template-columns: 1fr; }
-  .footer-inner { grid-template-columns: 1fr; }
-  .testi-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-  .hero-chapters { display: none; }
-  .features-stack { padding: 0 16px; }
-  .feat-card { padding: 28px 24px; }
-}
+    linear-gradient(110deg,rgba(192,112,40,.08),transparent 36%),
+    linear-gradient(250deg,rgba(45,143,104,.08),transparent 38%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+}
+.container{width:min(1160px,calc(100% - 40px));margin:auto}
+.progress{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--amber),var(--green));z-index:20}
+nav{
+  position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;background:rgba(245,242,236,.86);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);z-index:12
+}
+.brand{font-family:var(--serif);font-weight:800;font-size:1.25rem;letter-spacing:.02em}.brand span{color:var(--amber)}
+.links{display:flex;gap:30px;list-style:none}.links a{color:var(--muted);font-size:.86rem;text-decoration:none}.links a:hover{color:var(--ink)}
+button{font:inherit}
+.nav-cta,.btn-primary{
+  border:0;border-radius:10px;background:var(--amber);color:white;padding:12px 22px;font-weight:700;cursor:pointer;
+  box-shadow:0 12px 30px rgba(192,112,40,.22);transition:.2s transform,.2s box-shadow
+}
+.nav-cta:hover,.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(192,112,40,.32)}
+.btn-ghost{
+  border:1px solid rgba(255,255,255,.26);border-radius:10px;background:rgba(255,255,255,.14);color:white;
+  padding:12px 20px;font-weight:700;cursor:pointer;backdrop-filter:blur(12px)
+}
+.hero{min-height:100vh;display:grid;align-items:end;position:relative;isolation:isolate;padding:132px 0 76px;background:#19120d;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    linear-gradient(90deg,rgba(10,7,4,.9),rgba(10,7,4,.56) 48%,rgba(10,7,4,.18)),
+    url("https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=2200&q=80") center/cover;
+}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:28%;background:linear-gradient(transparent,var(--bg));z-index:-1}
+.badge{display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border:1px solid rgba(232,151,58,.35);border-radius:999px;background:rgba(192,112,40,.16);color:#ffd28c;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#55d49d;box-shadow:0 0 16px #55d49d}
+h1{font-family:var(--serif);font-size:clamp(3.1rem,7vw,6.6rem);line-height:.96;color:white;letter-spacing:0;font-weight:800;max-width:790px}
+h1 em{color:var(--amber-2)}
+.hero p{color:rgba(255,255,255,.68);font-size:1.05rem;line-height:1.75;max-width:560px;margin:28px 0 38px;font-weight:300}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}.scroll-note{margin-top:66px;color:rgba(255,255,255,.42);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
+section{padding:110px 0}.eyebrow{color:var(--amber);font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+.section-title{font-family:var(--serif);font-size:clamp(2.15rem,4vw,3.5rem);line-height:1.05;letter-spacing:0;font-weight:800}.section-title em{color:var(--amber)}
+.section-sub{color:var(--muted);line-height:1.75;max-width:570px;margin-top:18px;font-weight:300}.center{text-align:center}.center .section-sub{margin-left:auto;margin-right:auto}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.feature{
+  background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:8px;padding:30px;min-height:260px;
+  box-shadow:0 14px 44px rgba(28,24,20,.06);transition:.25s transform,.25s border-color,.25s box-shadow
+}
+.feature:hover{transform:translateY(-6px);border-color:rgba(192,112,40,.28);box-shadow:0 24px 70px rgba(28,24,20,.1)}
+.icon{font-size:2rem;margin-bottom:20px}.num{font-family:var(--serif);font-weight:800;color:rgba(192,112,40,.18);font-size:3.6rem;line-height:1}
+.feature h3{font-family:var(--serif);font-size:1.35rem;margin:12px 0 10px}.feature p{color:var(--muted);font-size:.9rem;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.74);box-shadow:0 20px 60px rgba(28,24,20,.08)}
+.stat{padding:38px 26px;text-align:center}.stat+.stat{border-left:1px solid var(--line)}
+.stat strong{display:block;font-family:var(--serif);font-size:3rem;color:var(--amber);line-height:1}.stat:nth-child(even) strong{color:var(--green)}
+.stat span{display:block;color:var(--muted);font-size:.82rem;margin-top:8px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:54px}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:30px}
+.step b{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;border:1px solid rgba(192,112,40,.3);color:var(--amber);font-family:var(--serif);font-size:1.4rem;margin-bottom:22px}
+.step h3{font-family:var(--serif);margin-bottom:10px}.step p{color:var(--muted);line-height:1.7;font-size:.9rem}
+.panel{margin-top:56px;background:white;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 36px 90px rgba(28,24,20,.12)}
+.tabs{display:flex;background:#eee8dc;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{flex:1;min-width:142px;border:0;background:transparent;padding:18px 14px;cursor:pointer;color:var(--muted);font-weight:700}
+.tab.active{color:var(--ink);box-shadow:inset 0 -3px var(--amber)}
+.panel-body{padding:34px}.status{border-radius:8px;padding:11px 14px;margin-bottom:28px;font-size:.82rem;font-weight:700;background:rgba(192,112,40,.09);color:var(--amber);border:1px solid rgba(192,112,40,.18)}
+.status.online{background:rgba(45,143,104,.1);color:var(--green);border-color:rgba(45,143,104,.18)}.status.offline{background:rgba(190,43,43,.08);color:#b83232;border-color:rgba(190,43,43,.16)}
+.pane{display:none}.pane.active{display:block}.form{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}.full{grid-column:1/-1}
+label{display:block;color:var(--muted);font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
+input,select,textarea{
+  width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:8px;background:#f7f3eb;color:var(--ink);font:inherit;outline:none
+}
+textarea{min-height:92px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(192,112,40,.12);background:white}
+.submit-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:.82rem}
+.submit-row button{border:0;border-radius:10px;background:var(--amber);color:white;padding:13px 24px;font-weight:800;cursor:pointer}.submit-row button.green{background:var(--green)}
+.dbms-board{margin-top:28px;border-top:1px solid var(--line);padding-top:26px}
+.dbms-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.dbms-toolbar h3{font-family:var(--serif);font-size:1.45rem}.dbms-actions{display:flex;gap:10px;flex-wrap:wrap}
+.small-btn{border:1px solid var(--line);border-radius:8px;background:#f7f3eb;color:var(--ink);padding:10px 13px;font-weight:800;cursor:pointer}
+.small-btn.active{background:var(--ink);color:white}.small-btn.danger{color:#b83232}
+.dbms-shell{background:#16130f;color:#f6ead6;border-radius:8px;overflow:auto;border:1px solid rgba(28,24,20,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.dbms-shell pre{font:12px/1.55 "Consolas","Courier New",monospace;min-width:820px;padding:18px;white-space:pre}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 4px}
+.summary-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#f7f3eb}.summary-card b{display:block;font-family:var(--serif);font-size:1.6rem;color:var(--amber)}.summary-card span{color:var(--muted);font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px}
+.quote{background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:8px;padding:28px;box-shadow:0 14px 44px rgba(28,24,20,.06)}
+.stars{color:var(--amber);letter-spacing:2px;margin-bottom:16px}.quote p{color:var(--muted);line-height:1.75;font-style:italic;font-size:.9rem}.person{margin-top:20px;font-weight:800}.role{color:var(--muted);font-size:.78rem;font-weight:400;margin-top:4px}
+.cta{padding-top:30px}.cta-box{background:linear-gradient(135deg,#1c1814,#302116);border-radius:8px;text-align:center;padding:76px 34px;color:white;box-shadow:0 40px 90px rgba(28,24,20,.22)}.cta-box .section-title{color:white}.cta-box p{color:rgba(255,255,255,.62);margin:18px auto 34px;max-width:620px;line-height:1.7}
+footer{padding:48px 0;background:#eee8dc;border-top:1px solid var(--line);color:var(--muted)}.footer{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer b{font-family:var(--serif);color:var(--ink);font-size:1.18rem}.footer b span{color:var(--amber)}
+.toast-wrap{position:fixed;right:24px;bottom:24px;display:grid;gap:10px;z-index:30}.toast{background:white;border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:8px;box-shadow:0 18px 50px rgba(28,24,20,.16);padding:14px 16px;max-width:350px}.toast.success{border-left-color:var(--green)}.toast.error{border-left-color:#b83232}.toast b{display:block;margin-bottom:4px}.toast span{color:var(--muted);font-size:.82rem;line-height:1.45}
+.reveal{opacity:0;transform:translateY(24px);transition:.7s opacity,.7s transform}.reveal.visible{opacity:1;transform:none}
+@media(max-width:900px){nav{padding:0 22px}.links{display:none}.features,.steps,.testimonials{grid-template-columns:1fr}.stats,.summary-grid{grid-template-columns:1fr 1fr}.stat:nth-child(odd){border-left:0}.form{grid-template-columns:1fr}.full{grid-column:auto}}
+@media(max-width:560px){.container{width:min(100% - 28px,1160px)}.hero{padding-top:116px}.stats{grid-template-columns:1fr}.stat+.stat{border-left:0;border-top:1px solid var(--line)}.panel-body{padding:24px}.footer{align-items:flex-start;flex-direction:column}.nav-cta{display:none}}
 </style>
 </head>
 <body>
-
-<!-- Scroll Progress -->
-<div id="scroll-progress"></div>
-
-<!-- Cursor Glow -->
-<div id="cursor-glow"></div>
-
-<!-- Orbs -->
-<div class="orb-wrap">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
-</div>
-
-<!-- NAV -->
-<nav id="navbar">
-  <div class="nav-logo">Mise en <span>Place</span></div>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#how">How It Works</a></li>
-    <li><a href="#media">Demo</a></li>
-    <li><a href="#testimonials">Reviews</a></li>
+<div class="progress" id="progress" style="width: 46.6606%;"></div>
+<nav>
+  <div class="brand">Mise en <span>Place</span></div>
+  <ul class="links">
+    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#features">Features</a></li>
+    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#how">How It Works</a></li>
+    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#demo">Demo</a></li>
+    <li><a href="file:///C:/Users/prabh/Documents/Codex/2026-05-22/at-mnt-user-data-outputs-index/index-premium.html#reviews">Reviews</a></li>
   </ul>
   <button class="nav-cta">Start Free Trial</button>
 </nav>
 
-<!-- ════ HERO — Scroll-Driven Video Scrubbing ════ -->
-<section id="hero">
-  <div class="hero-pin">
-
-    <div class="hero-scrub-video">
-      <video
-        id="heroScrubVideo"
-        src="media/Chef_working_in_restaurant_kitchen_202605201607.mp4"
-        preload="auto"
-        muted
-        playsinline
-        webkit-playsinline
-      ></video>
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="badge">Now in public beta</div>
+      <h1>Master Your <em>Kitchen.</em><br>Control Every Ingredient.</h1>
+      <p>Real-time stock tracking, intelligent supplier management, purchase orders, usage logging, and low-stock alerts designed for a professional kitchen pace.</p>
+      <div class="hero-actions">
+        <button class="btn-primary">Get Started Free</button>
+        <button class="btn-ghost">Watch Demo</button>
+      </div>
+      <div class="scroll-note">Scroll to explore</div>
     </div>
+  </section>
 
-    <div class="hero-scrim"></div>
-
-    <div class="hero-content">
-      <div class="hero-badge hero-badge-anim">✦ Now in Public Beta</div>
-      <div class="hero-chapter" id="heroChapter">The Kitchen</div>
-      <h1 class="hero-headline hero-headline-anim" id="heroHeadline">
-        Master Your <em>Kitchen.</em><br>
-        Control Every<br>
-        <span class="line-green">Ingredient.</span>
-      </h1>
-      <p class="hero-sub hero-sub-anim" id="heroSub">
-        Real-time stock tracking, intelligent supplier management, and smart low-stock alerts — designed for the modern professional kitchen. Zero waste. Total control.
-      </p>
-      <div class="hero-actions hero-actions-anim">
-        <button class="btn-amber">Get Started Free</button>
-        <button class="btn-glass">
-          <span class="play">▶</span>
-          Watch Demo
-        </button>
-      </div>
+  <section id="features">
+    <div class="container center reveal visible">
+      <div class="eyebrow">What We Offer</div>
+      <h2 class="section-title">Everything your kitchen <em>needs to thrive</em></h2>
+      <p class="section-sub">A complete system for the demanding rhythm of professional kitchens, from a single bistro to multi-location restaurant groups.</p>
     </div>
-
-    <div class="hero-scrub-bar">
-      <div class="hero-scrub-fill" id="heroScrubFill"></div>
+    <div class="container features">
+      <article class="feature reveal visible"><div class="num">01</div><div class="icon">ÃƒÂ°Ã…Â¸Ã‚Â¥Ã‚Â¬</div><h3>Ingredient Tracking</h3><p>Track quantity, unit, location, expiry date, and unit cost with clear real-time stock visibility.</p></article>
+      <article class="feature reveal visible"><div class="num">02</div><div class="icon">ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â</div><h3>Supplier Management</h3><p>Keep contacts, pricing tiers, lead times, and reliability notes in one place.</p></article>
+      <article class="feature reveal visible"><div class="num">03</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹</div><h3>Purchase Orders</h3><p>Generate and log purchase orders, delivery status, quantities, pricing, and notes.</p></article>
+      <article class="feature reveal visible"><div class="num">04</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â </div><h3>Usage Logging</h3><p>Record consumption by service, station, or dish so waste patterns become visible.</p></article>
+      <article class="feature reveal visible"><div class="num">05</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â</div><h3>Low Stock Alerts</h3><p>Set par levels and get alerts before a critical ingredient disappears mid-service.</p></article>
+      <article class="feature reveal visible"><div class="num">06</div><div class="icon">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‹â€ </div><h3>Analytics Dashboard</h3><p>Understand food cost trends, supplier performance, and weekly margin movement.</p></article>
     </div>
+  </section>
 
-    <div class="hero-chapters" id="heroChapters">
-      <div class="hero-ch-dot active"></div>
-      <div class="hero-ch-dot"></div>
-      <div class="hero-ch-dot"></div>
-      <div class="hero-ch-dot"></div>
+  <section>
+    <div class="container stats reveal visible">
+      <div class="stat"><strong data-count="500" data-suffix="+">500+</strong><span>Ingredients Tracked</span></div>
+      <div class="stat"><strong data-count="50" data-suffix="+">50+</strong><span>Suppliers Managed</span></div>
+      <div class="stat"><strong data-count="99" data-suffix=".9%">99.9%</strong><span>Uptime Target</span></div>
+      <div class="stat"><strong>Live</strong><span>Real-time Sync</span></div>
     </div>
+  </section>
 
-    <div class="scroll-hint" id="heroScrollHint">
-      <span>Scroll</span>
-      <div class="scroll-arrow">↓</div>
+  <section id="how">
+    <div class="container center reveal visible">
+      <div class="eyebrow">The Process</div>
+      <h2 class="section-title">Up and running in <em>three simple steps</em></h2>
     </div>
-
-  </div>
-</section>
-
-<!-- ════ FEATURES — Stacked Scroll Cards ════ -->
-<section id="features">
-  <div class="container">
-    <div class="features-header reveal">
-      <div class="section-label">What We Offer</div>
-      <h2 class="section-title word-reveal-heading">Everything your kitchen<br><em>needs to thrive</em></h2>
-      <div class="heading-line"></div>
-      <p class="section-sub">A complete system built for the demanding pace of professional kitchens — from a single bistro to multi-location restaurant groups.</p>
+    <div class="container steps">
+      <article class="step reveal visible"><b>1</b><h3>Add Your Ingredients</h3><p>Import your pantry, define units and par levels, connect suppliers, and set expiry tracking.</p></article>
+      <article class="step reveal visible"><b>2</b><h3>Track Daily Usage</h3><p>Log consumption after prep or service from any device, then let the system keep stock honest.</p></article>
+      <article class="step reveal visible"><b>3</b><h3>Act on Smart Alerts</h3><p>Reorder quickly, watch margin trends, and keep every station ready for service.</p></article>
     </div>
-  </div>
+  </section>
 
-  <div class="features-stack">
-
-    <!-- Card 1 -->
-    <div class="feat-card">
-      <div class="feat-left">
-        <div class="feat-number">01</div>
-        <div class="feat-icon">🥬</div>
-        <h3 class="feat-title">Ingredient Tracking</h3>
-        <p class="feat-desc">Track every item in real-time — quantity, unit, location, expiry date, and cost per unit. Full granular visibility across your entire pantry at a glance.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Real-time</span>
-          <span class="feat-tag green">Live Sync</span>
-          <span class="feat-tag">Expiry Alerts</span>
-        </div>
-      </div>
-      <div class="feat-right">
-        <div class="feat-stat-block">
-          <span class="feat-stat">500+</span>
-          <span class="feat-stat-label">Ingredients tracked</span>
-        </div>
-      </div>
+  <section id="demo">
+    <div class="container center reveal">
+      <div class="eyebrow">Inventory Operations</div>
+      <h2 class="section-title">Manage your kitchen <em>right here</em></h2>
+      <p class="section-sub">Use the tabs below to add suppliers, add ingredients, place purchase orders, log usage, and view every update in a DBMS-style table.</p>
     </div>
-
-    <!-- Card 2 -->
-    <div class="feat-card">
-      <div class="feat-left">
-        <div class="feat-number">02</div>
-        <div class="feat-icon">🤝</div>
-        <h3 class="feat-title">Supplier Management</h3>
-        <p class="feat-desc">Manage all your supplier contacts, pricing tiers, lead times, and reliability scores in one place. Never miss a delivery window again.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Pricing Tiers</span>
-          <span class="feat-tag green">Lead Times</span>
-          <span class="feat-tag">Reliability Score</span>
-        </div>
+    <div class="container panel reveal">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-pane="ingredient">Add Ingredient</button>
+        <button class="tab" data-pane="supplier">Add Supplier</button>
+        <button class="tab" data-pane="order">Place Order</button>
+        <button class="tab" data-pane="usage">Log Usage</button>
+        <button class="tab" data-pane="alerts">Low Stock</button>
       </div>
-      <div class="feat-right">
-        <div class="feat-stat-block">
-          <span class="feat-stat green">50+</span>
-          <span class="feat-stat-label">Suppliers managed</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="feat-card">
-      <div class="feat-left">
-        <div class="feat-number">03</div>
-        <div class="feat-icon">📋</div>
-        <h3 class="feat-title">Purchase Orders</h3>
-        <p class="feat-desc">Generate, send, and track purchase orders automatically. Receive confirmations, log deliveries, and reconcile invoices seamlessly in three clicks.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Auto-Generate</span>
-          <span class="feat-tag green">Invoice Sync</span>
-          <span class="feat-tag">Delivery Logs</span>
-        </div>
-      </div>
-      <div class="feat-right">
-        <div class="feat-stat-block">
-          <span class="feat-stat">3</span>
-          <span class="feat-stat-label">Clicks to reorder</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="feat-card">
-      <div class="feat-left">
-        <div class="feat-number">04</div>
-        <div class="feat-icon">📊</div>
-        <h3 class="feat-title">Usage Logging</h3>
-        <p class="feat-desc">Log ingredient usage per service, per dish, or per shift. Understand your consumption patterns and eliminate costly waste across every station.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Per Dish</span>
-          <span class="feat-tag green">Per Shift</span>
-          <span class="feat-tag">Waste Tracking</span>
-        </div>
-      </div>
-      <div class="feat-right">
-        <div class="feat-stat-block">
-          <span class="feat-stat">32%</span>
-          <span class="feat-stat-label">Average waste reduced</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 5 -->
-    <div class="feat-card">
-      <div class="feat-left">
-        <div class="feat-number">05</div>
-        <div class="feat-icon">🔔</div>
-        <h3 class="feat-title">Low Stock Alerts</h3>
-        <p class="feat-desc">Set intelligent thresholds and receive instant alerts via email or SMS when stock drops below your service requirements. Never 86 a dish again.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">SMS Alerts</span>
-          <span class="feat-tag green">Email Alerts</span>
-          <span class="feat-tag">Custom Thresholds</span>
-        </div>
-      </div>
-      <div class="feat-right">
-        <div class="feat-stat-block">
-          <span class="feat-stat green">99.9%</span>
-          <span class="feat-stat-label">Alert delivery rate</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 6 -->
-    <div class="feat-card">
-      <div class="feat-left">
-        <div class="feat-number">06</div>
-        <div class="feat-icon">📈</div>
-        <h3 class="feat-title">Analytics Dashboard</h3>
-        <p class="feat-desc">Visualize food cost trends, waste reduction metrics, and supplier performance over time. Make data-driven decisions that protect your margins every week.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Cost Trends</span>
-          <span class="feat-tag green">Margin Reports</span>
-          <span class="feat-tag">Supplier KPIs</span>
-        </div>
-      </div>
-      <div class="feat-right">
-        <div class="feat-stat-block">
-          <span class="feat-stat">18%</span>
-          <span class="feat-stat-label">Average margin gain</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div class="features-spacer"></div>
-</section>
-
-<!-- ════ STATS ════ -->
-<section id="stats">
-  <div class="container">
-    <div class="stats-banner reveal">
-      <div class="stat-item">
-        <div class="stat-num" data-target="500" data-suffix="+">0</div>
-        <div class="stat-label">Ingredients Tracked</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num green-num" data-target="50" data-suffix="+">0</div>
-        <div class="stat-label">Suppliers Managed</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" data-target="99" data-suffix=".9%">0</div>
-        <div class="stat-label">Uptime Guaranteed</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num green-num" data-special="real-time">—</div>
-        <div class="stat-label">Real-time Sync</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════ HOW IT WORKS ════ -->
-<section id="how">
-  <div class="container">
-    <div class="how-header reveal">
-      <div class="section-label">The Process</div>
-      <h2 class="section-title word-reveal-heading">Up and running in<br><em>three simple steps</em></h2>
-      <div class="heading-line"></div>
-    </div>
-
-    <div class="steps-row">
-      <div class="step reveal" style="transition-delay:0.05s">
-        <div class="step-num">1</div>
-        <div class="step-card">
-          <h3 class="step-title">Add Your Ingredients</h3>
-          <p class="step-desc">Import your existing inventory via CSV or add items manually. Set units, par levels, supplier links, and expiry tracking in minutes.</p>
-        </div>
-      </div>
-      <div class="step-connector">
-        <div class="connector-line"></div>
-      </div>
-      <div class="step reveal" style="transition-delay:0.15s">
-        <div class="step-num">2</div>
-        <div class="step-card">
-          <h3 class="step-title">Track Daily Usage</h3>
-          <p class="step-desc">Log consumption after each service from any device. Our smart system learns your patterns and predicts what you'll need before you run out.</p>
-        </div>
-      </div>
-      <div class="step-connector">
-        <div class="connector-line"></div>
-      </div>
-      <div class="step reveal" style="transition-delay:0.25s">
-        <div class="step-num">3</div>
-        <div class="step-card">
-          <h3 class="step-title">Get Smart Alerts</h3>
-          <p class="step-desc">Receive automated alerts, auto-generated purchase orders, and weekly insights — so your kitchen runs like a Michelin-star operation, every day.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════ VIDEO / MEDIA ════ -->
-<section id="media">
-  <div class="container">
-    <div class="media-header reveal">
-      <div class="section-label">Product Demo</div>
-      <h2 class="section-title word-reveal-heading"><em>See it in action</em></h2>
-      <div class="heading-line"></div>
-    </div>
-
-    <div class="reveal">
-      <div class="video-wrap">
-        <video id="demoVideo" muted loop playsinline src=""></video>
-        <div class="video-placeholder" id="videoPlaceholder">
-          <button class="play-btn" id="playDemoBtn" aria-label="Play Demo">▶</button>
-          <div class="video-label">Watch the 2-minute walkthrough</div>
-        </div>
-      </div>
-
-      <div class="screenshots-row">
-        <div class="screenshot-card">
-          <div class="screenshot-placeholder"><span>📦</span><span style="font-size:0.7rem;color:var(--muted)">Inventory View</span></div>
-          <div class="ss-label">Inventory Dashboard</div>
-        </div>
-        <div class="screenshot-card">
-          <div class="screenshot-placeholder"><span>🤝</span><span style="font-size:0.7rem;color:var(--muted)">Supplier Panel</span></div>
-          <div class="ss-label">Supplier Management</div>
-        </div>
-        <div class="screenshot-card">
-          <div class="screenshot-placeholder"><span>📈</span><span style="font-size:0.7rem;color:var(--muted)">Analytics View</span></div>
-          <div class="ss-label">Usage Analytics</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ════ TESTIMONIALS ════ -->
-<section id="testimonials">
-  <div class="container">
-    <div class="testi-header reveal">
-      <div class="section-label">Trusted by Chefs</div>
-      <h2 class="section-title word-reveal-heading">Words from the<br><em>professional kitchen</em></h2>
-      <div class="heading-line"></div>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card reveal-left">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"This system transformed how we run our prep kitchen. We reduced food waste by 34% in the first month alone. It's like having a second sous chef tracking everything for us."</p>
-        <div class="testi-person">
-          <div class="testi-avatar">MM</div>
-          <div>
-            <div class="testi-name">Marcus Müller</div>
-            <div class="testi-role">Executive Chef · Atelier Berlin</div>
+      <div class="panel-body">
+        <div class="status online" id="apiStatus">MySQL API required - start APIServer.java, then use these operations.</div>
+        <div class="pane active" id="ingredient">
+          <div class="form">
+            <div><label>Item Name *</label><input id="ing-name" placeholder="Cherry Tomatoes"></div>
+            <div><label>Category</label><input id="ing-cat" placeholder="Vegetables"></div>
+            <div><label>Unit *</label><select id="ing-unit"><option value="">Select unit...</option><option>kg</option><option>grams</option><option>litre</option><option>ml</option><option>pcs</option><option>box</option></select></div>
+            <div><label>Quantity *</label><input id="ing-qty" type="number" min="0" step="0.01" placeholder="25"></div>
+            <div><label>Reorder Level</label><input id="ing-reorder" type="number" min="0" step="0.01" placeholder="5"></div>
+            <div><label>Unit Price (INR)</label><input id="ing-price" type="number" min="0" step="0.01" placeholder="120"></div>
+            <div><label>Supplier</label><select id="ing-supplier"><option value="">None</option></select></div>
+            <div><label>Expiry Date</label><input id="ing-expiry" type="date"></div>
           </div>
+          <div class="submit-row"><span>Fields marked * are required.</span><button id="btn-ing">Add Ingredient</button></div>
         </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"Managing three locations used to be a logistical nightmare. Now I have a single view across all my kitchens. The supplier management module alone is worth the subscription."</p>
-        <div class="testi-person">
-          <div class="testi-avatar green">SL</div>
-          <div>
-            <div class="testi-name">Sophie Laurent</div>
-            <div class="testi-role">Restaurant Director · Brasserie Lumière Group</div>
+        <div class="pane" id="supplier">
+          <div class="form">
+            <div class="full"><label>Supplier Name *</label><input id="sup-name" placeholder="Fresh Farms Co."></div>
+            <div><label>Contact Person</label><input id="sup-contact" placeholder="Rajesh Kumar"></div>
+            <div><label>Phone</label><input id="sup-phone" placeholder="9876543210"></div>
+            <div><label>Email</label><input id="sup-email" type="email" placeholder="orders@example.com"></div>
+            <div class="full"><label>Address</label><input id="sup-addr" placeholder="APMC Market, Bengaluru"></div>
           </div>
+          <div class="submit-row"><span>Only supplier name is required.</span><button id="btn-sup">Add Supplier</button></div>
         </div>
-      </div>
-      <div class="testi-card reveal-right">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"The low-stock alerts have literally saved me from running out of mise en place during Saturday service. The interface is beautiful and the team adopted it with zero training needed."</p>
-        <div class="testi-person">
-          <div class="testi-avatar">RK</div>
-          <div>
-            <div class="testi-name">Ravi Kapoor</div>
-            <div class="testi-role">Head Chef · The Ember Room, London</div>
+        <div class="pane" id="order">
+          <div class="form">
+            <div><label>Ingredient *</label><select id="ord-ing"><option value="">Select ingredient...</option></select></div>
+            <div><label>Supplier *</label><select id="ord-sup"><option value="">Select supplier...</option></select></div>
+            <div><label>Order Date *</label><input id="ord-date" type="date"></div>
+            <div><label>Quantity *</label><input id="ord-qty" type="number" min="0.01" step="0.01"></div>
+            <div><label>Unit Price *</label><input id="ord-price" type="number" min="0" step="0.01"></div>
+            <div><label>Status</label><select id="ord-status"><option>Pending</option><option>Received</option><option>Cancelled</option></select></div>
+            <div class="full"><label>Notes</label><textarea id="ord-notes"></textarea></div>
           </div>
+          <div class="submit-row"><span>Received orders increase ingredient stock immediately.</span><button id="btn-ord">Place Order</button></div>
         </div>
+        <div class="pane" id="usage">
+          <div class="form">
+            <div><label>Ingredient *</label><select id="use-ing"><option value="">Select ingredient...</option></select></div>
+            <div><label>Used Quantity *</label><input id="use-qty" type="number" min="0.01" step="0.01"></div>
+            <div><label>Date Used *</label><input id="use-date" type="date"></div>
+            <div><label>Purpose</label><input id="use-purpose" placeholder="Dinner service"></div>
+            <div class="full"><label>Recorded By</label><input id="use-by" placeholder="Chef Prabhas"></div>
+          </div>
+          <div class="submit-row"><span>Usage is deducted immediately from current stock.</span><button class="green" id="btn-use">Log Usage</button></div>
+        </div>
+        <div class="pane" id="alerts"><div class="status offline">Low stock alert shows items where quantity is less than or equal to reorder level.</div></div>
+        <div class="summary-grid"><div class="summary-card"><b id="sum-ingredients">0</b><span>Ingredients</span></div><div class="summary-card"><b id="sum-suppliers">0</b><span>Suppliers</span></div><div class="summary-card"><b id="sum-orders">0</b><span>Orders</span></div><div class="summary-card"><b id="sum-alerts">0</b><span>Low Stock</span></div></div>
+        <div class="dbms-board"><div class="dbms-toolbar"><h3>DBMS Table View</h3><div class="dbms-actions"><button class="small-btn active" data-table="ingredients">ingredients</button><button class="small-btn" data-table="suppliers">suppliers</button><button class="small-btn" data-table="purchase_orders">purchase_orders</button><button class="small-btn" data-table="usage_log">usage_log</button><button class="small-btn" data-table="low_stock_alert">low_stock_alert</button><button class="small-btn danger" id="btn-reset">Refresh MySQL</button></div></div><div class="dbms-shell"><pre id="db-table"></pre></div></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ════ CTA BANNER ════ -->
-<section id="cta">
-  <div class="container">
-    <div class="cta-inner reveal">
-      <div class="cta-orb cta-orb-1"></div>
-      <div class="cta-orb cta-orb-2"></div>
-      <span class="cta-label">Start Today — Free for 14 Days</span>
-      <h2 class="cta-title">Ready to run your kitchen<br>with <em>total control?</em></h2>
-      <p class="cta-sub">Join hundreds of professional kitchens already using Mise en Place to eliminate waste, master their suppliers, and protect their margins.</p>
-      <div class="cta-actions">
-        <button class="btn-amber">Get Started Free</button>
-        <button class="btn-glass" style="border-color:rgba(255,255,255,0.2)">
-          <span class="play">▶</span>
-          Book a Demo
-        </button>
-      </div>
-      <p class="cta-note">No credit card required · Cancel anytime · Free onboarding call</p>
+  </section>
+  <section id="reviews">
+    <div class="container center reveal">
+      <div class="eyebrow">Trusted by Chefs</div>
+      <h2 class="section-title">Words from the <em>professional kitchen</em></h2>
     </div>
-  </div>
-</section>
+    <div class="container testimonials">
+      <article class="quote reveal"><div class="stars">ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦</div><p>"We reduced food waste in the first month and finally had a single source of truth for prep."</p><div class="person">Marcus MÃƒÆ’Ã‚Â¼ller</div><div class="role">Executive Chef, Atelier Berlin</div></article>
+      <article class="quote reveal"><div class="stars">ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦</div><p>"Managing multiple locations stopped feeling chaotic. Supplier pricing and lead times are always visible."</p><div class="person">Sophie Laurent</div><div class="role">Restaurant Director, Brasserie Lumiere Group</div></article>
+      <article class="quote reveal"><div class="stars">ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦</div><p>"The low-stock alerts saved Saturday service more than once. The team adopted it without training."</p><div class="person">Ravi Kapoor</div><div class="role">Head Chef, The Ember Room</div></article>
+    </div>
+  </section>
 
-<!-- ════ FOOTER ════ -->
+  <section class="cta">
+    <div class="container cta-box reveal">
+      <div class="eyebrow">Start Today - Free for 14 Days</div>
+      <h2 class="section-title">Run your kitchen with <em>total control</em></h2>
+      <p>Join professional kitchens using Mise en Place to reduce waste, master suppliers, and protect margins.</p>
+      <button class="btn-primary">Get Started Free</button>
+    </div>
+  </section>
+</main>
+
 <footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="brand-name">Mise en <span>Place</span></div>
-        <div class="brand-tag">The professional kitchen inventory platform built for chefs who refuse to compromise on quality — or control.</div>
-      </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#">Features</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Integrations</a></li>
-          <li><a href="#">Changelog</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Support</h4>
-        <ul>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">Help Center</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Status</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 Mise en Place. All rights reserved.</div>
-      <div class="footer-tagline">Every detail matters in the kitchen.</div>
-    </div>
+  <div class="container footer">
+    <b>Mise en <span>Place</span></b>
+    <span>Ãƒâ€šÃ‚Â© 2026 Mise en Place. Every detail matters in the kitchen.</span>
   </div>
 </footer>
+<div class="toast-wrap" id="toasts"></div>
 
 <script>
-/* ════ SCROLL PROGRESS ════ */
-const progressBar = document.getElementById('scroll-progress');
-window.addEventListener('scroll', () => {
-  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-  progressBar.style.width = pct + '%';
-}, { passive: true });
+const API="http://localhost:8080";
+const $=id=>document.getElementById(id);
+const today=new Date().toISOString().slice(0,10);
+let activeTable="ingredients";
+let cache={suppliers:[],ingredients:[],purchase_orders:[],usage_log:[],low_stock_alert:[]};
+const endpoints={ingredients:"/api/ingredients",suppliers:"/api/suppliers",purchase_orders:"/api/purchase_orders",usage_log:"/api/usage_log",low_stock_alert:"/api/low_stock_alert"};
 
-/* ════ CURSOR GLOW ════ */
-const cursorGlow = document.getElementById('cursor-glow');
-let mx = 0, my = 0, gx = 0, gy = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursorGlow.style.opacity = '1'; });
-document.addEventListener('mouseleave', () => { cursorGlow.style.opacity = '0'; });
-(function animGlow() {
-  gx += (mx - gx) * 0.08; gy += (my - gy) * 0.08;
-  cursorGlow.style.left = gx + 'px'; cursorGlow.style.top = gy + 'px';
-  requestAnimationFrame(animGlow);
-})();
-
-/* ════ NAV SCROLL STATE ════ */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
-
-/* ════ 3D CARD TILT ════ */
-function setupTilt(selector, maxTilt = 10, scale = 1.015) {
-  document.querySelectorAll(selector).forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transition = 'transform 0.12s ease, background 0.12s ease';
-    });
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transform = `perspective(800px) rotateX(${(-y * maxTilt).toFixed(2)}deg) rotateY(${(x * maxTilt).toFixed(2)}deg) scale(${scale})`;
-      const px = ((x + 0.5) * 100).toFixed(1);
-      const py = ((y + 0.5) * 100).toFixed(1);
-      card.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.72) 100%)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease';
-      card.style.transform = '';
-      card.style.background = '';
-      setTimeout(() => { card.style.transition = ''; }, 500);
-    });
-  });
+function num(value){return Number.parseFloat(value)||0}
+function pad(value,width){
+  value=value===null||value===undefined||value===""?"NULL":String(value);
+  return value.length>width?value.slice(0,width-1)+"…":value.padEnd(width," ");
 }
-setupTilt('.feat-card',  10, 1.018);
-setupTilt('.testi-card', 7,  1.012);
-setupTilt('.step-card',  8,  1.015);
-
-
-/* ════ HERO — SCROLL-DRIVEN VIDEO SCRUBBING ════ */
-(function () {
-  const section  = document.getElementById('hero');
-  const video    = document.getElementById('heroScrubVideo');
-  const fill     = document.getElementById('heroScrubFill');
-  const hint     = document.getElementById('heroScrollHint');
-  const chDots   = Array.from(document.querySelectorAll('.hero-ch-dot'));
-  const chLabel  = document.getElementById('heroChapter');
-  const headline = document.getElementById('heroHeadline');
-  const sub      = document.getElementById('heroSub');
-  if (!section || !video) return;
-
-  const chapters = [
-    { from: 0.00, to: 0.25,
-      label: 'The Kitchen',
-      head: 'Master Your <em>Kitchen.</em><br>Control Every<br><span class="line-green">Ingredient.</span>',
-      sub: 'Real-time stock tracking, intelligent supplier management, and smart low-stock alerts — designed for the modern professional kitchen.' },
-    { from: 0.25, to: 0.50,
-      label: 'The Inventory',
-      head: 'Every Item.<br><em>Accounted for.</em><br><span class="line-green">Always.</span>',
-      sub: 'Track quantities, expiry dates, and costs per unit across every shelf and station in your kitchen — in real time.' },
-    { from: 0.50, to: 0.75,
-      label: 'The Suppliers',
-      head: 'Your Suppliers.<br><em>Your Control.</em><br><span class="line-green">Zero Delays.</span>',
-      sub: 'Manage every supplier, pricing tier, and lead time in one place. Reorder in three clicks. Never miss a delivery window.' },
-    { from: 0.75, to: 1.00,
-      label: 'The Insight',
-      head: 'See the Waste.<br><em>Cut the Cost.</em><br><span class="line-green">Own Your Margins.</span>',
-      sub: 'Visualize food cost trends, waste metrics, and supplier performance. Data-driven decisions that protect your bottom line.' },
-  ];
-
-  let duration = 0;
-  let lastChapter = -1;
-  let rafId = null;
-
-  function onMeta() { duration = video.duration || 0; }
-  video.addEventListener('loadedmetadata', onMeta);
-  if (video.readyState >= 1) onMeta();
-
-  function scrub() {
-    rafId = null;
-    const sectionTop   = section.getBoundingClientRect().top + window.scrollY;
-    const scrollTravel = section.offsetHeight - window.innerHeight;
-    const progress     = Math.min(Math.max((window.scrollY - sectionTop) / scrollTravel, 0), 1);
-
-    if (duration > 0) {
-      const t = progress * duration;
-      if (Math.abs(video.currentTime - t) > 0.016) video.currentTime = t;
-    }
-
-    if (fill) fill.style.width = (progress * 100) + '%';
-
-    let activeChapter = 0;
-    chapters.forEach((ch, i) => { if (progress >= ch.from) activeChapter = i; });
-
-    if (activeChapter !== lastChapter) {
-      lastChapter = activeChapter;
-      const ch = chapters[activeChapter];
-      if (headline) {
-        headline.style.opacity = '0'; headline.style.transform = 'translateY(16px)';
-        setTimeout(() => {
-          headline.innerHTML = ch.head;
-          headline.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-          headline.style.opacity = '1'; headline.style.transform = 'translateY(0)';
-        }, 300);
-      }
-      if (sub) {
-        sub.style.opacity = '0'; sub.style.transform = 'translateY(10px)';
-        setTimeout(() => {
-          sub.textContent = ch.sub;
-          sub.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-          sub.style.opacity = '1'; sub.style.transform = 'translateY(0)';
-        }, 420);
-      }
-      if (chLabel) {
-        chLabel.style.opacity = '0';
-        setTimeout(() => { chLabel.textContent = ch.label; chLabel.style.opacity = '1'; }, 200);
-      }
-      chDots.forEach((d, i) => d.classList.toggle('active', i === activeChapter));
-    }
-
-    if (hint && progress > 0.015) hint.classList.add('hidden');
+function columnsFor(table){
+  return {
+    ingredients:["ingredient_id","item_name","category","unit","quantity","reorder_level","unit_price","supplier_name","expiry_date"],
+    suppliers:["supplier_id","supplier_name","contact_name","phone","email","address"],
+    purchase_orders:["order_id","item_name","supplier_name","order_date","quantity_ordered","unit_price","total_cost","status"],
+    usage_log:["log_id","item_name","unit","used_quantity","used_date","purpose","recorded_by"],
+    low_stock_alert:["item_name","category","unit","quantity","reorder_level"]
+  }[table];
+}
+function renderDbTable(table=activeTable){
+  activeTable=table;
+  const rows=cache[table]||[],cols=columnsFor(table);
+  const widths=cols.map(c=>Math.max(c.length,...rows.map(r=>String(r[c]??"NULL").length),4));
+  const line="+"+widths.map(w=>"-".repeat(w+2)).join("+")+"+";
+  const header="| "+cols.map((c,i)=>pad(c,widths[i])).join(" | ")+" |";
+  const body=rows.length?rows.map(r=>"| "+cols.map((c,i)=>pad(r[c],widths[i])).join(" | ")+" |").join("\n"):"| "+pad("No rows found",Math.max(header.length-4,13))+" |";
+  $("db-table").textContent=`mysql> SELECT * FROM ${table};\n${line}\n${header}\n${line}\n${body}\n${line}\n${rows.length} row(s) in set`;
+  document.querySelectorAll("[data-table]").forEach(btn=>btn.classList.toggle("active",btn.dataset.table===table));
+}
+function fillSelect(id,rows,label,value,empty){
+  const sel=$(id); if(!sel)return;
+  const current=sel.value;
+  sel.innerHTML=`<option value="">${empty}</option>`;
+  rows.forEach(row=>sel.append(new Option(label(row),value(row))));
+  sel.value=current;
+}
+function updateSummary(){
+  $("sum-ingredients").textContent=cache.ingredients.length;
+  $("sum-suppliers").textContent=cache.suppliers.length;
+  $("sum-orders").textContent=cache.purchase_orders.length;
+  $("sum-alerts").textContent=cache.low_stock_alert.length;
+}
+function refreshDropdowns(){
+  fillSelect("ing-supplier",cache.suppliers,s=>s.supplier_name,s=>s.supplier_id,"None");
+  fillSelect("ord-sup",cache.suppliers,s=>s.supplier_name,s=>s.supplier_id,"Select supplier...");
+  fillSelect("ord-ing",cache.ingredients,i=>`${i.item_name} (${i.unit})`,i=>i.ingredient_id,"Select ingredient...");
+  fillSelect("use-ing",cache.ingredients,i=>`${i.item_name} (${i.unit})`,i=>i.ingredient_id,"Select ingredient...");
+}
+async function apiGet(endpoint){
+  const res=await fetch(API+endpoint,{cache:"no-store"});
+  if(!res.ok)throw new Error(await res.text());
+  return await res.json();
+}
+async function loadAll(table=activeTable){
+  const status=$("apiStatus");
+  try{
+    const [suppliers,ingredients,orders,usage,alerts]=await Promise.all([
+      apiGet(endpoints.suppliers),apiGet(endpoints.ingredients),apiGet(endpoints.purchase_orders),apiGet(endpoints.usage_log),apiGet(endpoints.low_stock_alert)
+    ]);
+    cache={suppliers,ingredients,purchase_orders:orders,usage_log:usage,low_stock_alert:alerts};
+    status.className="status online";
+    status.textContent="MySQL connected through http://localhost:8080 - operations are saving to the real database.";
+    refreshDropdowns(); updateSummary(); renderDbTable(table);
+  }catch(err){
+    status.className="status offline";
+    status.textContent="API offline - run APIServer.java first, then refresh this page.";
+    $("db-table").textContent="Cannot connect to MySQL API at http://localhost:8080.\nStart the API server and refresh.";
   }
-
-  window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(scrub); }, { passive: true });
-  scrub();
-})();
-
-/* ════ STACKED CARDS — ACTIVE STATE ════ */
-(function () {
-  const cards = Array.from(document.querySelectorAll('.feat-card'));
-  if (!cards.length) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Mark the intersecting card as active; dim previous ones
-        const idx = cards.indexOf(entry.target);
-        cards.forEach((c, i) => {
-          if (i < idx) {
-            // Card is buried — scale it down slightly
-            c.classList.remove('is-active');
-            c.style.transform = 'scale(0.97)';
-            c.style.opacity   = '0.75';
-            c.style.filter    = 'blur(0.5px)';
-          } else if (i === idx) {
-            c.classList.add('is-active');
-            c.style.transform = '';
-            c.style.opacity   = '1';
-            c.style.filter    = '';
-          } else {
-            c.classList.remove('is-active');
-          }
-        });
-      }
-    });
-  }, { threshold: 0.55, rootMargin: '-80px 0px -80px 0px' });
-
-  cards.forEach(c => {
-    c.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, filter 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease';
-    observer.observe(c);
-  });
-
-  // Activate first card on load
-  cards[0].classList.add('is-active');
-})();
-
-/* ════ REVEAL ON SCROLL ════ */
-const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      entry.target.querySelectorAll('.heading-line').forEach(l => l.classList.add('visible'));
-    }
-  });
-}, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => revealObserver.observe(el));
-
-/* ════ HEADING LINES ════ */
-const lineObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.5 });
-document.querySelectorAll('.heading-line').forEach(l => lineObserver.observe(l));
-
-/* ════ CONNECTOR LINES ════ */
-const connectorObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.5 });
-document.querySelectorAll('.connector-line').forEach(c => connectorObserver.observe(c));
-
-/* ════ WORD-BY-WORD HEADING REVEALS ════ */
-function wrapWords(heading) {
-  function processNode(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const frag = document.createDocumentFragment();
-      node.textContent.split(/(\s+)/).forEach(part => {
-        if (/\S/.test(part)) {
-          const span = document.createElement('span');
-          span.className = 'word'; span.textContent = part;
-          frag.appendChild(span);
-        } else if (part) {
-          frag.appendChild(document.createTextNode(part));
-        }
-      });
-      node.parentNode.replaceChild(frag, node);
-    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR') {
-      Array.from(node.childNodes).forEach(processNode);
-    }
+}
+async function post(endpoint,payload,success,table){
+  try{
+    const res=await fetch(API+endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    const data=await res.json();
+    if(!res.ok||!data.ok)throw new Error(data.message||"Save failed");
+    toast(success,data.message||"Saved in MySQL.");
+    await loadAll(table);
+    return true;
+  }catch(err){
+    toast("MySQL Save Failed",err.message||"Start APIServer.java and try again.","error");
+    return false;
   }
-  Array.from(heading.childNodes).forEach(processNode);
-  heading.querySelectorAll('.word').forEach((w, i) => { w.style.transitionDelay = (i * 0.055) + 's'; });
+}
+function clearFields(ids){ids.forEach(id=>{if($(id))$(id).value=""})}
+function toast(title,msg,type="success"){
+  const node=document.createElement("div");
+  node.className="toast "+type;
+  node.innerHTML="<b>"+title+"</b><span>"+msg+"</span>";
+  $("toasts").appendChild(node);
+  setTimeout(()=>node.remove(),4200);
 }
 
-const wordObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('words-visible'); wordObserver.unobserve(e.target); } });
-}, { threshold: 0.25 });
-
-document.querySelectorAll('.word-reveal-heading').forEach(h => {
-  wrapWords(h); wordObserver.observe(h);
+window.addEventListener("scroll",()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  $("progress").style.width=(scrollY/max*100||0)+"%";
+},{passive:true});
+const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("visible")})},{threshold:.14});
+document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
+document.querySelectorAll("[data-count]").forEach(el=>{
+  const target=Number(el.dataset.count),suffix=el.dataset.suffix||"";
+  const observer=new IntersectionObserver(entries=>{
+    if(!entries[0].isIntersecting)return;
+    const start=performance.now();
+    function tick(now){const p=Math.min((now-start)/1400,1),e=1-Math.pow(1-p,4);el.textContent=Math.floor(target*e)+suffix;if(p<1)requestAnimationFrame(tick)}
+    requestAnimationFrame(tick);observer.disconnect();
+  },{threshold:.5});
+  observer.observe(el);
 });
-
-/* ════ COUNTER ANIMATION ════ */
-function animateCounter(el) {
-  if (el.dataset.special === 'real-time') { el.textContent = 'Live'; return; }
-  const target = parseInt(el.dataset.target);
-  const suffix = el.dataset.suffix || '';
-  const start  = performance.now();
-  (function update(now) {
-    const p = Math.min((now - start) / 1800, 1);
-    const e = 1 - Math.pow(1 - p, 4);
-    el.textContent = Math.floor(e * target) + suffix;
-    if (p < 1) requestAnimationFrame(update);
-  })(start);
-}
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); statsObserver.unobserve(e.target); } });
-}, { threshold: 0.5 });
-document.querySelectorAll('[data-target]').forEach(el => statsObserver.observe(el));
-
-/* ════ PARALLAX ORBS ════ */
-const orbs = document.querySelectorAll('.orb');
-let orbTick = false;
-window.addEventListener('scroll', () => {
-  if (!orbTick) {
-    requestAnimationFrame(() => {
-      const sy = window.scrollY;
-      if (orbs[0]) orbs[0].style.transform = `translateY(${sy * 0.10}px)`;
-      if (orbs[1]) orbs[1].style.transform = `translateY(${-sy * 0.07}px)`;
-      if (orbs[2]) orbs[2].style.transform = `translateY(${sy * 0.05}px)`;
-      if (orbs[3]) orbs[3].style.transform = `translateY(${-sy * 0.09}px)`;
-      orbTick = false;
-    });
-    orbTick = true;
-  }
-}, { passive: true });
-
-/* ════ DEMO VIDEO PLAY BUTTON ════ */
-const demoVideo   = document.getElementById('demoVideo');
-const playBtn     = document.getElementById('playDemoBtn');
-const placeholder = document.getElementById('videoPlaceholder');
-if (playBtn && demoVideo) {
-  playBtn.addEventListener('click', () => {
-    if (demoVideo.src && demoVideo.src !== window.location.href) {
-      demoVideo.play();
-      if (placeholder) { placeholder.style.opacity = '0'; placeholder.style.pointerEvents = 'none'; }
-    }
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
+    tab.classList.add("active");$(tab.dataset.pane).classList.add("active");
+    if(tab.dataset.pane==="alerts")renderDbTable("low_stock_alert");
   });
-}
+});
+document.querySelectorAll("[data-table]").forEach(btn=>btn.addEventListener("click",()=>renderDbTable(btn.dataset.table)));
+
+$("btn-ing").addEventListener("click",async()=>{
+  const name=$("ing-name").value.trim(),unit=$("ing-unit").value,qty=$("ing-qty").value;
+  if(!name||!unit||qty==="")return toast("Missing Fields","Item Name, Unit and Quantity are required.","error");
+  const ok=await post("/api/ingredient",{item_name:name,category:$("ing-cat").value.trim(),unit,quantity:num(qty),reorder_level:num($("ing-reorder").value)||5,unit_price:num($("ing-price").value),supplier_id:Number($("ing-supplier").value)||0,expiry_date:$("ing-expiry").value||null},"Ingredient Added","ingredients");
+  if(ok)clearFields(["ing-name","ing-cat","ing-qty","ing-reorder","ing-price","ing-expiry"]);
+});
+$("btn-sup").addEventListener("click",async()=>{
+  const name=$("sup-name").value.trim();
+  if(!name)return toast("Missing Fields","Supplier Name is required.","error");
+  const ok=await post("/api/supplier",{supplier_name:name,contact_name:$("sup-contact").value.trim(),phone:$("sup-phone").value.trim(),email:$("sup-email").value.trim(),address:$("sup-addr").value.trim()},"Supplier Added","suppliers");
+  if(ok)clearFields(["sup-name","sup-contact","sup-phone","sup-email","sup-addr"]);
+});
+$("btn-ord").addEventListener("click",async()=>{
+  if(!$("ord-ing").value||!$("ord-sup").value||!$("ord-date").value||!$("ord-qty").value||!$("ord-price").value)return toast("Missing Fields","Ingredient, Supplier, Date, Quantity and Unit Price are required.","error");
+  const ok=await post("/api/order",{ingredient_id:Number($("ord-ing").value),supplier_id:Number($("ord-sup").value),order_date:$("ord-date").value,quantity_ordered:num($("ord-qty").value),unit_price:num($("ord-price").value),status:$("ord-status").value,notes:$("ord-notes").value.trim()},"Order Placed","purchase_orders");
+  if(ok){clearFields(["ord-qty","ord-price","ord-notes"]);$("ord-date").value=today}
+});
+$("btn-use").addEventListener("click",async()=>{
+  if(!$("use-ing").value||!$("use-qty").value||!$("use-date").value)return toast("Missing Fields","Ingredient, Used Quantity and Date are required.","error");
+  const ok=await post("/api/usage",{ingredient_id:Number($("use-ing").value),used_quantity:num($("use-qty").value),used_date:$("use-date").value,purpose:$("use-purpose").value.trim(),recorded_by:$("use-by").value.trim()},"Usage Logged","usage_log");
+  if(ok){clearFields(["use-qty","use-purpose","use-by"]);$("use-date").value=today}
+});
+$("btn-reset").addEventListener("click",()=>loadAll(activeTable));
+["ord-date","use-date"].forEach(id=>$(id).value=today);
+loadAll("ingredients");
 </script>
-</body>
-</html>
+
+
+</body></html>

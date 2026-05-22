@@ -55,11 +55,11 @@ public class KitchenInventoryApp extends JFrame {
         tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 13));
         UIManager.put("TabbedPane.selected", BG_CARD);
 
-        tabbedPane.addTab("🥦  Ingredients",      buildIngredientsPanel());
-        tabbedPane.addTab("🚚  Suppliers",         buildSuppliersPanel());
-        tabbedPane.addTab("🛒  Purchase Orders",   buildOrdersPanel());
-        tabbedPane.addTab("📋  Usage Log",         buildUsagePanel());
-        tabbedPane.addTab("⚠️  Low Stock Alerts",  buildLowStockPanel());
+        tabbedPane.addTab("ðŸ¥¦  Ingredients",      buildIngredientsPanel());
+        tabbedPane.addTab("ðŸšš  Suppliers",         buildSuppliersPanel());
+        tabbedPane.addTab("ðŸ›’  Purchase Orders",   buildOrdersPanel());
+        tabbedPane.addTab("ðŸ“‹  Usage Log",         buildUsagePanel());
+        tabbedPane.addTab("âš ï¸  Low Stock Alerts",  buildLowStockPanel());
 
         add(tabbedPane, BorderLayout.CENTER);
         add(buildFooter(), BorderLayout.SOUTH);
@@ -75,7 +75,7 @@ public class KitchenInventoryApp extends JFrame {
         header.setBackground(BG_CARD);
         header.setBorder(BorderFactory.createEmptyBorder(14, 24, 14, 24));
 
-        JLabel title = new JLabel("🍽  Kitchen Inventory Management System");
+        JLabel title = new JLabel("ðŸ½  Kitchen Inventory Management System");
         title.setFont(new Font("Segoe UI", Font.BOLD, 22));
         title.setForeground(ACCENT);
 
@@ -88,7 +88,7 @@ public class KitchenInventoryApp extends JFrame {
         left.add(title);
         left.add(subtitle);
 
-        JLabel dbStatus = new JLabel("● Connected to MySQL");
+        JLabel dbStatus = new JLabel("â— Connected to MySQL");
         dbStatus.setFont(new Font("Segoe UI", Font.BOLD, 12));
         dbStatus.setForeground(ACCENT2);
 
@@ -104,7 +104,7 @@ public class KitchenInventoryApp extends JFrame {
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         footer.setBackground(BG_CARD);
         footer.setBorder(BorderFactory.createEmptyBorder(6, 16, 6, 16));
-        JLabel lbl = new JLabel("Kitchen Inventory System  |  Data stored in MySQL  |  © 2026");
+        JLabel lbl = new JLabel("Kitchen Inventory System  |  Data stored in MySQL  |  Â© 2026");
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         lbl.setForeground(TEXT_DIM);
         footer.add(lbl);
@@ -194,7 +194,7 @@ public class KitchenInventoryApp extends JFrame {
     }
 
     // =====================================================
-    //  TAB 1 — INGREDIENTS
+    //  TAB 1 â€” INGREDIENTS
     // =====================================================
     private JPanel buildIngredientsPanel() {
         JPanel panel = new JPanel(new BorderLayout(0, 10));
@@ -203,7 +203,7 @@ public class KitchenInventoryApp extends JFrame {
 
         // ----- Table -----
         String[] cols = {"ID", "Item Name", "Category", "Unit", "Quantity",
-                         "Reorder Level", "Unit Price (₹)", "Supplier", "Expiry Date"};
+                         "Reorder Level", "Unit Price (â‚¹)", "Supplier", "Expiry Date"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -233,7 +233,7 @@ public class KitchenInventoryApp extends JFrame {
         Object[][] formFields = {
             {"Item Name *", tfName}, {"Category", tfCategory},
             {"Unit *",      tfUnit}, {"Quantity *", tfQty},
-            {"Reorder Level", tfReorder}, {"Unit Price ₹ *", tfPrice},
+            {"Reorder Level", tfReorder}, {"Unit Price â‚¹ *", tfPrice},
             {"Supplier ID", tfSupplier}, {"Expiry (YYYY-MM-DD)", tfExpiry}
         };
 
@@ -248,12 +248,13 @@ public class KitchenInventoryApp extends JFrame {
         }
 
         JButton btnAdd     = makeButton("+ Add Item", ACCENT);
-        JButton btnRefresh = makeButton("↻ Refresh", new Color(60, 100, 180));
-        JButton btnDelete  = makeButton("✕ Delete Selected", new Color(200, 60, 60));
+        JButton btnRefresh = makeButton("â†» Refresh", new Color(60, 100, 180));
+        JButton btnDelete  = makeButton("âœ• Delete Selected", new Color(200, 60, 60));
+        JButton btnPrintDb  = makeButton("Show DB Table in CMD", ACCENT2);
 
         JPanel btns = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         btns.setBackground(BG_CARD);
-        btns.add(btnAdd); btns.add(btnRefresh); btns.add(btnDelete);
+        btns.add(btnAdd); btns.add(btnRefresh); btns.add(btnDelete); btns.add(btnPrintDb);
 
         gc.gridx = 0; gc.gridy = row + 1; gc.gridwidth = 8;
         form.add(btns, gc);
@@ -279,6 +280,7 @@ public class KitchenInventoryApp extends JFrame {
                 ps.executeUpdate();
                 showSuccess("Ingredient added successfully!");
                 loadIngredients(model);
+                printIngredientsTableToConsole();
                 for (JTextField tf : new JTextField[]{tfName, tfCategory, tfUnit,
                         tfQty, tfReorder, tfPrice, tfSupplier, tfExpiry}) tf.setText("");
             } catch (Exception ex) {
@@ -286,7 +288,11 @@ public class KitchenInventoryApp extends JFrame {
             }
         });
 
-        btnRefresh.addActionListener(e -> loadIngredients(model));
+        btnRefresh.addActionListener(e -> {
+            loadIngredients(model);
+            printIngredientsTableToConsole();
+        });
+        btnPrintDb.addActionListener(e -> printIngredientsTableToConsole());
 
         btnDelete.addActionListener(e -> {
             int sel = table.getSelectedRow();
@@ -322,16 +328,49 @@ public class KitchenInventoryApp extends JFrame {
                     rs.getString("unit"),
                     rs.getDouble("quantity"),
                     rs.getDouble("reorder_level"),
-                    "₹" + rs.getDouble("unit_price"),
+                    "â‚¹" + rs.getDouble("unit_price"),
                     rs.getString("supplier_name"),
                     rs.getDate("expiry_date")
                 });
             }
         } catch (SQLException e) { showError("Load error: " + e.getMessage()); }
     }
+    private void printIngredientsTableToConsole() {
+        String sql = "SELECT ingredient_id, item_name, category, unit, quantity, " +
+                     "reorder_level, unit_price, supplier_name, expiry_date " +
+                     "FROM ingredient_details ORDER BY ingredient_id";
+        String line = "+----+----------------------+------------+--------+----------+----------+----------+----------------------+------------+";
+        System.out.println();
+        System.out.println("INGREDIENTS TABLE - kitchen_inventory.ingredient_details");
+        System.out.println(line);
+        System.out.printf("| %-2s | %-20s | %-10s | %-6s | %8s | %8s | %8s | %-20s | %-10s |%n",
+                "ID", "Item Name", "Category", "Unit", "Qty", "Reorder", "Price", "Supplier", "Expiry");
+        System.out.println(line);
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                Date expiryDate = rs.getDate("expiry_date");
+                System.out.printf("| %2d | %-20.20s | %-10.10s | %-6.6s | %8.2f | %8.2f | %8.2f | %-20.20s | %-10s |%n",
+                        rs.getInt("ingredient_id"),
+                        safe(rs.getString("item_name")),
+                        safe(rs.getString("category")),
+                        safe(rs.getString("unit")),
+                        rs.getDouble("quantity"),
+                        rs.getDouble("reorder_level"),
+                        rs.getDouble("unit_price"),
+                        safe(rs.getString("supplier_name")),
+                        expiryDate == null ? "" : expiryDate.toString());
+            }
+            System.out.println(line);
+        } catch (SQLException e) {
+            System.err.println("Could not print ingredients table: " + e.getMessage());
+        }
+    }
 
+    private String safe(String value) {
+        return value == null ? "" : value;
+    }
     // =====================================================
-    //  TAB 2 — SUPPLIERS
+    //  TAB 2 â€” SUPPLIERS
     // =====================================================
     private JPanel buildSuppliersPanel() {
         JPanel panel = new JPanel(new BorderLayout(0, 10));
@@ -383,7 +422,7 @@ public class KitchenInventoryApp extends JFrame {
         gc.gridwidth = 1;
 
         JButton btnAdd     = makeButton("+ Add Supplier", ACCENT);
-        JButton btnRefresh = makeButton("↻ Refresh", new Color(60, 100, 180));
+        JButton btnRefresh = makeButton("â†» Refresh", new Color(60, 100, 180));
 
         JPanel btns = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         btns.setBackground(BG_CARD);
@@ -434,7 +473,7 @@ public class KitchenInventoryApp extends JFrame {
     }
 
     // =====================================================
-    //  TAB 3 — PURCHASE ORDERS
+    //  TAB 3 â€” PURCHASE ORDERS
     // =====================================================
     private JPanel buildOrdersPanel() {
         JPanel panel = new JPanel(new BorderLayout(0, 10));
@@ -442,7 +481,7 @@ public class KitchenInventoryApp extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
 
         String[] cols = {"Order ID", "Item", "Supplier", "Order Date",
-                         "Qty Ordered", "Unit Price ₹", "Total Cost ₹", "Status"};
+                         "Qty Ordered", "Unit Price â‚¹", "Total Cost â‚¹", "Status"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -473,7 +512,7 @@ public class KitchenInventoryApp extends JFrame {
         Object[][] ff = {
             {"Ingredient ID *", tfIngId},  {"Supplier ID *", tfSupId},
             {"Order Date *\n(YYYY-MM-DD)", tfDate}, {"Qty Ordered *", tfQty},
-            {"Unit Price ₹ *", tfPrice},   {"Status", cbStatus}
+            {"Unit Price â‚¹ *", tfPrice},   {"Status", cbStatus}
         };
 
         int r = 0, c = 0;
@@ -487,8 +526,8 @@ public class KitchenInventoryApp extends JFrame {
         }
 
         JButton btnAdd     = makeButton("+ Place Order", ACCENT);
-        JButton btnRefresh = makeButton("↻ Refresh", new Color(60, 100, 180));
-        JButton btnReceive = makeButton("✔ Mark Received", ACCENT2);
+        JButton btnRefresh = makeButton("â†» Refresh", new Color(60, 100, 180));
+        JButton btnReceive = makeButton("âœ” Mark Received", ACCENT2);
 
         JPanel btns = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         btns.setBackground(BG_CARD);
@@ -545,8 +584,8 @@ public class KitchenInventoryApp extends JFrame {
                     rs.getString("supplier_name"),
                     rs.getDate("order_date"),
                     rs.getDouble("quantity_ordered"),
-                    "₹" + rs.getDouble("unit_price"),
-                    "₹" + rs.getDouble("total_cost"),
+                    "â‚¹" + rs.getDouble("unit_price"),
+                    "â‚¹" + rs.getDouble("total_cost"),
                     rs.getString("status")
                 });
             }
@@ -554,7 +593,7 @@ public class KitchenInventoryApp extends JFrame {
     }
 
     // =====================================================
-    //  TAB 4 — USAGE LOG
+    //  TAB 4 â€” USAGE LOG
     // =====================================================
     private JPanel buildUsagePanel() {
         JPanel panel = new JPanel(new BorderLayout(0, 10));
@@ -601,7 +640,7 @@ public class KitchenInventoryApp extends JFrame {
         }
 
         JButton btnLog     = makeButton("+ Log Usage", ACCENT);
-        JButton btnRefresh = makeButton("↻ Refresh", new Color(60, 100, 180));
+        JButton btnRefresh = makeButton("â†» Refresh", new Color(60, 100, 180));
 
         JPanel btns = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         btns.setBackground(BG_CARD);
@@ -662,7 +701,7 @@ public class KitchenInventoryApp extends JFrame {
     }
 
     // =====================================================
-    //  TAB 5 — LOW STOCK ALERTS
+    //  TAB 5 â€” LOW STOCK ALERTS
     // =====================================================
     private JPanel buildLowStockPanel() {
         JPanel panel = new JPanel(new BorderLayout(0, 10));
@@ -670,7 +709,7 @@ public class KitchenInventoryApp extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
 
         // Warning banner
-        JLabel warn = new JLabel("⚠  Items below their reorder level — restock these urgently!");
+        JLabel warn = new JLabel("âš   Items below their reorder level â€” restock these urgently!");
         warn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         warn.setForeground(new Color(255, 200, 60));
         warn.setOpaque(true);
@@ -698,7 +737,7 @@ public class KitchenInventoryApp extends JFrame {
 
         loadLowStock(model);
 
-        JButton btnRefresh = makeButton("↻ Refresh Alerts", new Color(200, 80, 60));
+        JButton btnRefresh = makeButton("â†» Refresh Alerts", new Color(200, 80, 60));
         btnRefresh.addActionListener(e -> loadLowStock(model));
         JPanel top = new JPanel(new BorderLayout(10, 0));
         top.setBackground(BG_DARK);
@@ -725,7 +764,7 @@ public class KitchenInventoryApp extends JFrame {
                 });
             }
             if (model.getRowCount() == 0) {
-                model.addRow(new Object[]{"✅ All stock levels are adequate!", "", "", "", ""});
+                model.addRow(new Object[]{"âœ… All stock levels are adequate!", "", "", "", ""});
             }
         } catch (SQLException e) { showError(e.getMessage()); }
     }
@@ -752,3 +791,6 @@ public class KitchenInventoryApp extends JFrame {
         SwingUtilities.invokeLater(KitchenInventoryApp::new);
     }
 }
+
+
+
