@@ -1,8 +1,14 @@
 {
   "rewrites": [
+    { "source": "/", "destination": "/index-premium.html" },
+    { "source": "/(.*)", "destination": "/index-premium.html" }
+  ],
+  "headers": [
     {
-      "source": "/",
-      "destination": "/index-premium.html"
+      "source": "/index-premium.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
     }
   ]
 }
