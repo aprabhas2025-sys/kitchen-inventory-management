@@ -471,11 +471,11 @@ footer{padding:56px 0 40px;background:#1c1814;color:rgba(255,255,255,.45)}
         <!-- Ingredient Tab -->
         <div class="pane active" id="ingredient">
           <div class="form">
-            <div class="field"><label>Item Name *</label><select id="ing-name" data-custom="Enter item name"><option value="">Select item...</option><option>Tomatoes</option><option>Onions</option><option>Potatoes</option><option>Rice</option><option>Milk</option><option>Butter</option><option>Cheese</option><option>Turmeric</option><option>Red Chilli</option><option>Cooking Oil</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field"><label>Category</label><select id="ing-cat" data-custom="Enter category"><option value="">Select category...</option><option>Vegetable</option><option>Dairy</option><option>Spice</option><option>Grain</option><option>Oil</option><option>Fruit</option><option>Bakery</option><option>Meat</option><option>Beverage</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="field"><label>Item Name *</label><input id="ing-name" type="text" placeholder="e.g. Tomatoes"></div>
+            <div class="field"><label>Category</label><input id="ing-cat" type="text" placeholder="e.g. Vegetable, Spice, Dairy"></div>
             <div class="field"><label>Unit *</label><select id="ing-unit"><option value="">Select unit...</option><option>kg</option><option>grams</option><option>litre</option><option>ml</option><option>pcs</option><option>box</option></select></div>
-            <div class="field"><label>Quantity *</label><select id="ing-qty" data-custom="Enter quantity"><option value="">Select quantity...</option><option>1</option><option>2</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>50</option><option>100</option><option>500</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field"><label>Unit Price (₹)</label><select id="ing-price" data-custom="Enter unit price"><option value="">Select price...</option><option>5</option><option>10</option><option>20</option><option>25</option><option>50</option><option>55</option><option>100</option><option>150</option><option>480</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="field"><label>Quantity *</label><input id="ing-qty" type="number" min="0" step="any" placeholder="e.g. 10"></div>
+            <div class="field"><label>Unit Price (₹)</label><input id="ing-price" type="number" min="0" step="any" placeholder="e.g. 25"></div>
             <div class="field"><label>Supplier</label><select id="ing-supplier"><option value="">None</option></select></div>
             <div class="field"><label>Expiry Date</label><input id="ing-expiry" type="date"></div>
           </div>
@@ -485,11 +485,11 @@ footer{padding:56px 0 40px;background:#1c1814;color:rgba(255,255,255,.45)}
         <!-- Supplier Tab -->
         <div class="pane" id="supplier">
           <div class="form">
-            <div class="field full"><label>Supplier Name *</label><select id="sup-name" data-custom="Enter supplier name"><option value="">Select supplier name...</option><option>FreshFarm Supplies</option><option>SpiceWorld Co.</option><option>DairyBest Ltd.</option><option>Local Market</option><option>Organic Basket</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field"><label>Contact Person</label><select id="sup-contact" data-custom="Enter contact person"><option value="">Select contact...</option><option>Ravi Kumar</option><option>Meena Rao</option><option>Arjun Sharma</option><option>Rajesh Kumar</option><option>Priya Nair</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field"><label>Phone</label><select id="sup-phone" data-custom="Enter phone number"><option value="">Select phone...</option><option>9876543210</option><option>9845612378</option><option>9900112233</option><option>9988776655</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field"><label>Email</label><select id="sup-email" data-custom="Enter email"><option value="">Select email...</option><option>ravi@freshfarm.com</option><option>meena@spiceworld.com</option><option>arjun@dairybest.com</option><option>orders@example.com</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field full"><label>Address</label><select id="sup-addr" data-custom="Enter address"><option value="">Select address...</option><option>Bengaluru, KA</option><option>Mysuru, KA</option><option>Mangaluru, KA</option><option>APMC Market, Bengaluru</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="field full"><label>Supplier Name *</label><input id="sup-name" type="text" placeholder="e.g. FreshFarm Supplies"></div>
+            <div class="field"><label>Contact Person</label><input id="sup-contact" type="text" placeholder="e.g. Ravi Kumar"></div>
+            <div class="field"><label>Phone</label><input id="sup-phone" type="tel" placeholder="e.g. 9876543210"></div>
+            <div class="field"><label>Email</label><input id="sup-email" type="email" placeholder="e.g. ravi@example.com"></div>
+            <div class="field full"><label>Address</label><input id="sup-addr" type="text" placeholder="e.g. Bengaluru, KA"></div>
           </div>
           <div class="submit-row"><span>Only supplier name is required.</span><button id="btn-sup">Add Supplier</button></div>
         </div>
@@ -500,8 +500,8 @@ footer{padding:56px 0 40px;background:#1c1814;color:rgba(255,255,255,.45)}
             <div class="field"><label>Ingredient *</label><select id="ord-ing"><option value="">Select ingredient...</option></select></div>
             <div class="field"><label>Supplier *</label><select id="ord-sup"><option value="">Select supplier...</option></select></div>
             <div class="field"><label>Order Date *</label><input id="ord-date" type="date"></div>
-            <div class="field"><label>Quantity *</label><select id="ord-qty" data-custom="Enter quantity"><option value="">Select quantity...</option><option>1</option><option>2</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>50</option><option>100</option><option>500</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field"><label>Unit Price (₹) *</label><select id="ord-price" data-custom="Enter unit price"><option value="">Select price...</option><option>5</option><option>10</option><option>20</option><option>25</option><option>50</option><option>55</option><option>100</option><option>150</option><option>480</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="field"><label>Quantity *</label><input id="ord-qty" type="number" min="0" step="any" placeholder="e.g. 10"></div>
+            <div class="field"><label>Unit Price (₹) *</label><input id="ord-price" type="number" min="0" step="any" placeholder="e.g. 25"></div>
             <div class="field"><label>Status</label><select id="ord-status"><option>Pending</option><option>Received</option><option>Cancelled</option></select></div>
             <div class="field full"><label>Notes</label><textarea id="ord-notes" placeholder="Optional delivery notes..."></textarea></div>
           </div>
@@ -512,10 +512,10 @@ footer{padding:56px 0 40px;background:#1c1814;color:rgba(255,255,255,.45)}
         <div class="pane" id="usage">
           <div class="form">
             <div class="field"><label>Ingredient *</label><select id="use-ing"><option value="">Select ingredient...</option></select></div>
-            <div class="field"><label>Used Quantity *</label><select id="use-qty" data-custom="Enter quantity"><option value="">Select quantity...</option><option>0.5</option><option>1</option><option>2</option><option>5</option><option>10</option><option>25</option><option>50</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="field"><label>Used Quantity *</label><input id="use-qty" type="number" min="0" step="any" placeholder="e.g. 2"></div>
             <div class="field"><label>Date Used *</label><input id="use-date" type="date"></div>
-            <div class="field"><label>Purpose</label><select id="use-purpose" data-custom="Enter purpose"><option value="">Select purpose...</option><option>Breakfast prep</option><option>Lunch service</option><option>Dinner service</option><option>Curry preparation</option><option>Bakery section</option><option>Staff meal</option><option value="__custom__">Other / Custom...</option></select></div>
-            <div class="field full"><label>Recorded By</label><select id="use-by" data-custom="Enter name"><option value="">Select person...</option><option>Chef Anand</option><option>Chef Priya</option><option>Chef Ritu</option><option>Chef Prabhas</option><option>Kitchen Manager</option><option value="__custom__">Other / Custom...</option></select></div>
+            <div class="field"><label>Purpose</label><input id="use-purpose" type="text" placeholder="e.g. Dinner service"></div>
+            <div class="field full"><label>Recorded By</label><input id="use-by" type="text" placeholder="e.g. Chef Anand"></div>
           </div>
           <div class="submit-row"><span>Usage is deducted immediately from current stock.</span><button class="green" id="btn-use">Log Usage</button></div>
         </div>
@@ -641,266 +641,356 @@ footer{padding:56px 0 40px;background:#1c1814;color:rgba(255,255,255,.45)}
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-// ── DEMO MODE — fully in-memory ─────────────────────────────────────────────
-const $=id=>document.getElementById(id);
-const today=new Date().toISOString().slice(0,10);
-let activeTable="ingredients",tableFilter="",highlight={table:"",key:"",value:""};
-let nextIds={ingredient:9,supplier:5,order:7,log:6};
+// ── LIVE MODE — all operations hit APIServer on port 8080 → MySQL ────────────
+const $ = id => document.getElementById(id);
+const API = 'http://localhost:8080/api';
+const today = new Date().toISOString().slice(0, 10);
+let activeTable = 'ingredients', tableFilter = '', highlight = {table:'', key:'', value:''};
 
-let db={
-  suppliers:[
-    {supplier_id:1,supplier_name:"FreshFarm Supplies",contact_name:"Ravi Kumar",phone:"9876543210",email:"ravi@freshfarm.com",address:"APMC Market, Bengaluru"},
-    {supplier_id:2,supplier_name:"SpiceWorld Co.",contact_name:"Meena Rao",phone:"9845612378",email:"meena@spiceworld.com",address:"Mysuru, KA"},
-    {supplier_id:3,supplier_name:"DairyBest Ltd.",contact_name:"Arjun Sharma",phone:"9900112233",email:"arjun@dairybest.com",address:"Mangaluru, KA"},
-    {supplier_id:4,supplier_name:"Organic Basket",contact_name:"Priya Nair",phone:"9988776655",email:"priya@organicbasket.com",address:"Bengaluru, KA"}
-  ],
-  ingredients:[
-    {ingredient_id:1,item_name:"Tomatoes",category:"Vegetable",unit:"kg",quantity:18,unit_price:25,supplier_name:"FreshFarm Supplies",expiry_date:"2026-05-28"},
-    {ingredient_id:2,item_name:"Onions",category:"Vegetable",unit:"kg",quantity:30,unit_price:20,supplier_name:"FreshFarm Supplies",expiry_date:"2026-06-10"},
-    {ingredient_id:3,item_name:"Basmati Rice",category:"Grain",unit:"kg",quantity:4,unit_price:95,supplier_name:"Organic Basket",expiry_date:"2026-12-01"},
-    {ingredient_id:4,item_name:"Turmeric Powder",category:"Spice",unit:"grams",quantity:180,unit_price:480,supplier_name:"SpiceWorld Co.",expiry_date:"2027-01-15"},
-    {ingredient_id:5,item_name:"Full Cream Milk",category:"Dairy",unit:"litre",quantity:3,unit_price:55,supplier_name:"DairyBest Ltd.",expiry_date:"2026-05-24"},
-    {ingredient_id:6,item_name:"Cooking Oil",category:"Oil",unit:"litre",quantity:12,unit_price:150,supplier_name:"FreshFarm Supplies",expiry_date:"2026-10-30"},
-    {ingredient_id:7,item_name:"Red Chilli Powder",category:"Spice",unit:"grams",quantity:90,unit_price:320,supplier_name:"SpiceWorld Co.",expiry_date:"2026-11-20"},
-    {ingredient_id:8,item_name:"Paneer",category:"Dairy",unit:"kg",quantity:2,unit_price:380,supplier_name:"DairyBest Ltd.",expiry_date:"2026-05-25"}
-  ],
-  purchase_orders:[
-    {order_id:1,item_name:"Tomatoes",supplier_name:"FreshFarm Supplies",order_date:"2026-05-10",quantity_ordered:20,unit_price:25,total_cost:500,status:"Received"},
-    {order_id:2,item_name:"Basmati Rice",supplier_name:"Organic Basket",order_date:"2026-05-12",quantity_ordered:25,unit_price:95,total_cost:2375,status:"Received"},
-    {order_id:3,item_name:"Turmeric Powder",supplier_name:"SpiceWorld Co.",order_date:"2026-05-14",quantity_ordered:500,unit_price:480,total_cost:240,status:"Pending"},
-    {order_id:4,item_name:"Full Cream Milk",supplier_name:"DairyBest Ltd.",order_date:"2026-05-20",quantity_ordered:10,unit_price:55,total_cost:550,status:"Pending"},
-    {order_id:5,item_name:"Paneer",supplier_name:"DairyBest Ltd.",order_date:"2026-05-18",quantity_ordered:5,unit_price:380,total_cost:1900,status:"Received"},
-    {order_id:6,item_name:"Cooking Oil",supplier_name:"FreshFarm Supplies",order_date:"2026-05-15",quantity_ordered:15,unit_price:150,total_cost:2250,status:"Received"}
-  ],
-  usage_log:[
-    {log_id:5,item_name:"Tomatoes",unit:"kg",used_quantity:4,used_date:"2026-05-22",purpose:"Lunch service",recorded_by:"Chef Anand"},
-    {log_id:4,item_name:"Onions",unit:"kg",used_quantity:3,used_date:"2026-05-22",purpose:"Dinner service",recorded_by:"Chef Priya"},
-    {log_id:3,item_name:"Full Cream Milk",unit:"litre",used_quantity:2,used_date:"2026-05-21",purpose:"Bakery section",recorded_by:"Chef Ritu"},
-    {log_id:2,item_name:"Basmati Rice",unit:"kg",used_quantity:5,used_date:"2026-05-21",purpose:"Lunch service",recorded_by:"Chef Anand"},
-    {log_id:1,item_name:"Cooking Oil",unit:"litre",used_quantity:1.5,used_date:"2026-05-20",purpose:"Breakfast prep",recorded_by:"Chef Prabhas"}
-  ]
+// ── API helpers ──────────────────────────────────────────────────────────────
+async function apiGet(path) {
+  const res = await fetch(API + path);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+async function apiPost(path, body) {
+  const res = await fetch(API + path, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+// endpoint map — matches APIServer.java context registrations
+const ENDPOINTS = {
+  ingredients:     '/ingredients',
+  suppliers:       '/suppliers',
+  purchase_orders: '/purchase_orders',
+  usage_log:       '/usage_log',
+  low_stock_alert: '/low_stock_alert',
 };
 
-const REORDER={Vegetable:5,Dairy:4,Spice:100,Grain:5,Oil:5,Fruit:5,Bakery:5,Meat:3,Beverage:5};
-function computeLowStock(){return db.ingredients.filter(i=>i.quantity<=(REORDER[i.category]||5)).map(i=>({item_name:i.item_name,category:i.category,unit:i.unit,quantity:i.quantity}))}
-function getCache(){return{suppliers:db.suppliers,ingredients:db.ingredients,purchase_orders:db.purchase_orders,usage_log:db.usage_log,low_stock_alert:computeLowStock()}}
-function num(v){return Number.parseFloat(v)||0}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
-function columnsFor(t){return{ingredients:["ingredient_id","item_name","category","unit","quantity","unit_price","supplier_name","expiry_date"],suppliers:["supplier_id","supplier_name","contact_name","phone","email","address"],purchase_orders:["order_id","item_name","supplier_name","order_date","quantity_ordered","unit_price","total_cost","status"],usage_log:["log_id","item_name","unit","used_quantity","used_date","purpose","recorded_by"],low_stock_alert:["item_name","category","unit","quantity"]}[t]}
-
-function renderDbTable(table=activeTable){
-  activeTable=table;
-  const cache=getCache(),cols=columnsFor(table),rawRows=cache[table]||[];
-  const q=tableFilter.trim().toLowerCase();
-  const rows=q?rawRows.filter(row=>cols.some(col=>String(row[col]??"").toLowerCase().includes(q))):rawRows;
-  $("sql-line").textContent=`SELECT * FROM ${table}${q?" WHERE ... LIKE '%"+q+"%'":""};  — ${rows.length} row(s)`;
-  $("db-table").innerHTML=rows.length
-    ?`<table class="db-table"><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${rows.map(row=>{
-        const isHL=highlight.table===table&&highlight.key&&String(row[highlight.key]??"")===String(highlight.value);
-        return`<tr class="${isHL?"highlight ":""}${table==="low_stock_alert"?"low-stock":""}">${cols.map(c=>`<td>${esc(row[c]??"NULL")}</td>`).join("")}</tr>`;
-      }).join("")}</tbody></table>`
-    :'<div class="db-empty">No rows found.</div>';
-  document.querySelectorAll("[data-table]").forEach(btn=>btn.classList.toggle("active",btn.dataset.table===table));
+// ── Column definitions ───────────────────────────────────────────────────────
+function columnsFor(t) {
+  return {
+    ingredients:     ['ingredient_id','item_name','category','unit','quantity','unit_price','supplier_name','expiry_date'],
+    suppliers:       ['supplier_id','supplier_name','contact_name','phone','email','address'],
+    purchase_orders: ['order_id','item_name','supplier_name','order_date','quantity_ordered','unit_price','total_cost','status'],
+    usage_log:       ['log_id','item_name','unit','used_quantity','used_date','purpose','recorded_by'],
+    low_stock_alert: ['item_name','category','unit','quantity'],
+  }[t];
 }
 
-function fillSelect(id,rows,labelFn,valueFn,empty){
-  const sel=$(id);if(!sel)return;
-  const cur=sel.value;
-  sel.innerHTML=`<option value="">${empty}</option>`;
-  rows.forEach(row=>sel.append(new Option(labelFn(row),valueFn(row))));
-  sel.value=cur;
+function esc(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-function addOptionsToSelect(id,values){
-  const sel=$(id);if(!sel)return;
-  const custom=sel.querySelector('option[value="__custom__"]');
-  const existing=new Set([...sel.options].map(o=>o.value));
-  values.filter(Boolean).forEach(v=>{v=String(v);if(existing.has(v))return;sel.insertBefore(new Option(v,v),custom);existing.add(v);});
-}
-function refreshDropdowns(){
-  fillSelect("ing-supplier",db.suppliers,s=>s.supplier_name,s=>s.supplier_id,"None");
-  fillSelect("ord-sup",db.suppliers,s=>s.supplier_name,s=>s.supplier_id,"Select supplier...");
-  fillSelect("ord-ing",db.ingredients,i=>`${i.item_name} (${i.unit})`,i=>i.ingredient_id,"Select ingredient...");
-  fillSelect("use-ing",db.ingredients,i=>`${i.item_name} (${i.unit})`,i=>i.ingredient_id,"Select ingredient...");
-  addOptionsToSelect("ing-name",db.ingredients.map(i=>i.item_name));
-  addOptionsToSelect("ing-cat",db.ingredients.map(i=>i.category));
-  addOptionsToSelect("sup-name",db.suppliers.map(s=>s.supplier_name));
-  addOptionsToSelect("use-purpose",db.usage_log.map(u=>u.purpose));
-  addOptionsToSelect("use-by",db.usage_log.map(u=>u.recorded_by));
-}
-function updateSummary(){
-  const c=getCache();
-  $("sum-ingredients").textContent=c.ingredients.length;
-  $("sum-suppliers").textContent=c.suppliers.length;
-  $("sum-orders").textContent=c.purchase_orders.length;
-  $("sum-alerts").textContent=c.low_stock_alert.length;
-}
-function refresh(table,hKey,hVal){
-  if(hKey)highlight={table,key:hKey,value:String(hVal)};
-  updateSummary();refreshDropdowns();renderDbTable(table);
-}
-function setLoading(btn,on){
-  if(!btn)return;
-  if(on){btn.dataset.label=btn.textContent;btn.textContent="Saving...";btn.disabled=true;}
-  else{btn.textContent=btn.dataset.label||btn.textContent;btn.disabled=false;}
-}
-function clearFields(ids){ids.forEach(id=>{if($(id))$(id).value=""})}
-function toast(title,msg,type="success"){
-  const n=document.createElement("div");
-  n.className="toast "+type;
-  n.innerHTML=`<b>${title}</b><span>${msg}</span>`;
-  $("toasts").appendChild(n);
-  setTimeout(()=>n.remove(),4200);
-}
-function installCustomSelects(){
-  document.querySelectorAll("select[data-custom]").forEach(sel=>{
-    sel.addEventListener("change",()=>{
-      if(sel.value!=="__custom__")return;
-      const v=prompt(sel.dataset.custom||"Enter value");
-      if(!v){sel.value="";return;}
-      sel.insertBefore(new Option(v,v,true,true),sel.querySelector('option[value="__custom__"]'));
-    });
-  });
+function num(v) { return Number.parseFloat(v) || 0; }
+
+// ── DBMS table renderer (fetches from API) ───────────────────────────────────
+async function renderDbTable(table = activeTable) {
+  activeTable = table;
+  document.querySelectorAll('[data-table]').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.table === table));
+  $('sql-line').textContent = `-- Querying ${table}...`;
+  $('db-table').innerHTML = '<div class="db-empty">Fetching from MySQL…</div>';
+
+  let rawRows = [];
+  try {
+    rawRows = await apiGet(ENDPOINTS[table]);
+    if (!Array.isArray(rawRows)) rawRows = [];
+  } catch (e) {
+    $('sql-line').textContent = `-- ${table}: connection failed`;
+    $('db-table').innerHTML =
+      '<div class="db-empty">⚠ Cannot reach APIServer on port 8080. Run APIServer.java first.</div>';
+    return;
+  }
+
+  const cols = columnsFor(table);
+  const q = tableFilter.trim().toLowerCase();
+  const rows = q
+    ? rawRows.filter(row => cols.some(col => String(row[col] ?? '').toLowerCase().includes(q)))
+    : rawRows;
+
+  $('sql-line').textContent =
+    `SELECT * FROM ${table}${q ? ` WHERE … LIKE '%${q}%'` : ''};  — ${rows.length} row(s)`;
+
+  if (!rows.length) {
+    $('db-table').innerHTML = '<div class="db-empty">No rows found.</div>';
+    return;
+  }
+
+  $('db-table').innerHTML =
+    `<table class="db-table"><thead><tr>
+       ${cols.map(c => `<th>${esc(c)}</th>`).join('')}
+     </tr></thead><tbody>
+       ${rows.map(row => {
+         const isHL = highlight.table === table && highlight.key &&
+           String(row[highlight.key] ?? '') === String(highlight.value);
+         return `<tr class="${isHL ? 'highlight ' : ''}${table === 'low_stock_alert' ? 'low-stock' : ''}">
+           ${cols.map(c => `<td>${esc(row[c] ?? 'NULL')}</td>`).join('')}
+         </tr>`;
+       }).join('')}
+     </tbody></table>`;
 }
 
-// CRUD
-function addIngredient(p){
-  const sup=db.suppliers.find(s=>s.supplier_id===Number(p.supplier_id));
-  db.ingredients.push({ingredient_id:nextIds.ingredient++,item_name:p.item_name,category:p.category||"",unit:p.unit,quantity:num(p.quantity),unit_price:num(p.unit_price),supplier_name:sup?sup.supplier_name:"",expiry_date:p.expiry_date||null});
-}
-function addSupplier(p){
-  db.suppliers.push({supplier_id:nextIds.supplier++,supplier_name:p.supplier_name,contact_name:p.contact_name||"",phone:p.phone||"",email:p.email||"",address:p.address||""});
-}
-function addOrder(p){
-  const ing=db.ingredients.find(i=>i.ingredient_id===Number(p.ingredient_id));
-  const sup=db.suppliers.find(s=>s.supplier_id===Number(p.supplier_id));
-  const qty=num(p.quantity_ordered),price=num(p.unit_price);
-  db.purchase_orders.push({order_id:nextIds.order++,item_name:ing?ing.item_name:"",supplier_name:sup?sup.supplier_name:"",order_date:p.order_date,quantity_ordered:qty,unit_price:price,total_cost:Math.round(qty*price*100)/100,status:p.status||"Pending"});
-  if(p.status==="Received"&&ing)ing.quantity=Math.round((ing.quantity+qty)*100)/100;
-}
-function addUsage(p){
-  const ing=db.ingredients.find(i=>i.ingredient_id===Number(p.ingredient_id));
-  const qty=num(p.used_quantity);
-  db.usage_log.unshift({log_id:nextIds.log++,item_name:ing?ing.item_name:"",unit:ing?ing.unit:"",used_quantity:qty,used_date:p.used_date,purpose:p.purpose||"",recorded_by:p.recorded_by||""});
-  if(ing)ing.quantity=Math.max(0,Math.round((ing.quantity-qty)*100)/100);
+// ── Dropdowns (populated from live MySQL data) ───────────────────────────────
+function fillSelect(id, rows, labelFn, valueFn, empty) {
+  const sel = $(id); if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = `<option value="">${empty}</option>`;
+  rows.forEach(row => sel.append(new Option(labelFn(row), valueFn(row))));
+  sel.value = cur;
 }
 
-// ── Events ──────────────────────────────────────────────────────────────────
+async function refreshDropdowns() {
+  try {
+    const [suppliers, ingredients] = await Promise.all([
+      apiGet('/suppliers'),
+      apiGet('/ingredients'),
+    ]);
+    fillSelect('ing-supplier', suppliers, s => s.supplier_name, s => s.supplier_id, 'None');
+    fillSelect('ord-sup', suppliers, s => s.supplier_name, s => s.supplier_id, 'Select supplier...');
+    fillSelect('ord-ing', ingredients, i => `${i.item_name} (${i.unit})`, i => i.ingredient_id, 'Select ingredient...');
+    fillSelect('use-ing', ingredients, i => `${i.item_name} (${i.unit})`, i => i.ingredient_id, 'Select ingredient...');
+  } catch (e) { /* API offline — dropdowns stay as-is */ }
+}
 
-// Progress bar
-window.addEventListener("scroll",()=>{
-  const max=document.documentElement.scrollHeight-innerHeight;
-  $("progress").style.width=(scrollY/max*100||0)+"%";
-  document.getElementById("nav").classList.toggle("scrolled",scrollY>40);
-},{passive:true});
 
-// Hamburger menu
-const hamburger=$("hamburger"),mobileMenu=$("mobileMenu");
-hamburger.addEventListener("click",()=>{
-  hamburger.classList.toggle("open");
-  mobileMenu.classList.toggle("open");
+// ── Summary counters ─────────────────────────────────────────────────────────
+async function updateSummary() {
+  try {
+    const [ingredients, suppliers, orders, alerts] = await Promise.all([
+      apiGet('/ingredients'),
+      apiGet('/suppliers'),
+      apiGet('/purchase_orders'),
+      apiGet('/low_stock_alert'),
+    ]);
+    $('sum-ingredients').textContent = Array.isArray(ingredients) ? ingredients.length : '–';
+    $('sum-suppliers').textContent   = Array.isArray(suppliers)   ? suppliers.length   : '–';
+    $('sum-orders').textContent      = Array.isArray(orders)      ? orders.length      : '–';
+    $('sum-alerts').textContent      = Array.isArray(alerts)      ? alerts.length      : '–';
+  } catch (e) {
+    ['sum-ingredients','sum-suppliers','sum-orders','sum-alerts'].forEach(id => $(id).textContent = '–');
+  }
+}
+
+async function refresh(table, hKey, hVal) {
+  if (hKey) highlight = {table, key: hKey, value: String(hVal)};
+  await Promise.all([updateSummary(), refreshDropdowns(), renderDbTable(table)]);
+}
+
+// ── Utilities ────────────────────────────────────────────────────────────────
+function setLoading(btn, on) {
+  if (!btn) return;
+  if (on)  { btn.dataset.label = btn.textContent; btn.textContent = 'Saving…'; btn.disabled = true; }
+  else     { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
+}
+function clearFields(ids) { ids.forEach(id => { if ($(id)) $(id).value = ''; }); }
+function toast(title, msg, type = 'success') {
+  const n = document.createElement('div');
+  n.className = 'toast ' + type;
+  n.innerHTML = `<b>${title}</b><span>${msg}</span>`;
+  $('toasts').appendChild(n);
+  setTimeout(() => n.remove(), 4200);
+}
+
+// ── API health check — updates the status banner ─────────────────────────────
+async function checkApiStatus() {
+  const el = $('apiStatus');
+  try {
+    const data = await apiGet('/health');
+    if (data && data.ok) {
+      el.className = 'status online';
+      el.textContent = 'Connected to MySQL — every action saves directly to your database on port 8080.';
+    } else { throw new Error(); }
+  } catch (e) {
+    el.className = 'status offline';
+    el.textContent = 'API offline — start APIServer.java (port 8080) and refresh this page.';
+  }
+}
+
+// ── Scroll & Nav ─────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  $('progress').style.width = (scrollY / max * 100 || 0) + '%';
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+}, {passive: true});
+
+const hamburger = $('hamburger'), mobileMenu = $('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
 });
-document.querySelectorAll(".mobile-link").forEach(l=>l.addEventListener("click",()=>{
-  hamburger.classList.remove("open");mobileMenu.classList.remove("open");
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+  hamburger.classList.remove('open'); mobileMenu.classList.remove('open');
 }));
 
-// Scroll reveal with stagger
-document.querySelectorAll(".reveal").forEach((el,i)=>{
-  new IntersectionObserver(([e],obs)=>{
-    if(e.isIntersecting){
-      const delay=el.closest(".features")?0:0; // feature cards have CSS stagger
-      setTimeout(()=>el.classList.add("visible"),delay);
-      obs.disconnect();
-    }
-  },{threshold:.1}).observe(el);
+// Scroll reveal
+document.querySelectorAll('.reveal').forEach(el => {
+  new IntersectionObserver(([e], obs) => {
+    if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); }
+  }, {threshold: .1}).observe(el);
 });
 
 // Animated counters
-document.querySelectorAll("[data-count]").forEach(el=>{
-  const target=Number(el.dataset.count),suffix=el.dataset.suffix||"";
-  new IntersectionObserver(([e],obs)=>{
-    if(!e.isIntersecting)return;
-    const start=performance.now();
-    (function tick(now){const p=Math.min((now-start)/1400,1),v=1-Math.pow(1-p,4);el.textContent=Math.floor(target*v)+suffix;if(p<1)requestAnimationFrame(tick)})(performance.now());
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = Number(el.dataset.count), suffix = el.dataset.suffix || '';
+  new IntersectionObserver(([e], obs) => {
+    if (!e.isIntersecting) return;
+    const start = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - start) / 1400, 1), v = 1 - Math.pow(1 - p, 4);
+      el.textContent = Math.floor(target * v) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(performance.now());
     obs.disconnect();
-  },{threshold:.5}).observe(el);
+  }, {threshold: .5}).observe(el);
 });
 
 // Tabs
-document.querySelectorAll(".tab").forEach(tab=>{
-  tab.addEventListener("click",()=>{
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
-    tab.classList.add("active");$(tab.dataset.pane).classList.add("active");
-    if(tab.dataset.pane==="alerts")renderDbTable("low_stock_alert");
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active'); $(tab.dataset.pane).classList.add('active');
+    if (tab.dataset.pane === 'alerts') renderDbTable('low_stock_alert');
   });
 });
 
-// DBMS
-document.querySelectorAll("[data-table]").forEach(btn=>btn.addEventListener("click",()=>renderDbTable(btn.dataset.table)));
-$("table-search").addEventListener("input",e=>{tableFilter=e.target.value;renderDbTable(activeTable)});
+// DBMS table buttons & search
+document.querySelectorAll('[data-table]').forEach(btn =>
+  btn.addEventListener('click', () => renderDbTable(btn.dataset.table)));
+$('table-search').addEventListener('input', e => { tableFilter = e.target.value; renderDbTable(activeTable); });
 
-// Nav active links
-const navObs=new IntersectionObserver(entries=>entries.forEach(entry=>{
-  if(!entry.isIntersecting)return;
-  document.querySelectorAll(".nav-links a").forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+entry.target.id));
-}),{rootMargin:"-42% 0px -50% 0px",threshold:.01});
-["features","how","demo","reviews"].forEach(id=>{const s=$(id);if(s)navObs.observe(s)});
+// Nav active section highlighting
+const navObs = new IntersectionObserver(entries => entries.forEach(entry => {
+  if (!entry.isIntersecting) return;
+  document.querySelectorAll('.nav-links a').forEach(l =>
+    l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
+}), {rootMargin: '-42% 0px -50% 0px', threshold: .01});
+['features','how','demo','reviews'].forEach(id => { const s = $(id); if (s) navObs.observe(s); });
 
-// Form actions
-$("btn-ing").addEventListener("click",e=>{
-  const name=$("ing-name").value.trim(),unit=$("ing-unit").value,qty=$("ing-qty").value;
-  if(!name||!unit||qty==="")return toast("Missing Fields","Item Name, Unit and Quantity are required.","error");
-  setLoading(e.currentTarget,true);
-  setTimeout(()=>{
-    addIngredient({item_name:name,category:$("ing-cat").value.trim(),unit,quantity:num(qty),unit_price:num($("ing-price").value),supplier_id:$("ing-supplier").value,expiry_date:$("ing-expiry").value||null});
-    toast("Ingredient Added","Saved in demo database.");
-    refresh("ingredients","item_name",name);
-    clearFields(["ing-cat","ing-qty","ing-price","ing-expiry"]);$("ing-name").value="";
-    setLoading(e.currentTarget,false);
-  },400);
+// ── Form handlers — POST to MySQL via APIServer ───────────────────────────────
+
+$('btn-ing').addEventListener('click', async e => {
+  const name = $('ing-name').value.trim(), unit = $('ing-unit').value, qty = $('ing-qty').value;
+  if (!name || !unit || qty === '')
+    return toast('Missing Fields', 'Item Name, Unit and Quantity are required.', 'error');
+  setLoading(e.currentTarget, true);
+  try {
+    const res = await apiPost('/ingredient', {
+      item_name:   name,
+      category:    $('ing-cat').value.trim(),
+      unit,
+      quantity:    num(qty),
+      unit_price:  num($('ing-price').value),
+      supplier_id: $('ing-supplier').value || '0',
+      expiry_date: $('ing-expiry').value || null,
+    });
+    if (res.ok) {
+      toast('Ingredient Added', 'Saved in MySQL.');
+      clearFields(['ing-cat','ing-qty','ing-price','ing-expiry']); $('ing-name').value = '';
+      await refresh('ingredients', 'item_name', name);
+    } else {
+      toast('Error', res.message || 'Unknown error.', 'error');
+    }
+  } catch (err) {
+    toast('API Error', 'Cannot reach APIServer on port 8080.', 'error');
+  }
+  setLoading(e.currentTarget, false);
 });
-$("btn-sup").addEventListener("click",e=>{
-  const name=$("sup-name").value.trim();
-  if(!name)return toast("Missing Fields","Supplier Name is required.","error");
-  setLoading(e.currentTarget,true);
-  setTimeout(()=>{
-    addSupplier({supplier_name:name,contact_name:$("sup-contact").value.trim(),phone:$("sup-phone").value.trim(),email:$("sup-email").value.trim(),address:$("sup-addr").value.trim()});
-    toast("Supplier Added","Saved in demo database.");
-    refresh("suppliers","supplier_name",name);
-    clearFields(["sup-name","sup-contact","sup-phone","sup-email","sup-addr"]);
-    setLoading(e.currentTarget,false);
-  },400);
+
+$('btn-sup').addEventListener('click', async e => {
+  const name = $('sup-name').value.trim();
+  if (!name) return toast('Missing Fields', 'Supplier Name is required.', 'error');
+  setLoading(e.currentTarget, true);
+  try {
+    const res = await apiPost('/supplier', {
+      supplier_name: name,
+      contact_name:  $('sup-contact').value.trim(),
+      phone:         $('sup-phone').value.trim(),
+      email:         $('sup-email').value.trim(),
+      address:       $('sup-addr').value.trim(),
+    });
+    if (res.ok) {
+      toast('Supplier Added', 'Saved in MySQL.');
+      clearFields(['sup-name','sup-contact','sup-phone','sup-email','sup-addr']);
+      await refresh('suppliers', 'supplier_name', name);
+    } else {
+      toast('Error', res.message || 'Unknown error.', 'error');
+    }
+  } catch (err) {
+    toast('API Error', 'Cannot reach APIServer on port 8080.', 'error');
+  }
+  setLoading(e.currentTarget, false);
 });
-$("btn-ord").addEventListener("click",e=>{
-  if(!$("ord-ing").value||!$("ord-sup").value||!$("ord-date").value||!$("ord-qty").value||!$("ord-price").value)
-    return toast("Missing Fields","Ingredient, Supplier, Date, Quantity and Price are required.","error");
-  const ingName=$("ord-ing").selectedOptions[0]?.textContent.split(" (")[0]||"";
-  setLoading(e.currentTarget,true);
-  setTimeout(()=>{
-    addOrder({ingredient_id:$("ord-ing").value,supplier_id:$("ord-sup").value,order_date:$("ord-date").value,quantity_ordered:num($("ord-qty").value),unit_price:num($("ord-price").value),status:$("ord-status").value,notes:$("ord-notes").value.trim()});
-    toast("Order Placed","Saved in demo database.");
-    refresh("purchase_orders","item_name",ingName);
-    clearFields(["ord-qty","ord-price","ord-notes"]);$("ord-date").value=today;
-    setLoading(e.currentTarget,false);
-  },400);
+
+$('btn-ord').addEventListener('click', async e => {
+  if (!$('ord-ing').value || !$('ord-sup').value || !$('ord-date').value ||
+      !$('ord-qty').value  || !$('ord-price').value)
+    return toast('Missing Fields', 'Ingredient, Supplier, Date, Quantity and Price are required.', 'error');
+  const ingName = $('ord-ing').selectedOptions[0]?.textContent.split(' (')[0] || '';
+  setLoading(e.currentTarget, true);
+  try {
+    const res = await apiPost('/order', {
+      ingredient_id:    $('ord-ing').value,
+      supplier_id:      $('ord-sup').value,
+      order_date:       $('ord-date').value,
+      quantity_ordered: num($('ord-qty').value),
+      unit_price:       num($('ord-price').value),
+      status:           $('ord-status').value,
+      notes:            $('ord-notes').value.trim(),
+    });
+    if (res.ok) {
+      toast('Order Placed', 'Saved in MySQL. Stock updated if status is Received.');
+      clearFields(['ord-qty','ord-price','ord-notes']); $('ord-date').value = today;
+      await refresh('purchase_orders', 'item_name', ingName);
+    } else {
+      toast('Error', res.message || 'Unknown error.', 'error');
+    }
+  } catch (err) {
+    toast('API Error', 'Cannot reach APIServer on port 8080.', 'error');
+  }
+  setLoading(e.currentTarget, false);
 });
-$("btn-use").addEventListener("click",e=>{
-  if(!$("use-ing").value||!$("use-qty").value||!$("use-date").value)
-    return toast("Missing Fields","Ingredient, Quantity and Date are required.","error");
-  const ingName=$("use-ing").selectedOptions[0]?.textContent.split(" (")[0]||"";
-  setLoading(e.currentTarget,true);
-  setTimeout(()=>{
-    addUsage({ingredient_id:$("use-ing").value,used_quantity:num($("use-qty").value),used_date:$("use-date").value,purpose:$("use-purpose").value.trim(),recorded_by:$("use-by").value.trim()});
-    toast("Usage Logged","Stock updated in demo database.");
-    refresh("usage_log","item_name",ingName);
-    clearFields(["use-qty","use-purpose","use-by"]);$("use-date").value=today;
-    setLoading(e.currentTarget,false);
-  },400);
+
+$('btn-use').addEventListener('click', async e => {
+  if (!$('use-ing').value || !$('use-qty').value || !$('use-date').value)
+    return toast('Missing Fields', 'Ingredient, Quantity and Date are required.', 'error');
+  const ingName = $('use-ing').selectedOptions[0]?.textContent.split(' (')[0] || '';
+  setLoading(e.currentTarget, true);
+  try {
+    const res = await apiPost('/usage', {
+      ingredient_id: $('use-ing').value,
+      used_quantity: num($('use-qty').value),
+      used_date:     $('use-date').value,
+      purpose:       $('use-purpose').value.trim(),
+      recorded_by:   $('use-by').value.trim(),
+    });
+    if (res.ok) {
+      toast('Usage Logged', 'Stock updated in MySQL.');
+      clearFields(['use-qty','use-purpose','use-by']); $('use-date').value = today;
+      await refresh('usage_log', 'item_name', ingName);
+    } else {
+      toast('Error', res.message || 'Unknown error.', 'error');
+    }
+  } catch (err) {
+    toast('API Error', 'Cannot reach APIServer on port 8080.', 'error');
+  }
+  setLoading(e.currentTarget, false);
 });
-$("btn-reset").addEventListener("click",()=>{highlight={table:"",key:"",value:""};refresh(activeTable)});
-["ord-date","use-date"].forEach(id=>$(id).value=today);
-installCustomSelects();
-refresh("ingredients");
+
+$('btn-reset').addEventListener('click', () => {
+  highlight = {table:'', key:'', value:''};
+  refresh(activeTable);
+});
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+['ord-date','use-date'].forEach(id => $(id).value = today);
+checkApiStatus();
+refresh('ingredients');
 </script>
 </body>
 </html>
